@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Viktar Dubiniuk <dubiniuk@owncloud.com>
  *
@@ -24,6 +27,7 @@ namespace OCA\Guests\AppInfo;
 
 use OCA\Guests\AppWhitelist;
 use OCA\Guests\Capabilities;
+use OCA\Guests\GroupBackend;
 use OCA\Guests\Hooks;
 use OCA\Guests\Mail;
 use OCP\AppFramework\App;
@@ -73,14 +77,14 @@ class Application extends App {
 				);
 			}
 		);
-		$container->registerService('Capabilities', function () {
+		$container->registerService('Capabilities', function (): Capabilities {
 			return new Capabilities();
 		});
 		$container->registerCapability('Capabilities');
 
 		$server->getEventDispatcher()->addListener(
 			UserExtendedAttributesEvent::USER_EXTENDED_ATTRIBUTES,
-			function (UserExtendedAttributesEvent $attributesEvent) use ($server) {
+			function (UserExtendedAttributesEvent $attributesEvent) use ($server): void {
 				$userAppAttributes = $attributesEvent->getAttributes();
 				$this->addUserAppAttributes($server, $attributesEvent, $userAppAttributes);
 			}
@@ -95,16 +99,20 @@ class Application extends App {
 	 *
 	 * @param IServerContainer $server
 	 * @param UserExtendedAttributesEvent $attributesEvent
-	 * @param $userAppAttributes
+	 * @param array<string, mixed> $userAppAttributes
 	 */
-	private function addUserAppAttributes(IServerContainer $server, UserExtendedAttributesEvent $attributesEvent, $userAppAttributes) {
+	private function addUserAppAttributes(
+		IServerContainer $server,
+		UserExtendedAttributesEvent $attributesEvent,
+		array $userAppAttributes
+	): void {
 		$user = $attributesEvent->getUser();
 		$isGuestUser = $server->getConfig()->getUserValue($user->getUID(), 'owncloud', 'isGuest', '0');
 		if ($isGuestUser === '0') {
 			return;
 		}
 		$appWhiteList = AppWhitelist::getWhitelist();
- 
+
 		// If the usewhitelist flag is set to false, then we do not set the whitelistedAppsForGuests attribute in the event
 		if ($server->getConfig()->getAppValue(self::APP_NAME, 'usewhitelist', 'true') === 'false') {
 			return;
@@ -135,11 +143,11 @@ class Application extends App {
 	/**
 	 * @return GroupInterface
 	 */
-	public function registerBackend() {
+	public function registerBackend(): GroupInterface {
 		$container = $this->getContainer();
 		$server = $container->getServer();
 		$groupName = $this->getGroupName();
-		$groupBackend = new \OCA\Guests\GroupBackend($container->query(IConfig::class), $groupName);
+		$groupBackend = new GroupBackend($container->query(IConfig::class), $groupName);
 		$server->getGroupManager()->addBackend($groupBackend);
 		return $groupBackend;
 	}
@@ -149,7 +157,7 @@ class Application extends App {
 	 *
 	 * @param GroupInterface $groupBackend
 	 */
-	public function registerListeners(GroupInterface $groupBackend) {
+	public function registerListeners(GroupInterface $groupBackend): void {
 		$container = $this->getContainer();
 		$server = $container->getServer();
 		$user = $server->getUserSession()->getUser();
@@ -177,7 +185,7 @@ class Application extends App {
 			$eventDispatcher = $server->getEventDispatcher();
 			$eventDispatcher->addListener(
 				'OCA\Files::loadAdditionalScripts',
-				function () {
+				function (): void {
 					\OCP\Util::addScript(self::APP_NAME, 'guestshare');
 				}
 			);
@@ -188,13 +196,13 @@ class Application extends App {
 	/**
 	 * @return void
 	 */
-	protected function registerPostShareHook() {
+	protected function registerPostShareHook(): void {
 		$container = $this->getContainer();
 		$server = $container->getServer();
 		$eventDispatcher = $server->getEventDispatcher();
 		$eventDispatcher->addListener(
 			'share.afterCreate',
-			function (GenericEvent $event) use ($container) {
+			function (GenericEvent $event) use ($container): void {
 				/** @var Hooks $hooks */
 				$hooks = $container->query('Hooks');
 				$hooks->handlePostShare($event->getArgument('shareObject'));
@@ -205,12 +213,12 @@ class Application extends App {
 	/**
 	 * @return string
 	 */
-	protected function getGroupName() {
+	protected function getGroupName(): string {
 		$config = $this->getContainer()->getServer()->getConfig();
 		return $config->getAppValue(
 			self::APP_NAME,
 			'group',
-			\OCA\Guests\GroupBackend::DEFAULT_NAME
+			GroupBackend::DEFAULT_NAME
 		);
 	}
 }

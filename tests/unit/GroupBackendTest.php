@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * ownCloud
  *
@@ -25,6 +28,7 @@ namespace OCA\Guests\Tests\Unit;
 
 use OCA\Guests\GroupBackend;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -33,20 +37,14 @@ use Test\TestCase;
  * @package OCA\Guests\Tests\Unit
  */
 class GroupBackendTest extends TestCase {
-	/**
-	 * @var GroupBackend | \PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected $groupbackend;
+	protected GroupBackend $groupbackend;
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
-	protected $members;
+	protected array $members;
 
-	/**
-	 * @var IConfig | \PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected $config;
+	protected IConfig&MockObject $config;
 
 	/**
 	 * Set up the tests
@@ -60,7 +58,7 @@ class GroupBackendTest extends TestCase {
 			GroupBackend::DEFAULT_NAME
 		);
 		$this->members = [];
-		for ($i = 0 ; $i < 50; $i++) {
+		for ($i = 0; $i < 50; $i++) {
 			$this->members[] = 'User' . ($i + 1);
 		}
 		$this->config
@@ -81,9 +79,9 @@ class GroupBackendTest extends TestCase {
 	 * @param string $arg2
 	 * @param string $arg3
 	 *
-	 * @return int|string
+	 * @return string
 	 */
-	public function getUserValue($userId, $arg2, $arg3) {
+	public function getUserValue(string $userId, string $arg2, string $arg3): string {
 		if ($arg2 !== 'owncloud' || $arg3 !== 'isGuest') {
 			return '0';
 		}
@@ -92,12 +90,13 @@ class GroupBackendTest extends TestCase {
 		}
 		return '0';
 	}
+
 	/**
 	 * Test if Group exists
 	 *
 	 * @return void
 	 */
-	public function testGroupExists() {
+	public function testGroupExists(): void {
 		$groupExists = $this
 			->groupbackend
 			->groupExists(GroupBackend::DEFAULT_NAME);
@@ -115,7 +114,7 @@ class GroupBackendTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGroupName() {
+	public function testGroupName(): void {
 		$groupName = $this->groupbackend->getGroups();
 		self::assertEquals([GroupBackend::DEFAULT_NAME], $groupName);
 	}
@@ -125,7 +124,7 @@ class GroupBackendTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testActions() {
+	public function testActions(): void {
 		$action = 0;
 		$action |= GroupBackend::COUNT_USERS;
 		self::assertTrue($this->groupbackend->implementsActions($action));
@@ -136,7 +135,7 @@ class GroupBackendTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGroupMembership() {
+	public function testGroupMembership(): void {
 		$isMember = $this->groupbackend->inGroup(
 			'User1',
 			GroupBackend::DEFAULT_NAME
@@ -167,7 +166,7 @@ class GroupBackendTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testUserGroups() {
+	public function testUserGroups(): void {
 		$groups = $this->groupbackend->getUserGroups(
 			$this->members[0]
 		);
@@ -189,7 +188,7 @@ class GroupBackendTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testNoMembers() {
+	public function testNoMembers(): void {
 		$users = $this->groupbackend->usersInGroup(
 			'not-' . GroupBackend::DEFAULT_NAME,
 			'',
@@ -204,7 +203,7 @@ class GroupBackendTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testDefaultParameters() {
+	public function testDefaultParameters(): void {
 		$users = $this->groupbackend->usersInGroup(GroupBackend::DEFAULT_NAME, '', -1, 0);
 		self::assertCount(50, $users);
 		self::assertEquals(50, $this->groupbackend->countUsersInGroup());
@@ -213,9 +212,9 @@ class GroupBackendTest extends TestCase {
 	/**
 	 * Data for Search Test
 	 *
-	 * @return array
+	 * @return array<string, array<int, mixed>>
 	 */
-	public function searchData() {
+	public static function searchData(): array {
 		return [
 			'search 1' => [
 				'9',
@@ -249,11 +248,11 @@ class GroupBackendTest extends TestCase {
 	 * @dataProvider searchData
 	 *
 	 * @param string $search
-	 * @param array $expectedResult
+	 * @param array<string> $expectedResult
 	 *
 	 * @return void
 	 */
-	public function testGetUsersSearch($search, $expectedResult) {
+	public function testGetUsersSearch(string $search, array $expectedResult): void {
 		$users = $this->groupbackend->usersInGroup(
 			GroupBackend::DEFAULT_NAME,
 			$search,
@@ -266,9 +265,9 @@ class GroupBackendTest extends TestCase {
 	/**
 	 * Data for Paging Test
 	 *
-	 * @return array
+	 * @return array<string, array<int, mixed>>
 	 */
-	public function pagingData() {
+	public static function pagingData(): array {
 		return [
 			'page 1' => [0, 0, 0, null],
 			'page 2' => [5, 0, 5, 'User1'],
@@ -288,11 +287,11 @@ class GroupBackendTest extends TestCase {
 	 * @param int $limit
 	 * @param int $offset
 	 * @param int $expectedResultCount
-	 * @param string $expectedFirstValue
+	 * @param string|null $expectedFirstValue
 	 *
 	 * @return void
 	 */
-	public function testGetUsersPaging($limit, $offset, $expectedResultCount, $expectedFirstValue) {
+	public function testGetUsersPaging(int $limit, int $offset, int $expectedResultCount, ?string $expectedFirstValue): void {
 		$users = $this->groupbackend->usersInGroup(
 			GroupBackend::DEFAULT_NAME,
 			'',

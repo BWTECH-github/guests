@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Ilja Neumann <ineumann@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -31,25 +34,13 @@ use OCP\IUserSession;
 use OCP\Share\IShare;
 
 class Hooks {
-	/**
-	 * @var ILogger
-	 */
-	private $logger;
+	private ILogger $logger;
 
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
+	private IUserSession $userSession;
 
-	/**
-	 * @var Mail
-	 */
-	private $mail;
+	private Mail $mail;
 
-	/**
-	 * @var IConfig
-	 */
-	private $config;
+	private IConfig $config;
 
 	/**
 	 * Hooks constructor.
@@ -71,7 +62,7 @@ class Hooks {
 		$this->config = $config;
 	}
 
-	public function handlePostShare(IShare $share) {
+	public function handlePostShare(IShare $share): void {
 		$itemType = $share->getNodeType();
 		if ($itemType !== 'file'
 			&& $itemType !== 'folder'
@@ -101,7 +92,7 @@ class Hooks {
 		}
 
 		$user = $this->userSession->getUser();
-		if (!$user) {
+		if ($user === null) {
 			throw new \Exception(
 				'post_share hook triggered without user in session'
 			);
@@ -120,7 +111,7 @@ class Hooks {
 		);
 
 		try {
-			if ($registerToken) {
+			if ($registerToken !== null && $registerToken !== '') {
 				$uid = $user->getUID();
 				// send invitation
 				$this->mail->sendGuestInviteMail(
@@ -138,14 +129,14 @@ class Hooks {
 	}
 
 	/**
-	 * Function used to extend global JS config emited with
+	 * Function used to extend global JS config emitted with
 	 * OC_Hook::emit('\OCP\Config', 'js', ['array' => &$array]) and available
 	 * in JS as oc_appconfig.guests
 	 *
-	 * @param array $array holding $array['array'] key with a reference value to config
+	 * @param array<string, mixed> $array holding $array['array'] key with a reference value to config
 	 */
-	public static function extendJsConfig($array): void {
-		$blockDomains = \OC::$server->getConfig()->getAppValue('guests', 'blockdomains');
+	public static function extendJsConfig(array $array): void {
+		$blockDomains = \OC::$server->getConfig()->getAppValue('guests', 'blockdomains', '');
 
 		$array['array']['oc_appconfig']['guests'] = [
 			'blockdomains' => \explode(',', $blockDomains),

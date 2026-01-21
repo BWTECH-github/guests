@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Thomas Heinisch <t.heinisch@bw-tech.de>
  *
@@ -35,38 +38,21 @@ use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 
 class RegisterController extends Controller {
-	/**
-	 * @var IRequest
-	 */
-	protected $request;
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-	/**
-	 * @var IL10N
-	 */
-	private $l10n;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-	/**
-	 * @var ISecureRandom
-	 */
-	private $secureRandom;
-	/**
-	 * @var IMailer
-	 */
-	private $mailer;
-	/**
-	 * @var IURLGenerator
-	 */
-	private $urlGenerator;
+	protected IRequest $request;
+
+	private IUserManager $userManager;
+
+	private IL10N $l10n;
+
+	private IConfig $config;
+
+	private IGroupManager $groupManager;
+
+	private ISecureRandom $secureRandom;
+
+	private IMailer $mailer;
+
+	private IURLGenerator $urlGenerator;
 
 	/**
 	 * RegisterController constructor.
@@ -79,10 +65,10 @@ class RegisterController extends Controller {
 	 * @param IConfig $config
 	 * @param ISecureRandom $secureRandom
 	 * @param IMailer $mailer
-	 * @param IUrlGenerator $urlGenerator
+	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		IUserManager $userManager,
 		IGroupManager $groupManager,
@@ -90,7 +76,7 @@ class RegisterController extends Controller {
 		IConfig $config,
 		ISecureRandom $secureRandom,
 		IMailer $mailer,
-		IUrlGenerator $urlGenerator
+		IURLGenerator $urlGenerator
 	) {
 		parent::__construct($appName, $request);
 
@@ -116,7 +102,7 @@ class RegisterController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function showPasswordForm($email, $token) {
+	public function showPasswordForm(string $email, string $token): TemplateResponse {
 		$errorMessages = [];
 		$userId = \strtolower($email);
 
@@ -150,6 +136,7 @@ class RegisterController extends Controller {
 			);
 		}
 
+		$parameters = [];
 		$parameters['email'] = $email;
 		$parameters['messages'] = $errorMessages;
 		$parameters['token'] = $token;
@@ -173,10 +160,10 @@ class RegisterController extends Controller {
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function register() {
-		$email = \trim($_POST['email']);
-		$token = \trim($_POST['token']);
-		$password = \trim($_POST['password']);
+	public function register(): TemplateResponse|RedirectResponse {
+		$email = \trim($_POST['email'] ?? '');
+		$token = \trim($_POST['token'] ?? '');
+		$password = \trim($_POST['password'] ?? '');
 		$userId = \strtolower($email);
 		$parameters = [];
 
@@ -221,7 +208,9 @@ class RegisterController extends Controller {
 
 		try {
 			$user = $this->userManager->get($userId);
-			$user->setPassword($password);
+			if ($user !== null) {
+				$user->setPassword($password);
+			}
 		} catch (\Exception $e) {
 			$parameters['email'] = $email;
 			$parameters['messages']['password'] = $e->getMessage();

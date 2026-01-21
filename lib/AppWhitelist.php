@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Ilja Neumann <ineumann@owncloud.com>
  * @author Thomas Heinisch <t.heinisch@bw-tech.de>
@@ -20,6 +23,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Guests;
 
 use OCP\Template;
@@ -33,8 +37,11 @@ class AppWhitelist {
 	public const CORE_WHITELIST = ',core,files,dav,federatedfilesharing,guests,encryption,files_primary_s3,files_antivirus,files_external,files_external_dropbox,files_external_ftp,files_ldap_home,files_onedrive,sharepoint,files_external_s3,windows_network_drive,admin_audit,firewall,ransomware_protection';
 	public const DEFAULT_WHITELIST = 'settings,avatar,files_trashbin,files_versions,files_sharing,files_texteditor,activity,firstrunwizard,gallery,notifications,password_policy,oauth2,files_pdfviewer,files_mediaviewer,richdocuments,onlyoffice,wopi,oco_selfservice,twofactor_totp,impersonate';
 
-	public static function preSetup($params) {
-		$uid = $params['user'];
+	/**
+	 * @param array<string, mixed> $params
+	 */
+	public static function preSetup(array $params): void {
+		$uid = $params['user'] ?? '';
 
 		if (empty($uid)) {
 			return;
@@ -49,7 +56,7 @@ class AppWhitelist {
 			$app = self::getRequestedApp($path);
 			$whitelist = self::getWhitelist();
 
-			if (!\in_array($app, $whitelist)) {
+			if (!\in_array($app, $whitelist, true)) {
 				\header('HTTP/1.0 403 Forbidden');
 				$l = \OC::$server->getL10NFactory()->get('guests');
 				Template::printErrorPage($l->t(
@@ -60,9 +67,12 @@ class AppWhitelist {
 		}
 	}
 
-	public static function getWhitelist() {
+	/**
+	 * @return array<string>
+	 */
+	public static function getWhitelist(): array {
 		$whitelist = self::CORE_WHITELIST;
-		$whitelist .=  ',' . \OC::$server->getConfig()->getAppValue(
+		$whitelist .= ',' . \OC::$server->getConfig()->getAppValue(
 			'guests',
 			'whitelist',
 			self::DEFAULT_WHITELIST
@@ -75,20 +85,20 @@ class AppWhitelist {
 	 * Core has \OC::$REQUESTEDAPP but it isn't set until the routes are matched
 	 * taken from \OC\Route\Router::match()
 	 */
-	private static function getRequestedApp($url) {
-		if (\substr($url, 0, 6) === '/apps/') {
+	private static function getRequestedApp(string $url): string|false {
+		if (str_starts_with($url, '/apps/')) {
 			// empty string / 'apps' / $app / rest of the route
-			list(, , $app, ) = \explode('/', $url, 4);
-			return  \OC_App::cleanAppId($app);
-		} elseif (\substr($url, 0, 6) === '/core/') {
+			$parts = \explode('/', $url, 4);
+			return \OC_App::cleanAppId($parts[2] ?? '');
+		} elseif (str_starts_with($url, '/core/')) {
 			return 'core';
-		} elseif (\substr($url, 0, 10) === '/settings/') {
+		} elseif (str_starts_with($url, '/settings/')) {
 			return 'settings';
-		} elseif (\substr($url, 0, 8) === '/avatar/') {
+		} elseif (str_starts_with($url, '/avatar/')) {
 			return 'avatar';
-		} elseif (\substr($url, 0, 10) === '/heartbeat') {
+		} elseif (str_starts_with($url, '/heartbeat')) {
 			return 'heartbeat';
-		} elseif (\substr($url, 0, 13) === '/dav/comments') {
+		} elseif (str_starts_with($url, '/dav/comments')) {
 			return 'comments';
 		}
 		return false;

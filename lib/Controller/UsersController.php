@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Ilja Neumann <ineumann@owncloud.com>
  * @author Thomas Heinisch <t.heinisch@bw-tech.de>
@@ -21,6 +24,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Guests\Controller;
 
 use OC\AppFramework\Http;
@@ -37,34 +41,19 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class UsersController extends Controller {
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-	/**
-	 * @var IL10N
-	 */
-	private $l10n;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	/**
-	 * @var IMailer
-	 */
-	private $mailer;
-	/**
-	 * @var ISecureRandom
-	 */
-	private $secureRandom;
-	/**
-	 * @var EventDispatcherInterface
-	 */
-	private $eventDispatcher;
-	/**
-	 * @var IUserSession
-	 */
-	private $currentUser;
+	private IUserManager $userManager;
+
+	private IL10N $l10n;
+
+	private IConfig $config;
+
+	private IMailer $mailer;
+
+	private ISecureRandom $secureRandom;
+
+	private EventDispatcherInterface $eventDispatcher;
+
+	private IUserSession $currentUser;
 
 	/**
 	 * UsersController constructor.
@@ -80,7 +69,7 @@ class UsersController extends Controller {
 	 * @param IUserSession $currentUser
 	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		IUserManager $userManager,
 		IL10N $l10n,
@@ -112,7 +101,7 @@ class UsersController extends Controller {
 	 * @return DataResponse
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function create($email, $displayName) {
+	public function create(string $email, string $displayName): DataResponse {
 		$errorMessages = [];
 		$email = \trim(\rawurldecode($email));
 		$username = \strtolower($email);
@@ -150,7 +139,19 @@ class UsersController extends Controller {
 			);
 		}
 
-		$uid = $this->currentUser->getUser()->getUID();
+		$currentUserObj = $this->currentUser->getUser();
+		if ($currentUserObj === null) {
+			return new DataResponse(
+				[
+					'message' => (string)$this->l10n->t(
+						'No user logged in.'
+					)
+				],
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		$uid = $currentUserObj->getUID();
 		$isGuest = (bool) $this->config->getUserValue(
 			$uid,
 			'owncloud',
@@ -232,16 +233,16 @@ class UsersController extends Controller {
 	}
 
 	public function isDomainBlocked(string $email): bool {
-		# disable to add users from blocked domains
-		$blockedDomains = \OC::$server->getConfig()->getAppValue('guests', 'blockdomains');
-		$blockedDomains = \explode(',', $blockedDomains);
+		// disable to add users from blocked domains
+		$blockedDomainsValue = \OC::$server->getConfig()->getAppValue('guests', 'blockdomains', '');
+		$blockedDomains = \explode(',', $blockedDomainsValue);
 		$emailDomain = \explode('@', $email);
 		if (\count($emailDomain) !== 2) {
 			return false;
 		}
 		foreach ($blockedDomains as $blockedDomain) {
 			$blockedDomain = \trim($blockedDomain);
-			if (\strtolower($emailDomain[1]) === \strtolower($blockedDomain)) {
+			if ($blockedDomain !== '' && \strtolower($emailDomain[1]) === \strtolower($blockedDomain)) {
 				return true;
 			}
 		}

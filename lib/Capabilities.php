@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Jan Ackermann <jackermann@owncloud.com>
  *
@@ -26,10 +29,13 @@ use OCP\Capabilities\ICapability;
 /**
  * Class Capabilities
  *
- * @package OCA\PasswordPolicy
+ * @package OCA\Guests
  */
 class Capabilities implements ICapability {
-	public function getCapabilities() {
+	/**
+	 * @return array<string, array<string, bool>>
+	 */
+	public function getCapabilities(): array {
 		return [
 			'guests_v1' =>
 				['enabled' => true],

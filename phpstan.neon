@@ -1,7 +1,11 @@
 parameters:
+  level: 9
+  phpVersion: 80400
   inferPrivatePropertyTypeFromConstructor: true
   bootstrapFiles:
     - %currentWorkingDirectory%/../../lib/base.php
+  paths:
+    - lib
   excludePaths:
     - %currentWorkingDirectory%/appinfo/Migrations/*.php
     - %currentWorkingDirectory%/appinfo/routes.php

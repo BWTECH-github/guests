@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Ilja Neumann <ineumann@owncloud.com>
  * @author Thomas Heinisch <t.heinisch@bw-tech.de>
@@ -37,26 +40,20 @@ class GroupBackend implements GroupInterface {
 	public const DEFAULT_NAME = 'guest_app';
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
-	private $guestMembers = [];
+	private array $guestMembers = [];
 
 	/**
-	 * @var array
+	 * @var array<int, string>
 	 */
-	protected $possibleActions = [
+	protected array $possibleActions = [
 		self::COUNT_USERS => 'countUsersInGroup',
 	];
 
-	/**
-	 * @var IConfig
-	 */
-	private $config;
+	private IConfig $config;
 
-	/**
-	 * @var string
-	 */
-	private $groupName;
+	private string $groupName;
 
 	/**
 	 * GroupBackend constructor.
@@ -64,7 +61,7 @@ class GroupBackend implements GroupInterface {
 	 * @param IConfig $config
 	 * @param string $groupName
 	 */
-	public function __construct(IConfig $config, $groupName = self::DEFAULT_NAME) {
+	public function __construct(IConfig $config, string $groupName = self::DEFAULT_NAME) {
 		$this->config = $config;
 		$this->groupName = $groupName;
 	}
@@ -72,9 +69,9 @@ class GroupBackend implements GroupInterface {
 	/**
 	 * Get Guest User ID's from oc_preferences
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
-	private function getMembers() {
+	private function getMembers(): array {
 		if (empty($this->guestMembers)) {
 			$this->guestMembers = $this->config->getUsersForUserValue(
 				'owncloud',
@@ -94,7 +91,7 @@ class GroupBackend implements GroupInterface {
 	 * Returns the supported actions as int to be
 	 * compared with \OC\Group\Backend::CREATE_GROUP etc.
 	 */
-	public function getSupportedActions() {
+	public function getSupportedActions(): int {
 		$actions = 0;
 		foreach ($this->possibleActions as $action => $methodName) {
 			if (\method_exists($this, $methodName)) {
@@ -115,7 +112,7 @@ class GroupBackend implements GroupInterface {
 	 * Returns the supported actions as int to be
 	 * compared with \OC\Group\Backend::CREATE_GROUP etc.
 	 */
-	public function implementsActions($actions) {
+	public function implementsActions(int $actions): bool {
 		return (bool)($this->getSupportedActions() & $actions);
 	}
 
@@ -130,7 +127,7 @@ class GroupBackend implements GroupInterface {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public function inGroup($uid, $gid) {
+	public function inGroup(string $uid, string $gid): bool {
 		if ($gid !== $this->groupName) {
 			return false;
 		}
@@ -140,7 +137,7 @@ class GroupBackend implements GroupInterface {
 			'isGuest',
 			'0'
 		);
-		return $isGuest === '1' ;
+		return $isGuest === '1';
 	}
 
 	/**
@@ -148,13 +145,13 @@ class GroupBackend implements GroupInterface {
 	 *
 	 * @param string $uid Name of the user
 	 *
-	 * @return array an array of group names
+	 * @return array<string> an array of group names
 	 * @since 4.5.0
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public function getUserGroups($uid) {
+	public function getUserGroups(string $uid): array {
 		$isGuest = $this->config->getUserValue(
 			$uid,
 			'owncloud',
@@ -175,12 +172,12 @@ class GroupBackend implements GroupInterface {
 	 * @param int $limit
 	 * @param int $offset
 	 *
-	 * @return array an array of group names
+	 * @return array<string> an array of group names
 	 * @since 4.5.0
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups($search = '', $limit = -1, $offset = 0) {
+	public function getGroups(string $search = '', int $limit = -1, int $offset = 0): array {
 		return [$this->groupName];
 	}
 
@@ -192,7 +189,7 @@ class GroupBackend implements GroupInterface {
 	 * @return bool
 	 * @since 4.5.0
 	 */
-	public function groupExists($gid) {
+	public function groupExists(string $gid): bool {
 		return $gid === $this->groupName;
 	}
 
@@ -204,16 +201,16 @@ class GroupBackend implements GroupInterface {
 	 * @param int $limit
 	 * @param int $offset
 	 *
-	 * @return array an array of user ids
+	 * @return array<string> an array of user ids
 	 * @since 4.5.0
 	 */
-	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+	public function usersInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		if ($gid === $this->groupName && $limit !== 0) {
 			if (!empty($search)) {
 				$users = \array_filter(
 					$this->getMembers(),
-					function ($var) use ($search) {
-						return \strpos($var, $search) !== false;
+					static function (string $var) use ($search): bool {
+						return str_contains($var, $search);
 					}
 				);
 			} else {
@@ -232,7 +229,7 @@ class GroupBackend implements GroupInterface {
 	/**
 	 * @return int
 	 */
-	public function countUsersInGroup() {
+	public function countUsersInGroup(): int {
 		return \count($this->getMembers());
 	}
 
@@ -245,7 +242,7 @@ class GroupBackend implements GroupInterface {
 	 *
 	 * @since 10.0.0
 	 */
-	public function isVisibleForScope($scope) {
+	public function isVisibleForScope(?string $scope): bool {
 		return $scope !== 'sharing';
 	}
 }

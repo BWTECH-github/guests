@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phpunit bootstrap="../../tests/bootstrap.php"
-        verbose="true"
-        failOnRisky="true"
-        failOnWarning="true"
-        timeoutForSmallTests="900"
-        timeoutForMediumTests="900"
-        timeoutForLargeTests="900"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         bootstrap="../../tests/bootstrap.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         executionOrder="depends,defects"
+         failOnRisky="true"
+         failOnWarning="true"
+         beStrictAboutOutputDuringTests="true">
   <testsuites>
     <testsuite name="unit">
       <directory suffix="Test.php">./tests/unit</directory>
     </testsuite>
   </testsuites>
-  <coverage>
+  <source>
     <include>
       <directory suffix=".php">./appinfo</directory>
       <directory suffix=".php">./lib</directory>
     </include>
+  </source>
+  <coverage>
     <report>
       <clover outputFile="./tests/output/clover.xml"/>
     </report>
