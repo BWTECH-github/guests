@@ -87,8 +87,8 @@ class HooksTest extends TestCase {
 		$shareMock->method('getSharedWith')->willReturn(self::GUEST_UID);
 
 		$this->config->expects($this->once())->method('getUserValue')
-			->with(self::GUEST_UID, 'owncloud', 'isGuest', false)
-			->willReturn(false);
+			->with(self::GUEST_UID, 'owncloud', 'isGuest', '')
+			->willReturn('');
 
 		$this->logger->expects($this->once())->method('debug')->willReturnCallback(
 			function (string $message, array $params) use ($shareMock): void {
@@ -106,8 +106,8 @@ class HooksTest extends TestCase {
 		$shareMock->method('getSharedWith')->willReturn(self::GUEST_UID);
 
 		$this->config->expects($this->once())->method('getUserValue')
-			->with(self::GUEST_UID, 'owncloud', 'isGuest', false)
-			->willReturn(true);
+			->with(self::GUEST_UID, 'owncloud', 'isGuest', '')
+			->willReturn('1');
 
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('post_share hook triggered without user in session');
@@ -127,20 +127,20 @@ class HooksTest extends TestCase {
 				string $userId,
 				string $app,
 				string $key,
-				mixed $default = null
-			) use (&$callCount): mixed {
+				string $default = ''
+			) use (&$callCount): string {
 				$callCount++;
 				if ($callCount === 1) {
 					$this->assertEquals(self::GUEST_UID, $userId);
 					$this->assertEquals('owncloud', $app);
 					$this->assertEquals('isGuest', $key);
-					return true;
+					return '1';
 				}
 				if ($callCount === 2) {
 					$this->assertEquals(self::GUEST_UID, $userId);
 					$this->assertEquals('guests', $app);
 					$this->assertEquals('registerToken', $key);
-					return null;
+					return '';
 				}
 				return $default;
 			});
@@ -165,14 +165,14 @@ class HooksTest extends TestCase {
 				string $userId,
 				string $app,
 				string $key,
-				mixed $default = null
-			) use (&$callCount): mixed {
+				string $default = ''
+			) use (&$callCount): string {
 				$callCount++;
 				if ($callCount === 1) {
 					$this->assertEquals(self::GUEST_UID, $userId);
 					$this->assertEquals('owncloud', $app);
 					$this->assertEquals('isGuest', $key);
-					return true;
+					return '1';
 				}
 				if ($callCount === 2) {
 					$this->assertEquals(self::GUEST_UID, $userId);

@@ -79,10 +79,10 @@ class Hooks {
 			$shareWith,
 			'owncloud',
 			'isGuest',
-			false
+			''
 		);
 
-		if (!$isGuest) {
+		if ($isGuest === '' || $isGuest === '0') {
 			$this->logger->debug(
 				"ignoring user '$shareWith', not a guest",
 				['app' => 'guests']
@@ -107,11 +107,11 @@ class Hooks {
 			$shareWith,
 			'guests',
 			'registerToken',
-			null
+			''
 		);
 
 		try {
-			if ($registerToken !== null && $registerToken !== '') {
+			if ($registerToken !== '') {
 				$uid = $user->getUID();
 				// send invitation
 				$this->mail->sendGuestInviteMail(

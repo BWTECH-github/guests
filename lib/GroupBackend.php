@@ -112,7 +112,7 @@ class GroupBackend implements GroupInterface {
 	 * Returns the supported actions as int to be
 	 * compared with \OC\Group\Backend::CREATE_GROUP etc.
 	 */
-	public function implementsActions(int $actions): bool {
+	public function implementsActions($actions) {
 		return (bool)($this->getSupportedActions() & $actions);
 	}
 
@@ -127,7 +127,7 @@ class GroupBackend implements GroupInterface {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public function inGroup(string $uid, string $gid): bool {
+	public function inGroup($uid, $gid) {
 		if ($gid !== $this->groupName) {
 			return false;
 		}
@@ -151,7 +151,7 @@ class GroupBackend implements GroupInterface {
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public function getUserGroups(string $uid): array {
+	public function getUserGroups($uid) {
 		$isGuest = $this->config->getUserValue(
 			$uid,
 			'owncloud',
@@ -177,7 +177,7 @@ class GroupBackend implements GroupInterface {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups(string $search = '', int $limit = -1, int $offset = 0): array {
+	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		return [$this->groupName];
 	}
 
@@ -189,7 +189,7 @@ class GroupBackend implements GroupInterface {
 	 * @return bool
 	 * @since 4.5.0
 	 */
-	public function groupExists(string $gid): bool {
+	public function groupExists($gid) {
 		return $gid === $this->groupName;
 	}
 
@@ -204,7 +204,7 @@ class GroupBackend implements GroupInterface {
 	 * @return array<string> an array of user ids
 	 * @since 4.5.0
 	 */
-	public function usersInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if ($gid === $this->groupName && $limit !== 0) {
 			if (!empty($search)) {
 				$users = \array_filter(
@@ -242,7 +242,7 @@ class GroupBackend implements GroupInterface {
 	 *
 	 * @since 10.0.0
 	 */
-	public function isVisibleForScope(?string $scope): bool {
+	public function isVisibleForScope($scope) {
 		return $scope !== 'sharing';
 	}
 }
