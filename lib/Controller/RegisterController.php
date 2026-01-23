@@ -38,7 +38,8 @@ use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 
 class RegisterController extends Controller {
-	protected IRequest $request;
+	// Note: $request is inherited from parent Controller without type declaration
+	// due to PHP 8.4 stricter inheritance rules
 
 	private IUserManager $userManager;
 
