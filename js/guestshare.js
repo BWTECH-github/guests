@@ -69,12 +69,64 @@
 
 				self.model.addShare(properties, options);
 			}).fail(function (xhr) {
-				var response = JSON.parse(xhr.responseText);
-				var error = response.errorMessages;
-				OC.dialogs.alert(
-					error.email, // text
-					t('core', 'Error') // title
-				);
+				// Check if user already exists (HTTP 422)
+				if (xhr.status === 422) {
+					var response;
+					try {
+						response = JSON.parse(xhr.responseText);
+					} catch (e) {
+						response = {};
+					}
+					
+					// If error is "user already exists", proceed with sharing
+					// This allows sharing with existing guest users or regular users
+					if (response.errorMessages && response.errorMessages.email) {
+						var properties = {
+							shareType: 0, // SHARE_TYPE_USER
+							shareWith: email.toLowerCase(),
+							permissions: OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE
+								| OC.PERMISSION_READ | OC.PERMISSION_DELETE
+						};
+						var options = {
+							success: function() {
+								if (self.model) {
+									self.model.fetch();
+								}
+							},
+							error: function(obj, msg) {
+								OC.dialogs.alert(
+									t('core', 'Error while sharing'), // text
+									t('core', 'Error') // title
+								);
+							}
+						};
+						
+						self.model.addShare(properties, options);
+					} else {
+						// Other errors (invalid email, blocked domain, etc.)
+						var error = response.errorMessages || {};
+						OC.dialogs.alert(
+							error.email || t('core', 'Error while sharing'), // text
+							t('core', 'Error') // title
+						);
+					}
+				} else {
+					// Other HTTP errors
+					var response;
+					try {
+						response = JSON.parse(xhr.responseText);
+						var error = response.errorMessages;
+						OC.dialogs.alert(
+							error.email || t('core', 'Error while sharing'),
+							t('core', 'Error')
+						);
+					} catch (e) {
+						OC.dialogs.alert(
+							t('core', 'Error while sharing'),
+							t('core', 'Error')
+						);
+					}
+				}
 			});
 		},
 	};
@@ -257,7 +309,8 @@
 								success: function () {
 									$this.val('').attr('disabled', false);
 									$loading.addClass('hidden').removeClass('inlineblock');
-								}, error: function (obj, msg) {
+								},
+								error: function (obj, msg) {
 									OC.Notification.showTemporary(msg);
 									$this.attr('disabled', false).autocomplete('search', $this.val());
 									$loading.addClass('hidden').removeClass('inlineblock');
