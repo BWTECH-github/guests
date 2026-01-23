@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @author Thomas Heinisch <t.heinisch@bw-tech.de>
  *
  * @copyright Copyright (c) 2017, ownCloud GmbH
+ * Modified by BW-Tech GmbH
  * @license GPL-2.0
  *
  * This program is free software; you can redistribute it and/or

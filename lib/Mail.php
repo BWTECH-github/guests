@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2017, ownCloud GmbH
+ * Modified by BW-Tech GmbH
  * @license GPL-2.0
  *
  * This program is free software; you can redistribute it and/or
