@@ -102,6 +102,19 @@ class AppWhitelist {
 			return 'dav';
 		} elseif (str_starts_with($url, '/dav/comments')) {
 			return 'comments';
+		} elseif (str_starts_with($url, '/index.php/apps/')) {
+			// Handle /index.php/apps/{appname} - essential for directory listing
+			$parts = \explode('/', $url, 5);
+			return \OC_App::cleanAppId($parts[3] ?? '');
+		} elseif (str_starts_with($url, '/index.php/')) {
+			// Handle other /index.php endpoints (AJAX, API, etc.)
+			return 'core';
+		} elseif (str_starts_with($url, '/ocs/')) {
+			// Handle OCS API endpoints
+			return 'core';
+		} elseif (str_starts_with($url, '/')) {
+			// Root URL and other paths - default to files for guest users
+			return 'files';
 		}
 		return false;
 	}
