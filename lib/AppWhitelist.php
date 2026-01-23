@@ -98,6 +98,8 @@ class AppWhitelist {
 			return 'avatar';
 		} elseif (str_starts_with($url, '/heartbeat')) {
 			return 'heartbeat';
+		} elseif (str_starts_with($url, '/remote.php/dav')) {
+			return 'dav';
 		} elseif (str_starts_with($url, '/dav/comments')) {
 			return 'comments';
 		}
