@@ -179,18 +179,15 @@ class Application extends App {
 		}
 
 		// hide email change field via css for learned guests
-		if ($isGuest) {
-			\OCP\Util::addStyle(self::APP_NAME, 'personal');
-		} else {
-			$eventDispatcher = $server->getEventDispatcher();
-			$eventDispatcher->addListener(
-				'OCA\Files::loadAdditionalScripts',
-				function (): void {
-					\OCP\Util::addScript(self::APP_NAME, 'guestshare');
-				}
-			);
-			$this->registerPostShareHook();
-		}
+		// Always load guestshare.js for proper frontend functionality
+		$eventDispatcher = $server->getEventDispatcher();
+		$eventDispatcher->addListener(
+			'OCA\Files::loadAdditionalScripts',
+			function (): void {
+				\OCP\Util::addScript(self::APP_NAME, 'guestshare');
+			}
+		);
+		$this->registerPostShareHook();
 	}
 
 	/**
