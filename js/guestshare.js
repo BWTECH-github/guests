@@ -48,7 +48,7 @@
 
 			$.ajax(xhrObject).done(function (xhr) {
 				var properties = {
-					shareType: 0,
+					shareType: 0, // SHARE_TYPE_USER instead of SHARE_TYPE_GUEST
 					shareWith: email.toLowerCase(),
 					permissions: OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE
 						| OC.PERMISSION_READ | OC.PERMISSION_DELETE
@@ -122,7 +122,7 @@
 
 								if (newGuest) {
 									res.found.push({
-										shareType: OC.Share.SHARE_TYPE_GUEST,
+										shareType: OC.Share.SHARE_TYPE_USER,
 										shareWith: user
 									});
 
@@ -203,15 +203,14 @@
 								result.push({
 									label: t('core', 'Add {unknown}', {unknown: searchTerm}),
 									value: {
-										shareType: OC.Share.SHARE_TYPE_GUEST,
+										shareType: OC.Share.SHARE_TYPE_USER,
 										shareWith: searchTerm
 									}
 								});
 							}
-							response(result, xhrResult);
 						}
 						response(result, xhrResult);
-					});
+					})
 				};
 
 				obj._onSelectRecipient = function (e, s) {
@@ -231,10 +230,27 @@
 
 					for (var i = 0; i < shares.length; i++) {
 						var share = shares[i];
-						if (share.shareType === OC.Share.SHARE_TYPE_GUEST) {
-							if (!GuestShare.addGuest(obj.model, share.shareWith)) {
-								$this.val('').attr('disabled', false);
-								$loading.addClass('hidden').removeClass('inlineblock');
+						if (share.shareType === OC.Share.SHARE_TYPE_USER) {
+							// Check if this is a guest user by checking if email validation was done
+							// The guest user creation happens via UsersController
+							if (OC.validateEmail(share.shareWith)) {
+								// Try to create guest user if it doesn't exist
+								if (!GuestShare.addGuest(obj.model, share.shareWith)) {
+									$this.val('').attr('disabled', false);
+									$loading.addClass('hidden').removeClass('inlineblock');
+								}
+							} else {
+								// Regular user sharing
+								obj.model.addShare(share, {
+									success: function () {
+										$this.val('').attr('disabled', false);
+										$loading.addClass('hidden').removeClass('inlineblock');
+									}, error: function (obj, msg) {
+										OC.Notification.showTemporary(msg);
+										$this.attr('disabled', false).autocomplete('search', $this.val());
+										$loading.addClass('hidden').removeClass('inlineblock');
+									}
+								});
 							}
 						} else {
 							obj.model.addShare(share, {
