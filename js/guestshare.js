@@ -4,6 +4,7 @@
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2018, ownCloud GmbH
+ * Modified by BW-Tech GmbH
  * @license GPL-2.0
  *
  * This program is free software; you can redistribute it and/or
@@ -48,7 +49,7 @@
 
 			$.ajax(xhrObject).done(function (xhr) {
 				var properties = {
-					shareType: 0,
+					shareType: 0, // SHARE_TYPE_USER instead of SHARE_TYPE_GUEST
 					shareWith: email.toLowerCase(),
 					permissions: OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE
 						| OC.PERMISSION_READ | OC.PERMISSION_DELETE
@@ -69,12 +70,64 @@
 
 				self.model.addShare(properties, options);
 			}).fail(function (xhr) {
-				var response = JSON.parse(xhr.responseText);
-				var error = response.errorMessages;
-				OC.dialogs.alert(
-					error.email, // text
-					t('core', 'Error') // title
-				);
+				// Check if user already exists (HTTP 422)
+				if (xhr.status === 422) {
+					var response;
+					try {
+						response = JSON.parse(xhr.responseText);
+					} catch (e) {
+						response = {};
+					}
+					
+					// If error is "user already exists", proceed with sharing
+					// This allows sharing with existing guest users or regular users
+					if (response.errorMessages && response.errorMessages.email) {
+						var properties = {
+							shareType: 0, // SHARE_TYPE_USER
+							shareWith: email.toLowerCase(),
+							permissions: OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE
+								| OC.PERMISSION_READ | OC.PERMISSION_DELETE
+						};
+						var options = {
+							success: function() {
+								if (self.model) {
+									self.model.fetch();
+								}
+							},
+							error: function(obj, msg) {
+								OC.dialogs.alert(
+									t('core', 'Error while sharing'), // text
+									t('core', 'Error') // title
+								);
+							}
+						};
+						
+						self.model.addShare(properties, options);
+					} else {
+						// Other errors (invalid email, blocked domain, etc.)
+						var error = response.errorMessages || {};
+						OC.dialogs.alert(
+							error.email || t('core', 'Error while sharing'), // text
+							t('core', 'Error') // title
+						);
+					}
+				} else {
+					// Other HTTP errors
+					var response;
+					try {
+						response = JSON.parse(xhr.responseText);
+						var error = response.errorMessages;
+						OC.dialogs.alert(
+							error.email || t('core', 'Error while sharing'),
+							t('core', 'Error')
+						);
+					} catch (e) {
+						OC.dialogs.alert(
+							t('core', 'Error while sharing'),
+							t('core', 'Error')
+						);
+					}
+				}
 			});
 		},
 	};
@@ -122,7 +175,7 @@
 
 								if (newGuest) {
 									res.found.push({
-										shareType: OC.Share.SHARE_TYPE_GUEST,
+										shareType: OC.Share.SHARE_TYPE_USER,
 										shareWith: user
 									});
 
@@ -203,15 +256,14 @@
 								result.push({
 									label: t('core', 'Add {unknown}', {unknown: searchTerm}),
 									value: {
-										shareType: OC.Share.SHARE_TYPE_GUEST,
+										shareType: OC.Share.SHARE_TYPE_USER,
 										shareWith: searchTerm
 									}
 								});
 							}
-							response(result, xhrResult);
 						}
 						response(result, xhrResult);
-					});
+					})
 				};
 
 				obj._onSelectRecipient = function (e, s) {
@@ -231,17 +283,35 @@
 
 					for (var i = 0; i < shares.length; i++) {
 						var share = shares[i];
-						if (share.shareType === OC.Share.SHARE_TYPE_GUEST) {
-							if (!GuestShare.addGuest(obj.model, share.shareWith)) {
-								$this.val('').attr('disabled', false);
-								$loading.addClass('hidden').removeClass('inlineblock');
+						if (share.shareType === OC.Share.SHARE_TYPE_USER) {
+							// Check if this is a guest user by checking if email validation was done
+							// The guest user creation happens via UsersController
+							if (OC.validateEmail(share.shareWith)) {
+								// Try to create guest user if it doesn't exist
+								if (!GuestShare.addGuest(obj.model, share.shareWith)) {
+									$this.val('').attr('disabled', false);
+									$loading.addClass('hidden').removeClass('inlineblock');
+								}
+							} else {
+								// Regular user sharing
+								obj.model.addShare(share, {
+									success: function () {
+										$this.val('').attr('disabled', false);
+										$loading.addClass('hidden').removeClass('inlineblock');
+									}, error: function (obj, msg) {
+										OC.Notification.showTemporary(msg);
+										$this.attr('disabled', false).autocomplete('search', $this.val());
+										$loading.addClass('hidden').removeClass('inlineblock');
+									}
+								});
 							}
 						} else {
 							obj.model.addShare(share, {
 								success: function () {
 									$this.val('').attr('disabled', false);
 									$loading.addClass('hidden').removeClass('inlineblock');
-								}, error: function (obj, msg) {
+								},
+								error: function (obj, msg) {
 									OC.Notification.showTemporary(msg);
 									$this.attr('disabled', false).autocomplete('search', $this.val());
 									$loading.addClass('hidden').removeClass('inlineblock');

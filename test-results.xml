@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="/workspace/guest-php84/phpunit.xml" tests="24" assertions="53" errors="0" failures="0" skipped="0" time="0.011899">
+    <testsuite name="unit" tests="24" assertions="53" errors="0" failures="0" skipped="0" time="0.011899">
+      <testsuite name="OCA\Guests\Tests\Unit\GroupBackendTest" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" tests="19" assertions="31" errors="0" failures="0" skipped="0" time="0.007309">
+        <testcase name="testGroupName" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="117" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="1" time="0.004332"/>
+        <testcase name="testActions" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="127" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="1" time="0.000192"/>
+        <testcase name="testGroupMembership" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="138" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="4" time="0.000303"/>
+        <testcase name="testUserGroups" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="169" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="3" time="0.000203"/>
+        <testcase name="testNoMembers" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="191" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="1" time="0.000095"/>
+        <testcase name="testDefaultParameters" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="206" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="2" time="0.000237"/>
+        <testcase name="testGroupExists" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="99" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="2" time="0.000093"/>
+        <testsuite name="OCA\Guests\Tests\Unit\GroupBackendTest::testGetUsersSearch" tests="5" assertions="5" errors="0" failures="0" skipped="0" time="0.000772">
+          <testcase name="testGetUsersSearch with data set &quot;search 1&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="255" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="1" time="0.000195"/>
+          <testcase name="testGetUsersSearch with data set &quot;search 2&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="255" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="1" time="0.000167"/>
+          <testcase name="testGetUsersSearch with data set &quot;search 3&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="255" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="1" time="0.000129"/>
+          <testcase name="testGetUsersSearch with data set &quot;search 4&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="255" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="1" time="0.000121"/>
+          <testcase name="testGetUsersSearch with data set &quot;search 5&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="255" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="1" time="0.000160"/>
+        </testsuite>
+        <testsuite name="OCA\Guests\Tests\Unit\GroupBackendTest::testGetUsersPaging" tests="7" assertions="12" errors="0" failures="0" skipped="0" time="0.001081">
+          <testcase name="testGetUsersPaging with data set &quot;page 1&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="294" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="1" time="0.000230"/>
+          <testcase name="testGetUsersPaging with data set &quot;page 2&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="294" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="2" time="0.000180"/>
+          <testcase name="testGetUsersPaging with data set &quot;page 3&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="294" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="2" time="0.000132"/>
+          <testcase name="testGetUsersPaging with data set &quot;page 4&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="294" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="2" time="0.000151"/>
+          <testcase name="testGetUsersPaging with data set &quot;page 5&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="294" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="2" time="0.000119"/>
+          <testcase name="testGetUsersPaging with data set &quot;page 6&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="294" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="2" time="0.000161"/>
+          <testcase name="testGetUsersPaging with data set &quot;page 7&quot;" file="/workspace/guest-php84/tests/unit/GroupBackendTest.php" line="294" class="OCA\Guests\Tests\Unit\GroupBackendTest" classname="OCA.Guests.Tests.Unit.GroupBackendTest" assertions="1" time="0.000108"/>
+        </testsuite>
+      </testsuite>
+      <testsuite name="OCA\Guests\Tests\Unit\HooksTest" file="/workspace/guest-php84/tests/unit/HooksTest.php" tests="5" assertions="22" errors="0" failures="0" skipped="0" time="0.004591">
+        <testcase name="testNonGuestUser" file="/workspace/guest-php84/tests/unit/HooksTest.php" line="84" class="OCA\Guests\Tests\Unit\HooksTest" classname="OCA.Guests.Tests.Unit.HooksTest" assertions="3" time="0.002817"/>
+        <testcase name="testPostShareHookWithNoUser" file="/workspace/guest-php84/tests/unit/HooksTest.php" line="103" class="OCA\Guests\Tests\Unit\HooksTest" classname="OCA.Guests.Tests.Unit.HooksTest" assertions="3" time="0.000446"/>
+        <testcase name="testPostShareHookForNewGuest" file="/workspace/guest-php84/tests/unit/HooksTest.php" line="156" class="OCA\Guests\Tests\Unit\HooksTest" classname="OCA.Guests.Tests.Unit.HooksTest" assertions="7" time="0.000942"/>
+        <testcase name="testUnsupportedShareType" file="/workspace/guest-php84/tests/unit/HooksTest.php" line="70" class="OCA\Guests\Tests\Unit\HooksTest" classname="OCA.Guests.Tests.Unit.HooksTest" assertions="2" time="0.000170"/>
+        <testcase name="testPostShareHookForRegisteredGuest" file="/workspace/guest-php84/tests/unit/HooksTest.php" line="118" class="OCA\Guests\Tests\Unit\HooksTest" classname="OCA.Guests.Tests.Unit.HooksTest" assertions="7" time="0.000215"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

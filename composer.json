@@ -1,16 +1,31 @@
 {
   "name": "owncloud/guests",
+  "description": "Share with externals easily via email address",
+  "modified-by": "BW-Tech GmbH",
   "config": {
     "platform": {
-      "php": "7.3"
+      "php": "8.4"
     },
     "allow-plugins": {
       "bamarni/composer-bin-plugin": true
     }
   },
-  "require": {},
+  "require": {
+    "php": ">=8.4"
+  },
   "require-dev": {
-    "bamarni/composer-bin-plugin": "^1.8"
+    "bamarni/composer-bin-plugin": "^1.8",
+    "phpunit/phpunit": "^10.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "OCA\\Guests\\": "lib/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "OCA\\Guests\\Tests\\": "tests/"
+    }
   },
   "extra": {
     "bamarni-bin": {

@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!-- Modified by BW-Tech GmbH -->
 <info>
 	<id>guests</id>
 	<name>Guests</name>
@@ -19,13 +20,14 @@ Furthermore guests are fully auditable with the [ownCloud Auditing application](
 - Video: [ownCloud X Insights: Guest Users](https://www.youtube.com/watch?v=L42PBHgqKVI)
 	</description>
 	<namespace>Guests</namespace>
-	<version>0.12.4</version>
+	<version>0.13.0</version>
 	<documentation>
     		<user>https://doc.owncloud.com/server/latest/user_manual/files/webgui/sharing.html?highlight=guest#sharing-files-with-guest-users</user>
     	</documentation>
 	<licence>GPLv2</licence>
 	<author>ownCloud GmbH</author>
 	<dependencies>
+		<php min-version="8.4" />
 		<owncloud min-version="10.11" max-version="10" />
 	</dependencies>
 	<category>collaboration</category>

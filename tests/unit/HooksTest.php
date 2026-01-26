@@ -1,9 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * ownCloud
  *
  * @author Viktar Dubiniuk <dubiniuk@owncloud.com>
  * @copyright (C) 2019 ownCloud GmbH
+ * Modified by BW-Tech GmbH
  * @license GPL-2.0
  *
  * This program is free software; you can redistribute it and/or
@@ -29,8 +33,8 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -41,30 +45,15 @@ use Test\TestCase;
 class HooksTest extends TestCase {
 	public const GUEST_UID = 'me@example.org';
 
-	/**
-	 * @var ILogger | \PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $logger;
+	private ILogger&MockObject $logger;
 
-	/**
-	 * @var IUserSession | \PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $userSession;
+	private IUserSession&MockObject $userSession;
 
-	/**
-	 * @var Mail | \PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $mail;
+	private Mail&MockObject $mail;
 
-	/**
-	 * @var IConfig | \PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $config;
+	private IConfig&MockObject $config;
 
-	/**
-	 * @var Hooks
-	 */
-	private $hooks;
+	private Hooks $hooks;
 
 	public function setUp(): void {
 		$this->logger = $this->createMock(ILogger::class);
@@ -79,12 +68,12 @@ class HooksTest extends TestCase {
 		);
 	}
 
-	public function testUnsupportedShareType() {
+	public function testUnsupportedShareType(): void {
 		$shareMock = $this->createMock(IShare::class);
 		$shareMock->method('getNodeType')->willReturn('key');
 
 		$this->logger->expects($this->once())->method('debug')->willReturnCallback(
-			function ($message, $params) use ($shareMock) {
+			function (string $message, array $params) use ($shareMock): void {
 				$itemType = $shareMock->getNodeType();
 				$this->assertEquals("ignoring share for itemType '$itemType'", $message);
 			}
@@ -93,17 +82,17 @@ class HooksTest extends TestCase {
 		$this->hooks->handlePostShare($shareMock);
 	}
 
-	public function testNonGuestUser() {
+	public function testNonGuestUser(): void {
 		$shareMock = $this->createMock(IShare::class);
 		$shareMock->method('getNodeType')->willReturn('file');
 		$shareMock->method('getSharedWith')->willReturn(self::GUEST_UID);
 
 		$this->config->expects($this->once())->method('getUserValue')
-			->with(self::GUEST_UID, 'owncloud', 'isGuest', false)
-			->willReturn(false);
+			->with(self::GUEST_UID, 'owncloud', 'isGuest', '')
+			->willReturn('');
 
 		$this->logger->expects($this->once())->method('debug')->willReturnCallback(
-			function ($message, $params) use ($shareMock) {
+			function (string $message, array $params) use ($shareMock): void {
 				$shareWith = $shareMock->getSharedWith();
 				$this->assertEquals("ignoring user '$shareWith', not a guest", $message);
 			}
@@ -112,36 +101,50 @@ class HooksTest extends TestCase {
 		$this->hooks->handlePostShare($shareMock);
 	}
 
-	public function testPostShareHookWithNoUser() {
+	public function testPostShareHookWithNoUser(): void {
 		$shareMock = $this->createMock(IShare::class);
 		$shareMock->method('getNodeType')->willReturn('file');
 		$shareMock->method('getSharedWith')->willReturn(self::GUEST_UID);
 
 		$this->config->expects($this->once())->method('getUserValue')
-			->with(self::GUEST_UID, 'owncloud', 'isGuest', false)
-			->willReturn(true);
+			->with(self::GUEST_UID, 'owncloud', 'isGuest', '')
+			->willReturn('1');
 
-		$message = '';
-		try {
-			$this->hooks->handlePostShare($shareMock);
-		} catch (\Exception $e) {
-			$message = $e->getMessage();
-		}
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('post_share hook triggered without user in session');
 
-		$this->assertEquals('post_share hook triggered without user in session', $message);
+		$this->hooks->handlePostShare($shareMock);
 	}
 
-	public function testPostShareHookForRegisteredGuest() {
+	public function testPostShareHookForRegisteredGuest(): void {
 		$shareMock = $this->createMock(IShare::class);
 		$shareMock->method('getNodeType')->willReturn('file');
 		$shareMock->method('getSharedWith')->willReturn(self::GUEST_UID);
 
+		// Replace withConsecutive with callback-based approach for PHPUnit 10+ compatibility
+		$callCount = 0;
 		$this->config->method('getUserValue')
-			->withConsecutive(
-				[self::GUEST_UID, 'owncloud', 'isGuest', false],
-				[self::GUEST_UID, 'guests', 'registerToken', null]
-			)
-			->willReturnOnConsecutiveCalls(true, null);
+			->willReturnCallback(function (
+				string $userId,
+				string $app,
+				string $key,
+				string $default = ''
+			) use (&$callCount): string {
+				$callCount++;
+				if ($callCount === 1) {
+					$this->assertEquals(self::GUEST_UID, $userId);
+					$this->assertEquals('owncloud', $app);
+					$this->assertEquals('isGuest', $key);
+					return '1';
+				}
+				if ($callCount === 2) {
+					$this->assertEquals(self::GUEST_UID, $userId);
+					$this->assertEquals('guests', $app);
+					$this->assertEquals('registerToken', $key);
+					return '';
+				}
+				return $default;
+			});
 
 		$userMock = $this->createMock(IUser::class);
 		$this->userSession->method('getUser')->willReturn($userMock);
@@ -151,17 +154,35 @@ class HooksTest extends TestCase {
 		$this->hooks->handlePostShare($shareMock);
 	}
 
-	public function testPostShareHookForNewGuest() {
+	public function testPostShareHookForNewGuest(): void {
 		$shareMock = $this->createMock(IShare::class);
 		$shareMock->method('getNodeType')->willReturn('file');
 		$shareMock->method('getSharedWith')->willReturn(self::GUEST_UID);
 
+		// Replace withConsecutive with callback-based approach for PHPUnit 10+ compatibility
+		$callCount = 0;
 		$this->config->method('getUserValue')
-			->withConsecutive(
-				[self::GUEST_UID, 'owncloud', 'isGuest', false],
-				[self::GUEST_UID, 'guests', 'registerToken', null]
-			)
-			->willReturnOnConsecutiveCalls(true, 'token');
+			->willReturnCallback(function (
+				string $userId,
+				string $app,
+				string $key,
+				string $default = ''
+			) use (&$callCount): string {
+				$callCount++;
+				if ($callCount === 1) {
+					$this->assertEquals(self::GUEST_UID, $userId);
+					$this->assertEquals('owncloud', $app);
+					$this->assertEquals('isGuest', $key);
+					return '1';
+				}
+				if ($callCount === 2) {
+					$this->assertEquals(self::GUEST_UID, $userId);
+					$this->assertEquals('guests', $app);
+					$this->assertEquals('registerToken', $key);
+					return 'token';
+				}
+				return $default;
+			});
 
 		$userMock = $this->createMock(IUser::class);
 		$userMock->method('getUID')->willReturn(self::GUEST_UID);

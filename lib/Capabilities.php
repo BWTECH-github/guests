@@ -1,8 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Jan Ackermann <jackermann@owncloud.com>
  *
  * @copyright Copyright (c) 2021, ownCloud GmbH
+ * Modified by BW-Tech GmbH
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,10 +30,13 @@ use OCP\Capabilities\ICapability;
 /**
  * Class Capabilities
  *
- * @package OCA\PasswordPolicy
+ * @package OCA\Guests
  */
 class Capabilities implements ICapability {
-	public function getCapabilities() {
+	/**
+	 * @return array<string, array<string, bool>>
+	 */
+	public function getCapabilities(): array {
 		return [
 			'guests_v1' =>
 				['enabled' => true],

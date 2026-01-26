@@ -1,10 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Ilja Neumann <ineumann@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Thomas Heinisch <t.heinisch@bw-tech.de>
  *
  * @copyright Copyright (c) 2017, ownCloud GmbH
+ * Modified by BW-Tech GmbH
  * @license GPL-2.0
  *
  * This program is free software; you can redistribute it and/or
@@ -25,6 +29,7 @@
 namespace OCA\Guests\Controller;
 
 use OCA\Guests\AppWhitelist;
+use OCA\Guests\GroupBackend;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
@@ -38,22 +43,19 @@ use OCP\IRequest;
  * @package OCA\Guests\Controller
  */
 class SettingsController extends Controller {
-	/**
-	 * @var string
-	 */
-	private $userId;
+	private ?string $userId;
 
-	/**
-	 * @var IConfig
-	 */
-	private $config;
+	private IConfig $config;
 
-	/**
-	 * @var IL10N
-	 */
-	private $l10n;
+	private IL10N $l10n;
 
-	public function __construct($AppName, IRequest $request, $UserId, IConfig $config, IL10N $l10n) {
+	public function __construct(
+		string $AppName,
+		IRequest $request,
+		?string $UserId,
+		IConfig $config,
+		IL10N $l10n
+	) {
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->config = $config;
@@ -65,32 +67,33 @@ class SettingsController extends Controller {
 	 *
 	 * @return DataResponse with the current config
 	 */
-	public function getConfig() {
-		$useWhitelist = $this->config->getAppValue('guests', 'usewhitelist', true);
+	public function getConfig(): DataResponse {
+		$useWhitelist = $this->config->getAppValue('guests', 'usewhitelist', 'true');
 		if ($useWhitelist === 'true' || $useWhitelist === true) {
 			$useWhitelist = true;
 		} else {
 			$useWhitelist = false;
 		}
-		$whitelist = $this->config->getAppValue('guests', 'whitelist', AppWhitelist::DEFAULT_WHITELIST);
-		$whitelist = \explode(',', $whitelist);
+		$whitelistValue = $this->config->getAppValue('guests', 'whitelist', AppWhitelist::DEFAULT_WHITELIST);
+		$whitelist = \explode(',', $whitelistValue);
 		return new DataResponse([
-			'group' => $this->config->getAppValue('guests', 'group', \OCA\Guests\GroupBackend::DEFAULT_NAME),
+			'group' => $this->config->getAppValue('guests', 'group', GroupBackend::DEFAULT_NAME),
 			'useWhitelist' => $useWhitelist,
-			'shareBlockDomains' => \OC::$server->getConfig()->getAppValue('guests', 'blockdomains'),
+			'shareBlockDomains' => \OC::$server->getConfig()->getAppValue('guests', 'blockdomains', ''),
 			'whitelist' => $whitelist,
 		]);
 	}
+
 	/**
 	 * AJAX handler for setting the config
 	 *
 	 * @param string $group
 	 * @param string $useWhitelist
-	 * @param string[] $whitelist
+	 * @param array<string> $whitelist
 	 * @param string $shareBlockDomains
 	 * @return DataResponse
 	 */
-	public function setConfig($group, $useWhitelist, $whitelist, $shareBlockDomains) {
+	public function setConfig(string $group, string $useWhitelist, array $whitelist, string $shareBlockDomains): DataResponse {
 		if (empty($group)) {
 			return new DataResponse([
 				'status' => 'error',
@@ -104,10 +107,10 @@ class SettingsController extends Controller {
 		foreach ($whitelist as $app) {
 			$newWhitelist[] = \trim($app);
 		}
-		$newWhitelist = \implode(',', $newWhitelist);
+		$newWhitelistStr = \implode(',', $newWhitelist);
 		$this->config->setAppValue('guests', 'group', $group);
 		$this->config->setAppValue('guests', 'usewhitelist', $useWhitelist);
-		$this->config->setAppValue('guests', 'whitelist', $newWhitelist);
+		$this->config->setAppValue('guests', 'whitelist', $newWhitelistStr);
 		$this->config->setAppValue('guests', 'blockdomains', $shareBlockDomains);
 
 		return new DataResponse([
@@ -121,13 +124,13 @@ class SettingsController extends Controller {
 	/**
 	 * AJAX handler for getting whitelisted apps
 	 *
-	 * @return array whitelisted apps
+	 * @return array<string, mixed> whitelisted apps
 	 */
-	public function getWhitelist() {
+	public function getWhitelist(): array {
 		return [
 			'isGuest' => false,
 			'enabled' => $this->config->getAppValue('guests', 'usewhitelist', 'true') === 'true',
-			'apps' => \OCA\Guests\AppWhitelist::getWhitelist()
+			'apps' => AppWhitelist::getWhitelist()
 		];
 	}
 
@@ -136,7 +139,7 @@ class SettingsController extends Controller {
 	 *
 	 * @return DataResponse with the reset whitelist
 	 */
-	public function resetWhitelist() {
+	public function resetWhitelist(): DataResponse {
 		$this->config->setAppValue('guests', 'whitelist', AppWhitelist::DEFAULT_WHITELIST);
 		return new DataResponse([
 			'whitelist' => \explode(',', AppWhitelist::DEFAULT_WHITELIST),

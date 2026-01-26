@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Ilja Neumann <ineumann@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -6,6 +9,7 @@
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2017, ownCloud GmbH
+ * Modified by BW-Tech GmbH
  * @license GPL-2.0
  *
  * This program is free software; you can redistribute it and/or
@@ -38,30 +42,21 @@ use OCP\Template;
 use OCP\Util;
 
 class Mail {
-	/** @var ILogger */
-	private $logger;
+	private ILogger $logger;
 
-	/** @var IUserSession */
-	private $userSession;
+	private IUserSession $userSession;
 
-	/** @var IMailer */
-	private $mailer;
+	private IMailer $mailer;
 
-	/** @var Defaults */
-	private $defaults;
+	private Defaults $defaults;
 
-	/** @var IL10N */
-	private $l10n;
+	private IL10N $l10n;
 
-	/** @var IConfig */
-	private $config;
+	private ?IConfig $config;
 
-	/** @var  IURLGenerator */
-	private $urlGenerator;
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
+	private IURLGenerator $urlGenerator;
+
+	private IUserManager $userManager;
 
 	public function __construct(
 		ILogger $logger,
@@ -93,11 +88,22 @@ class Mail {
 	 *
 	 * @throws \Exception
 	 */
-	public function sendGuestInviteMail(Share\IShare $share, $uid, $token) {
+	public function sendGuestInviteMail(Share\IShare $share, string $uid, string $token): void {
 		$shareWith = $share->getSharedWith();
-		$shareWithEmail = $this->userManager->get($shareWith)->getEMailAddress();
-		$replyTo = $this->userManager->get($uid)->getEMailAddress();
-		$senderDisplayName = $this->userSession->getUser()->getDisplayName();
+		$shareWithUser = $this->userManager->get($shareWith);
+		if ($shareWithUser === null) {
+			throw new \Exception("User '$shareWith' not found");
+		}
+		$shareWithEmail = $shareWithUser->getEMailAddress();
+
+		$uidUser = $this->userManager->get($uid);
+		$replyTo = $uidUser?->getEMailAddress();
+
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser === null) {
+			throw new \Exception('No user in session');
+		}
+		$senderDisplayName = $currentUser->getDisplayName();
 
 		$registerLink = $this->urlGenerator->linkToRouteAbsolute(
 			'guests.register.showPasswordForm',
@@ -111,9 +117,10 @@ class Mail {
 		$l10n = $defaultLanguage ?? $this->l10n;
 		$subject = (string)$l10n->t('%s shared »%s« with you', [$senderDisplayName, $filename]);
 		$expiration = $share->getExpirationDate();
+		$expirationTimestamp = null;
 		if ($expiration instanceof \DateTime) {
 			try {
-				$expiration = $expiration->getTimestamp();
+				$expirationTimestamp = $expiration->getTimestamp();
 			} catch (\Exception $e) {
 				$this->logger->error("Couldn't read date: " . $e->getMessage(), ['app' => 'sharing']);
 			}
@@ -124,14 +131,14 @@ class Mail {
 			['fileId' => $share->getNode()->getId()]
 		);
 
-		list($htmlBody, $textBody) = $this->createMailBody(
+		[$htmlBody, $textBody] = $this->createMailBody(
 			$filename,
 			$link,
 			$registerLink,
 			$this->defaults->getName(),
 			$senderDisplayName,
-			$expiration,
-			$shareWithEmail,
+			$expirationTimestamp,
+			$shareWithEmail ?? '',
 			$defaultLanguage
 		);
 
@@ -162,10 +169,24 @@ class Mail {
 		}
 	}
 
-	public function sendGuestPlainInviteMail($shareWith, $uid, $token) {
-		$shareWithEmail = $this->userManager->get($shareWith)->getEMailAddress();
-		$replyTo = $this->userManager->get($uid)->getEMailAddress();
-		$senderDisplayName = $this->userSession->getUser()->getDisplayName();
+	/**
+	 * @throws \Exception
+	 */
+	public function sendGuestPlainInviteMail(string $shareWith, string $uid, string $token): void {
+		$shareWithUser = $this->userManager->get($shareWith);
+		if ($shareWithUser === null) {
+			throw new \Exception("User '$shareWith' not found");
+		}
+		$shareWithEmail = $shareWithUser->getEMailAddress();
+
+		$uidUser = $this->userManager->get($uid);
+		$replyTo = $uidUser?->getEMailAddress();
+
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser === null) {
+			throw new \Exception('No user in session');
+		}
+		$senderDisplayName = $currentUser->getDisplayName();
 
 		$registerLink = $this->urlGenerator->linkToRouteAbsolute(
 			'guests.register.showPasswordForm',
@@ -178,14 +199,14 @@ class Mail {
 		$l10n = $defaultLanguage ?? $this->l10n;
 		$subject = (string)$l10n->t('%s invited you', [$senderDisplayName]);
 
-		list($htmlBody, $textBody) = $this->createMailBody(
+		[$htmlBody, $textBody] = $this->createMailBody(
 			null,
 			null,
 			$registerLink,
 			$this->defaults->getName(),
 			$senderDisplayName,
 			null,
-			$shareWithEmail,
+			$shareWithEmail ?? '',
 			$defaultLanguage
 		);
 
@@ -219,16 +240,28 @@ class Mail {
 	/**
 	 * create mail body for plain text and html mail
 	 *
-	 * @param ?string $filename the shared file
-	 * @param ?string $link link to the shared file
-	 * @param ?int $expiration expiration date (timestamp)
-	 * @param string $guestEmail
+	 * @param string|null $filename the shared file
+	 * @param string|null $link link to the shared file
+	 * @param string $passwordLink link to set password
+	 * @param string $cloudName name of the cloud instance
+	 * @param string $displayName sender display name
+	 * @param int|null $expiration expiration date (timestamp)
+	 * @param string $guestEmail guest email address
 	 * @param IL10N|null $overrideL10n language to be used
-	 * @return array an array of the html mail body and the plain text mail body
+	 * @return array{0: string, 1: string} an array of the html mail body and the plain text mail body
 	 */
-	private function createMailBody($filename, $link, $passwordLink, $cloudName, $displayName, $expiration, $guestEmail, $overrideL10n = null) {
-		$formattedDate = $expiration ? $this->l10n->l('date', $expiration) : null;
-		$l10n = $overrideL10n === null ? $this->l10n : $overrideL10n;
+	private function createMailBody(
+		?string $filename,
+		?string $link,
+		string $passwordLink,
+		string $cloudName,
+		string $displayName,
+		?int $expiration,
+		string $guestEmail,
+		?IL10N $overrideL10n = null
+	): array {
+		$formattedDate = $expiration !== null ? $this->l10n->l('date', $expiration) : null;
+		$l10n = $overrideL10n ?? $this->l10n;
 
 		$html = new Template('guests', 'mail/invite', '', false, $l10n->getLanguageCode());
 		$html->assign('link', $link);
@@ -257,12 +290,15 @@ class Mail {
 	 * get default_language if defined in config.php
 	 * @return IL10N|null
 	 */
-	private function getDefaultLanguage() {
-		$defaultLanguage = null;
+	private function getDefaultLanguage(): ?IL10N {
+		if ($this->config === null) {
+			return null;
+		}
+
 		$defaultLang = $this->config->getSystemValue('default_language', false);
 		if ($defaultLang !== false) {
-			$defaultLanguage = \OC::$server->getL10N('lib', $defaultLang);
+			return \OC::$server->getL10N('lib', $defaultLang);
 		}
-		return $defaultLanguage;
+		return null;
 	}
 }

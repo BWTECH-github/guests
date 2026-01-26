@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author felixboehm <felix@webhippie.de>
  * @author Ilja Neumann <ineumann@owncloud.com>
@@ -6,6 +9,7 @@
  * @author Tom Needham <tom@owncloud.com>
  *
  * @copyright Copyright (c) 2017, ownCloud GmbH
+ * Modified by BW-Tech GmbH
  * @license GPL-2.0
  *
  * This program is free software; you can redistribute it and/or
@@ -25,6 +29,7 @@
 
 namespace OCA\Guests\Settings;
 
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
 use OCP\Template;
 
@@ -33,9 +38,9 @@ class Admin implements ISettings {
 	 * The panel controller method that returns a template to the UI
 	 *
 	 * @since 10.0
-	 * @return \OCP\AppFramework\Http\TemplateResponse | \OCP\Template
+	 * @return TemplateResponse|Template
 	 */
-	public function getPanel() {
+	public function getPanel(): TemplateResponse|Template {
 		return new Template('guests', 'settings/admin');
 	}
 
@@ -45,7 +50,7 @@ class Admin implements ISettings {
 	 * @since 10.0
 	 * @return string
 	 */
-	public function getSectionID() {
+	public function getSectionID(): string {
 		return 'sharing';
 	}
 
@@ -55,7 +60,7 @@ class Admin implements ISettings {
 	 * @since 10.0
 	 * @return int between 0 and 100, with 100 being the highest priority
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 0;
 	}
 }
