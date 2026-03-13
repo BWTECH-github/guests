@@ -28,7 +28,7 @@ Furthermore guests are fully auditable with the [ownCloud Auditing application](
 	<author>ownCloud GmbH</author>
 	<dependencies>
 		<php min-version="8.4" />
-		<owncloud min-version="10.11" max-version="10" />
+		<owncloud min-version="10.11" max-version="11" />
 	</dependencies>
 	<category>collaboration</category>
 	<types>
