@@ -31,11 +31,30 @@
 		model: null,
 		email: null,
 
+		/**
+		 * Rollback a newly created guest user by calling the DELETE endpoint.
+		 * This is used when user creation succeeds but sharing fails.
+		 *
+		 * @param {string} username - The guest username (email) to delete
+		 */
+		_rollbackGuestUser: function(username) {
+			$.ajax({
+				type: 'DELETE',
+				url: OC.generateUrl('/apps/guests/users/' + encodeURIComponent(username)),
+				dataType: 'json'
+			}).done(function() {
+				console.info('[Guests] Rolled back guest user: ' + username);
+			}).fail(function() {
+				console.warn('[Guests] Could not rollback guest user: ' + username);
+			});
+		},
+
 		addGuest: function (model, email) {
 			this.model = model;
 			this.email = email;
 
 			var self = this;
+			var isNewUser = false;
 			var xhrObject = {
 				type: 'PUT',
 				url: OC.generateUrl('/apps/guests/users'),
@@ -48,6 +67,9 @@
 			};
 
 			$.ajax(xhrObject).done(function (xhr) {
+				// User was successfully created - remember this for rollback
+				isNewUser = true;
+
 				var properties = {
 					shareType: 0, // SHARE_TYPE_USER instead of SHARE_TYPE_GUEST
 					shareWith: email.toLowerCase(),
@@ -61,9 +83,13 @@
 						}
 					},
 					error: function(obj, msg) {
+						// Share creation failed - rollback the newly created guest user
+						if (isNewUser) {
+							self._rollbackGuestUser(email.toLowerCase());
+						}
 						OC.dialogs.alert(
-							t('core', 'Error while sharing'), // text
-							t('core', 'Error') // title
+							t('guests', 'Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user.'), // text
+							t('guests', 'Error') // title
 						);
 					}
 				};
@@ -81,7 +107,9 @@
 					
 					// If error is "user already exists", proceed with sharing
 					// This allows sharing with existing guest users or regular users
-					if (response.errorMessages && response.errorMessages.email) {
+					if (response.errorMessages && response.errorMessages.email
+						&& (response.errorMessages.email.indexOf('already exists') !== -1
+							|| response.errorMessages.email.indexOf('existiert bereits') !== -1)) {
 						var properties = {
 							shareType: 0, // SHARE_TYPE_USER
 							shareWith: email.toLowerCase(),
@@ -96,19 +124,19 @@
 							},
 							error: function(obj, msg) {
 								OC.dialogs.alert(
-									t('core', 'Error while sharing'), // text
-									t('core', 'Error') // title
+									t('guests', 'Error while sharing'), // text
+									t('guests', 'Error') // title
 								);
 							}
 						};
 						
 						self.model.addShare(properties, options);
 					} else {
-						// Other errors (invalid email, blocked domain, etc.)
+						// Other validation errors (invalid email, blocked domain, etc.)
 						var error = response.errorMessages || {};
 						OC.dialogs.alert(
-							error.email || t('core', 'Error while sharing'), // text
-							t('core', 'Error') // title
+							error.email || t('guests', 'Error while sharing'), // text
+							t('guests', 'Error') // title
 						);
 					}
 				} else {
@@ -116,15 +144,15 @@
 					var response;
 					try {
 						response = JSON.parse(xhr.responseText);
-						var error = response.errorMessages;
+						var error = response.errorMessages || response;
 						OC.dialogs.alert(
-							error.email || t('core', 'Error while sharing'),
-							t('core', 'Error')
+							error.email || error.message || t('guests', 'Error while sharing'),
+							t('guests', 'Error')
 						);
 					} catch (e) {
 						OC.dialogs.alert(
-							t('core', 'Error while sharing'),
-							t('core', 'Error')
+							t('guests', 'Error while sharing'),
+							t('guests', 'Error')
 						);
 					}
 				}
@@ -254,7 +282,7 @@
 
 							if (provideGuestEntry) {
 								result.push({
-									label: t('core', 'Add {unknown}', {unknown: searchTerm}),
+									label: t('guests', 'Add guest: {email}', {email: searchTerm}),
 									value: {
 										shareType: OC.Share.SHARE_TYPE_USER,
 										shareWith: searchTerm

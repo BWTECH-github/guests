@@ -35,6 +35,13 @@
     "Domain blocklist for guest user invitation" : "Listë bllokimesh përkatësish për ftesa përdoruesish mysafir",
     "The following domains will not be accepted when users try to invite guests." : "S’do të pranohen përkatësitë vijuese, kur përdoruesit provojnë të ftojnë mysafirë.",
     "Limit guest access to an app whitelist" : "Kufizoni hyrje përdoruesish vizitorë sipas një liste aplikacionesh të lejuar",
-    "Reset whitelist" : "Zeroni listë të lejuarish"
+    "Reset whitelist" : "Zeroni listë të lejuarish",
+    "Add guest: {email}" : "Shto mysafir: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Gabim gjatë ndarjes. Përdoruesi mysafir u hoq. Ju lutemi kontrolloni nëse ndarja lejohet për këtë përdorues.",
+    "User is not a guest user." : "Përdoruesi nuk është mysafir.",
+    "Cannot remove an active guest user." : "Nuk mund të hiqet një mysafir aktiv.",
+    "Guest user was created too long ago to be removed automatically." : "Përdoruesi mysafir u krijua shumë kohë më parë për t'u hequr automatikisht.",
+    "User not found." : "Përdoruesi nuk u gjet.",
+    "Guest user removed." : "Përdoruesi mysafir u hoq."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

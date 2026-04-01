@@ -37,6 +37,13 @@ OC.L10N.register(
     "Domain blocklist for guest user invitation" : "Списък с блокирани домейни за покана на гост потребители",
     "The following domains will not be accepted when users try to invite guests." : "Следните домейни няма да бъдат приети, когато потребителите се опитват да поканят гости.",
     "Limit guest access to an app whitelist" : "Ограничаване достъпа на гостите до белия списък с приложения",
-    "Reset whitelist" : "Нулиране на белия списък"
+    "Reset whitelist" : "Нулиране на белия списък",
+    "Add guest: {email}" : "Добавяне на гост: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Грешка при споделяне. Потребителят гост е премахнат. Моля, проверете дали споделянето е разрешено за този потребител.",
+    "User is not a guest user." : "Потребителят не е гост.",
+    "Cannot remove an active guest user." : "Не може да се премахне активен потребител гост.",
+    "Guest user was created too long ago to be removed automatically." : "Потребителят гост е създаден прекалено отдавна за автоматично премахване.",
+    "User not found." : "Потребителят не е намерен.",
+    "Guest user removed." : "Потребителят гост е премахнат."
 },
 "nplurals=2; plural=(n != 1);");

@@ -29,6 +29,13 @@
     "Guest users are grouped under a virtual group in the user manager" : "Gestanotendur eru hópaðir í sýndarhóp í notendastýringunni",
     "Group name" : "Heiti hóps",
     "Limit guest access to an app whitelist" : "Takmarka aðgang gesta við leyfislista forrits",
-    "Reset whitelist" : "Núllstilla lista yfir leyfilegt"
+    "Reset whitelist" : "Núllstilla lista yfir leyfilegt",
+    "Add guest: {email}" : "Bæta við gesti: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Villa við deilingu. Gestagnotandinn hefur verið fjarlægður. Athugaðu hvort deiling sé leyfð fyrir þennan notanda.",
+    "User is not a guest user." : "Notandinn er ekki gestur.",
+    "Cannot remove an active guest user." : "Ekki er hægt að fjarlægja virkan gest.",
+    "Guest user was created too long ago to be removed automatically." : "Gestagnotandinn var búinn til of löngu síðan til að verða fjarlægður sjálfvirkt.",
+    "User not found." : "Notandi fannst ekki.",
+    "Guest user removed." : "Gestagnotandi fjarlægður."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

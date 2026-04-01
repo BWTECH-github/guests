@@ -29,6 +29,13 @@
     "Guest users are grouped under a virtual group in the user manager" : "Οι λογαριασμοί επισκεπτών ομαδοποιούνται σε μια εικονική ομάδα στη διαχείριση χρηστών",
     "Group name" : "Όνομα ομάδας",
     "Limit guest access to an app whitelist" : "Περιορίστε την πρόσβαση των επισκεπτών σε μια λίστα επιτρεπόμενων εφαρμογών",
-    "Reset whitelist" : "Επαναφορά λίστας επιτρεπόμενων εφαρμογών"
+    "Reset whitelist" : "Επαναφορά λίστας επιτρεπόμενων εφαρμογών",
+    "Add guest: {email}" : "Προσθήκη επισκέπτη: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Σφάλμα κατά την κοινή χρήση. Ο χρήστης επισκέπτης αφαιρέθηκε. Ελέγξτε αν επιτρέπεται η κοινή χρήση για αυτόν τον χρήστη.",
+    "User is not a guest user." : "Ο χρήστης δεν είναι επισκέπτης.",
+    "Cannot remove an active guest user." : "Δεν είναι δυνατή η αφαίρεση ενεργού επισκέπτη.",
+    "Guest user was created too long ago to be removed automatically." : "Ο χρήστης επισκέπτης δημιουργήθηκε πολύ παλιά για αυτόματη αφαίρεση.",
+    "User not found." : "Ο χρήστης δεν βρέθηκε.",
+    "Guest user removed." : "Ο χρήστης επισκέπτης αφαιρέθηκε."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

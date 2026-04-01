@@ -37,6 +37,13 @@ OC.L10N.register(
     "Domain blocklist for guest user invitation" : "손님 사용자를 차단할 도메인",
     "The following domains will not be accepted when users try to invite guests." : "사용자가 손님을 초대할 때 다음 도메인은 차단됩니다.",
     "Limit guest access to an app whitelist" : "손님 접근을 허용한 앱으로만 제한",
-    "Reset whitelist" : "허용 목록 초기화"
+    "Reset whitelist" : "허용 목록 초기화",
+    "Add guest: {email}" : "게스트 추가: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "공유 중 오류가 발생했습니다. 게스트 사용자가 제거되었습니다. 이 사용자에 대한 공유가 허용되는지 확인하십시오.",
+    "User is not a guest user." : "사용자가 게스트 사용자가 아닙니다.",
+    "Cannot remove an active guest user." : "활성 게스트 사용자를 제거할 수 없습니다.",
+    "Guest user was created too long ago to be removed automatically." : "게스트 사용자가 자동으로 제거하기에는 너무 오래전에 생성되었습니다.",
+    "User not found." : "사용자를 찾을 수 없습니다.",
+    "Guest user removed." : "게스트 사용자가 제거되었습니다."
 },
 "nplurals=1; plural=0;");

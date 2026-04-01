@@ -30,6 +30,13 @@ OC.L10N.register(
     "Guest users are grouped under a virtual group in the user manager" : "Gjestebrukere grupperes under en virtuell gruppe i brukeradministrasjon",
     "Group name" : "Gruppenavn",
     "Limit guest access to an app whitelist" : "Begrens gjestetilgang til en liste av tillatte apper",
-    "Reset whitelist" : "Nullstill listen over tillatte apper"
+    "Reset whitelist" : "Nullstill listen over tillatte apper",
+    "Add guest: {email}" : "Legg til gjest: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Feil ved deling. Gjestbrukeren er fjernet. Kontroller om deling er tillatt for denne brukeren.",
+    "User is not a guest user." : "Brukeren er ikke en gjestbruker.",
+    "Cannot remove an active guest user." : "Kan ikke fjerne en aktiv gjestbruker.",
+    "Guest user was created too long ago to be removed automatically." : "Gjestbrukeren ble opprettet for lenge siden til å bli fjernet automatisk.",
+    "User not found." : "Bruker ikke funnet.",
+    "Guest user removed." : "Gjestbruker fjernet."
 },
 "nplurals=2; plural=(n != 1);");

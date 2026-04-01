@@ -32,6 +32,13 @@
     "Guest users are grouped under a virtual group in the user manager" : "Dans la gestion des utilisateurs, les utilisateurs invités sont regroupés dans un groupe virtuel",
     "Group name" : "Nom du groupe",
     "Limit guest access to an app whitelist" : "Réduire l'accès invité à une liste blanche d'applications",
-    "Reset whitelist" : "Effacer la liste blanche"
+    "Reset whitelist" : "Effacer la liste blanche",
+    "Add guest: {email}" : "Ajouter un invité : {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Erreur lors du partage. L'utilisateur invité a été supprimé. Veuillez vérifier si le partage est autorisé pour cet utilisateur.",
+    "User is not a guest user." : "L'utilisateur n'est pas un utilisateur invité.",
+    "Cannot remove an active guest user." : "Impossible de supprimer un utilisateur invité actif.",
+    "Guest user was created too long ago to be removed automatically." : "L'utilisateur invité a été créé il y a trop longtemps pour être supprimé automatiquement.",
+    "User not found." : "Utilisateur introuvable.",
+    "Guest user removed." : "Utilisateur invité supprimé."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

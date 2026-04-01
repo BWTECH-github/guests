@@ -29,6 +29,13 @@ OC.L10N.register(
     "Guest users are grouped under a virtual group in the user manager" : "Gasgebruikers word onder ’n virtuele groep in die gebruikerbestuurder gegroepeer",
     "Group name" : "Groepnaam",
     "Limit guest access to an app whitelist" : "Beperk gastetoegang tot ’n toepwitlys",
-    "Reset whitelist" : "Herstel witlys"
+    "Reset whitelist" : "Herstel witlys",
+    "Add guest: {email}" : "Voeg gas by: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Fout tydens deling. Die gasgebruiker is verwyder. Kontroleer asseblief of deling vir hierdie gebruiker toegelaat word.",
+    "User is not a guest user." : "Gebruiker is nie 'n gasgebruiker nie.",
+    "Cannot remove an active guest user." : "Kan nie 'n aktiewe gasgebruiker verwyder nie.",
+    "Guest user was created too long ago to be removed automatically." : "Gasgebruiker is te lank gelede geskep om outomaties verwyder te word.",
+    "User not found." : "Gebruiker nie gevind nie.",
+    "Guest user removed." : "Gasgebruiker verwyder."
 },
 "nplurals=2; plural=(n != 1);");

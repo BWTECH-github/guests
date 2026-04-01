@@ -37,6 +37,13 @@ OC.L10N.register(
     "Domain blocklist for guest user invitation" : "Список блокировки доменов для приглашения гостевых пользователей",
     "The following domains will not be accepted when users try to invite guests." : "Следующие домены не будут приняты при попытке пригласить гостей.",
     "Limit guest access to an app whitelist" : "Ограничить доступ гостям к белому списку приложений",
-    "Reset whitelist" : "Обнулить белый список"
+    "Reset whitelist" : "Обнулить белый список",
+    "Add guest: {email}" : "Добавить гостя: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Ошибка при предоставлении доступа. Гостевой пользователь был удалён. Пожалуйста, проверьте, разрешён ли общий доступ для этого пользователя.",
+    "User is not a guest user." : "Пользователь не является гостевым пользователем.",
+    "Cannot remove an active guest user." : "Невозможно удалить активного гостевого пользователя.",
+    "Guest user was created too long ago to be removed automatically." : "Гостевой пользователь был создан слишком давно для автоматического удаления.",
+    "User not found." : "Пользователь не найден.",
+    "Guest user removed." : "Гостевой пользователь удалён."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

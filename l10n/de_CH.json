@@ -35,6 +35,13 @@
     "Domain blocklist for guest user invitation" : "Diese Domain ist für Gäste Einladungen blockiert",
     "The following domains will not be accepted when users try to invite guests." : "Folgende Domains werden für Gast Einladungen nicht akzeptiert.",
     "Limit guest access to an app whitelist" : "Gastzugriff auf eine App-Whitelist beschränken",
-    "Reset whitelist" : "Whitelist zurücksetzen"
+    "Reset whitelist" : "Whitelist zurücksetzen",
+    "Add guest: {email}" : "Gast hinzufügen: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Fehler beim Teilen. Der Gastbenutzer wurde entfernt. Bitte prüfen Sie, ob das Teilen für diesen Benutzer erlaubt ist.",
+    "User is not a guest user." : "Benutzer ist kein Gastbenutzer.",
+    "Cannot remove an active guest user." : "Ein aktiver Gastbenutzer kann nicht entfernt werden.",
+    "Guest user was created too long ago to be removed automatically." : "Der Gastbenutzer wurde vor zu langer Zeit erstellt, um automatisch entfernt zu werden.",
+    "User not found." : "Benutzer nicht gefunden.",
+    "Guest user removed." : "Gastbenutzer wurde entfernt."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

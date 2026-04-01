@@ -37,6 +37,13 @@ OC.L10N.register(
     "Domain blocklist for guest user invitation" : "مېھمان ئىشلەتكۈچى تەكلىپ قىلىش ئۈچۈن دائىرە توسۇش تىزىملىكى",
     "The following domains will not be accepted when users try to invite guests." : "ئىشلەتكۈچىلەر مېھمان تەكلىپ قىلماقچى بولغاندا تۆۋەندىكى دائىرە قوبۇل قىلىنمايدۇ.",
     "Limit guest access to an app whitelist" : "مېھمانلارنىڭ ئەپ تىزىملىكىنى زىيارەت قىلىشىنى چەكلەڭ",
-    "Reset whitelist" : "ئاق تىزىملىكنى ئەسلىگە كەلتۈرۈڭ"
+    "Reset whitelist" : "ئاق تىزىملىكنى ئەسلىگە كەلتۈرۈڭ",
+    "Add guest: {email}" : "مېهمان قوشۇش: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "ھەمبەھىرلەش جەريانىدا خاتالىق. مېھمان ئىشلەتكۈچى ئۆچۈرۈلدى. بۇ ئىشلەتكۈچىگە ھەمبەھىرلەشكە رۇخسەت قىلىنغان-قىلىنمىغانلىقىنى تەكشۈرۈڭ.",
+    "User is not a guest user." : "ئىشلەتكۈچى مېھمان ئىشلەتكۈچى ئەمەس.",
+    "Cannot remove an active guest user." : "ئاكتىپ مېھمان ئىشلەتكۈچىنى ئۆچۈرگىلى بولمايدۇ.",
+    "Guest user was created too long ago to be removed automatically." : "مېھمان ئىشلەتكۈچى ئاپتوماتىك ئۆچۈرۈش ئۈچۈن بەك ئۇزۇن ۋاقىت بۇرۇن قۇرۇلغان.",
+    "User not found." : "ئىشلەتكۈچى تېپىلمىدى.",
+    "Guest user removed." : "مېھمان ئىشلەتكۈچى ئۆچۈرۈلدى."
 },
 "nplurals=2; plural=(n != 1);");

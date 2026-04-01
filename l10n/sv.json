@@ -29,6 +29,13 @@
     "Guest users are grouped under a virtual group in the user manager" : "Gästanvändare är grupperade under en virtuell grupp i användarhanteraren",
     "Group name" : "Gruppnamn",
     "Limit guest access to an app whitelist" : "Begränsa gästtillgång till appvitlistan",
-    "Reset whitelist" : "Återställ vitlista"
+    "Reset whitelist" : "Återställ vitlista",
+    "Add guest: {email}" : "Lägg till gäst: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Fel vid delning. Gästanvändaren har tagits bort. Kontrollera om delning är tillåtet för denna användare.",
+    "User is not a guest user." : "Användaren är inte en gästanvändare.",
+    "Cannot remove an active guest user." : "Kan inte ta bort en aktiv gästanvändare.",
+    "Guest user was created too long ago to be removed automatically." : "Gästanvändaren skapades för länge sedan för att tas bort automatiskt.",
+    "User not found." : "Användaren hittades inte.",
+    "Guest user removed." : "Gästanvändare borttagen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

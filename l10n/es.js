@@ -37,6 +37,13 @@ OC.L10N.register(
     "Domain blocklist for guest user invitation" : "Dominios bloqueados para enviar invitaciones de usuario invitado",
     "The following domains will not be accepted when users try to invite guests." : "Los siguientes dominios no se aceptarán cuando los usuarios intenten invitar a otros.",
     "Limit guest access to an app whitelist" : "Limitar acceso de invitados a una lista blanca de aplicaciones",
-    "Reset whitelist" : "Restablecer lista blanca"
+    "Reset whitelist" : "Restablecer lista blanca",
+    "Add guest: {email}" : "Añadir invitado: {email}",
+    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Error al compartir. El usuario invitado ha sido eliminado. Por favor, verifique si se permite compartir con este usuario.",
+    "User is not a guest user." : "El usuario no es un usuario invitado.",
+    "Cannot remove an active guest user." : "No se puede eliminar un usuario invitado activo.",
+    "Guest user was created too long ago to be removed automatically." : "El usuario invitado fue creado hace demasiado tiempo para ser eliminado automáticamente.",
+    "User not found." : "Usuario no encontrado.",
+    "Guest user removed." : "Usuario invitado eliminado."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
