@@ -30,12 +30,6 @@ OC.L10N.register(
     "Group name" : "Groepsnaam",
     "Limit guest access to an app whitelist" : "Beperk gastentoegang tot apps op de whitelist",
     "Reset whitelist" : "Herstellen whitelist",
-    "Add guest: {email}" : "Gast toevoegen: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Fout bij het delen. De gastgebruiker is verwijderd. Controleer of delen is toegestaan voor deze gebruiker.",
-    "User is not a guest user." : "Gebruiker is geen gastgebruiker.",
-    "Cannot remove an active guest user." : "Kan een actieve gastgebruiker niet verwijderen.",
-    "Guest user was created too long ago to be removed automatically." : "Gastgebruiker is te lang geleden aangemaakt om automatisch te verwijderen.",
-    "User not found." : "Gebruiker niet gevonden.",
-    "Guest user removed." : "Gastgebruiker verwijderd."
+    "Add guest: {email}" : "Gast toevoegen: {email}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -30,12 +30,6 @@
     "Group name" : "שם קבוצה",
     "Limit guest access to an app whitelist" : "מגביל גישת משתמשים ברמת אורח לרשימת יישום לבנה",
     "Reset whitelist" : "מאפס רשימה לבנה",
-    "Add guest: {email}" : "הוספת אורח: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "שגיאה בשיתוף. המשתמש האורח הוסר. אנא בדוק אם שיתוף מותר למשתמש זה.",
-    "User is not a guest user." : "המשתמש אינו משתמש אורח.",
-    "Cannot remove an active guest user." : "לא ניתן להסיר משתמש אורח פעיל.",
-    "Guest user was created too long ago to be removed automatically." : "משתמש האורח נוצר מזמן רב מדי כדי להיות מוסר באופן אוטומטי.",
-    "User not found." : "המשתמש לא נמצא.",
-    "Guest user removed." : "משתמש אורח הוסר."
+    "Add guest: {email}" : "הוספת אורח: {email}"
 },"pluralForm" :"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;"
 }

@@ -38,12 +38,6 @@ OC.L10N.register(
     "The following domains will not be accepted when users try to invite guests." : "I seguenti domini non saranno accettati quando gli utenti provano a invitare degli ospiti.",
     "Limit guest access to an app whitelist" : "Limita l'accesso degli Ospiti ad una lista di App autorizzate",
     "Reset whitelist" : "Resetta la whitelist",
-    "Add guest: {email}" : "Aggiungi ospite: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Errore durante la condivisione. L'utente ospite è stato rimosso. Verificare se la condivisione è consentita per questo utente.",
-    "User is not a guest user." : "L'utente non è un utente ospite.",
-    "Cannot remove an active guest user." : "Impossibile rimuovere un utente ospite attivo.",
-    "Guest user was created too long ago to be removed automatically." : "L'utente ospite è stato creato troppo tempo fa per essere rimosso automaticamente.",
-    "User not found." : "Utente non trovato.",
-    "Guest user removed." : "Utente ospite rimosso."
+    "Add guest: {email}" : "Aggiungi ospite: {email}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

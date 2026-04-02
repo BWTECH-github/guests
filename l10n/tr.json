@@ -36,12 +36,6 @@
     "The following domains will not be accepted when users try to invite guests." : "Kullanıcılar misafir davet etmeye çalıştığında aşağıdaki alan adları kabul edilmeyecektir.",
     "Limit guest access to an app whitelist" : "Misafir erişimini bir uygulama beyaz listesine kısıtla",
     "Reset whitelist" : "Beyaz listeyi sıfırla",
-    "Add guest: {email}" : "Misafir ekle: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Paylaşım sırasında hata oluştu. Misafir kullanıcı kaldırıldı. Lütfen bu kullanıcı için paylaşıma izin verilip verilmediğini kontrol edin.",
-    "User is not a guest user." : "Kullanıcı bir misafir kullanıcı değil.",
-    "Cannot remove an active guest user." : "Aktif bir misafir kullanıcı kaldırılamaz.",
-    "Guest user was created too long ago to be removed automatically." : "Misafir kullanıcı otomatik olarak kaldırılmak için çok uzun zaman önce oluşturuldu.",
-    "User not found." : "Kullanıcı bulunamadı.",
-    "Guest user removed." : "Misafir kullanıcı kaldırıldı."
+    "Add guest: {email}" : "Misafir ekle: {email}"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

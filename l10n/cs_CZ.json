@@ -28,12 +28,6 @@
     "Group name" : "Název skupiny",
     "Limit guest access to an app whitelist" : "Omezte přístup hosta do seznamu povolených aplikací",
     "Reset whitelist" : "Inicializace seznamu povolených aplikací",
-    "Add guest: {email}" : "Přidat hosta: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Chyba při sdílení. Uživatel host byl odstraněn. Zkontrolujte prosím, zda je sdílení pro tohoto uživatele povoleno.",
-    "User is not a guest user." : "Uživatel není hostem.",
-    "Cannot remove an active guest user." : "Nelze odebrat aktivního hostujícího uživatele.",
-    "Guest user was created too long ago to be removed automatically." : "Hostující uživatel byl vytvořen příliš dávno na to, aby mohl být automaticky odebrán.",
-    "User not found." : "Uživatel nenalezen.",
-    "Guest user removed." : "Hostující uživatel odstraněn."
+    "Add guest: {email}" : "Přidat hosta: {email}"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

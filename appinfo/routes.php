@@ -59,11 +59,6 @@ return [
 			'name' => 'users#create',
 			'url' => '/users',
 			'verb' => 'PUT'
-		],
-		[
-			'name' => 'users#delete',
-			'url' => '/users/{username}',
-			'verb' => 'DELETE'
 		]
 	]
 ];

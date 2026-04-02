@@ -30,12 +30,6 @@ OC.L10N.register(
     "Group name" : "Ім'я групи",
     "Limit guest access to an app whitelist" : "Обмежити доступ гостів до додатку білим списком",
     "Reset whitelist" : "Очистити білий список",
-    "Add guest: {email}" : "Додати гостя: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Помилка під час спільного доступу. Гостьового користувача видалено. Будь ласка, перевірте, чи дозволено спільний доступ для цього користувача.",
-    "User is not a guest user." : "Користувач не є гостьовим.",
-    "Cannot remove an active guest user." : "Неможливо видалити активного гостьового користувача.",
-    "Guest user was created too long ago to be removed automatically." : "Гостьовий користувач був створений занадто давно для автоматичного видалення.",
-    "User not found." : "Користувача не знайдено.",
-    "Guest user removed." : "Гостьового користувача видалено."
+    "Add guest: {email}" : "Додати гостя: {email}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -26,12 +26,6 @@ OC.L10N.register(
     "The share will expire on %s." : "Povezava souporabe bo potekla %s.",
     "Cheers!" : "Lep pozdrav!",
     "Group name" : "Ime skupine",
-    "Add guest: {email}" : "Dodaj gosta: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Napaka pri deljenju. Uporabnik gost je bil odstranjen. Preverite, ali je deljenje dovoljeno za tega uporabnika.",
-    "User is not a guest user." : "Uporabnik ni gost.",
-    "Cannot remove an active guest user." : "Aktivnega gosta ni mogoče odstraniti.",
-    "Guest user was created too long ago to be removed automatically." : "Gost je bil ustvarjen predavno za avtomatsko odstranitev.",
-    "User not found." : "Uporabnik ni najden.",
-    "Guest user removed." : "Gost je bil odstranjen."
+    "Add guest: {email}" : "Dodaj gosta: {email}"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

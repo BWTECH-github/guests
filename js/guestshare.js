@@ -31,30 +31,11 @@
 		model: null,
 		email: null,
 
-		/**
-		 * Rollback a newly created guest user by calling the DELETE endpoint.
-		 * This is used when user creation succeeds but sharing fails.
-		 *
-		 * @param {string} username - The guest username (email) to delete
-		 */
-		_rollbackGuestUser: function(username) {
-			$.ajax({
-				type: 'DELETE',
-				url: OC.generateUrl('/apps/guests/users/' + encodeURIComponent(username)),
-				dataType: 'json'
-			}).done(function() {
-				console.info('[Guests] Rolled back guest user: ' + username);
-			}).fail(function() {
-				console.warn('[Guests] Could not rollback guest user: ' + username);
-			});
-		},
-
 		addGuest: function (model, email) {
 			this.model = model;
 			this.email = email;
 
 			var self = this;
-			var isNewUser = false;
 			var xhrObject = {
 				type: 'PUT',
 				url: OC.generateUrl('/apps/guests/users'),
@@ -67,11 +48,9 @@
 			};
 
 			$.ajax(xhrObject).done(function (xhr) {
-				// User was successfully created - remember this for rollback
-				isNewUser = true;
-
+				// User was successfully created - now create the share
 				var properties = {
-					shareType: 0, // SHARE_TYPE_USER instead of SHARE_TYPE_GUEST
+					shareType: 0, // SHARE_TYPE_USER
 					shareWith: email.toLowerCase(),
 					permissions: OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE
 						| OC.PERMISSION_READ | OC.PERMISSION_DELETE
@@ -83,12 +62,8 @@
 						}
 					},
 					error: function(obj, msg) {
-						// Share creation failed - rollback the newly created guest user
-						if (isNewUser) {
-							self._rollbackGuestUser(email.toLowerCase());
-						}
 						OC.dialogs.alert(
-							t('guests', 'Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user.'), // text
+							t('guests', 'Error while sharing'), // text
 							t('guests', 'Error') // title
 						);
 					}
@@ -204,7 +179,8 @@
 								if (newGuest) {
 									res.found.push({
 										shareType: OC.Share.SHARE_TYPE_USER,
-										shareWith: user
+										shareWith: user,
+										userType: OC.User.USER_TYPE_GUEST
 									});
 
 									var index = res.notFound.indexOf(user);
@@ -285,7 +261,8 @@
 									label: t('guests', 'Add guest: {email}', {email: searchTerm}),
 									value: {
 										shareType: OC.Share.SHARE_TYPE_USER,
-										shareWith: searchTerm
+										shareWith: searchTerm,
+										userType: OC.User.USER_TYPE_GUEST
 									}
 								});
 							}

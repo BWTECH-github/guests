@@ -31,12 +31,6 @@ OC.L10N.register(
     "Group name" : "グループ名",
     "Limit guest access to an app whitelist" : "ゲストとしてのアクセスをホワイトリストに含まれるアプリのみに制限する",
     "Reset whitelist" : "ホワイトリストをリセット",
-    "Add guest: {email}" : "ゲストを追加: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "共有中にエラーが発生しました。ゲストユーザーは削除されました。このユーザーに共有が許可されているか確認してください。",
-    "User is not a guest user." : "ユーザーはゲストユーザーではありません。",
-    "Cannot remove an active guest user." : "アクティブなゲストユーザーは削除できません。",
-    "Guest user was created too long ago to be removed automatically." : "ゲストユーザーは作成から時間が経ちすぎているため、自動的に削除できません。",
-    "User not found." : "ユーザーが見つかりません。",
-    "Guest user removed." : "ゲストユーザーが削除されました。"
+    "Add guest: {email}" : "ゲストを追加: {email}"
 },
 "nplurals=1; plural=0;");

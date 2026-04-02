@@ -30,12 +30,6 @@
     "Group name" : "群組名稱",
     "Limit guest access to an app whitelist" : "限制訪客訪問軟體白名單",
     "Reset whitelist" : "重設白名單",
-    "Add guest: {email}" : "新增訪客: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "分享時發生錯誤。訪客使用者已被移除。請檢查是否允許與此使用者分享。",
-    "User is not a guest user." : "使用者不是訪客使用者。",
-    "Cannot remove an active guest user." : "無法移除活躍的訪客使用者。",
-    "Guest user was created too long ago to be removed automatically." : "訪客使用者建立時間過久，無法自動移除。",
-    "User not found." : "找不到使用者。",
-    "Guest user removed." : "訪客使用者已移除。"
+    "Add guest: {email}" : "新增訪客: {email}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

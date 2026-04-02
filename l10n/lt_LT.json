@@ -30,12 +30,6 @@
     "Group name" : "Grupės pavadinimas",
     "Limit guest access to an app whitelist" : "Riboti svečio priėjimą applikacijos sarašuose",
     "Reset whitelist" : "Nustatytį iš naujo baltą sąrašą",
-    "Add guest: {email}" : "Pridėti svečią: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Klaida dalinantis. Svečio vartotojas buvo pašalintas. Patikrinkite, ar dalinimasis leidžiamas šiam vartotojui.",
-    "User is not a guest user." : "Vartotojas nėra svečias.",
-    "Cannot remove an active guest user." : "Negalima pašalinti aktyvaus svečio.",
-    "Guest user was created too long ago to be removed automatically." : "Svečio vartotojas buvo sukurtas per seniai, kad būtų automatiškai pašalintas.",
-    "User not found." : "Vartotojas nerastas.",
-    "Guest user removed." : "Svečio vartotojas pašalintas."
+    "Add guest: {email}" : "Pridėti svečią: {email}"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

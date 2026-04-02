@@ -32,12 +32,6 @@ OC.L10N.register(
     "Group name" : "Име на група",
     "Limit guest access to an app whitelist" : "Ограничете го пристапот на гостите за дозволената листа на апликациии",
     "Reset whitelist" : "Ресетирај дозволена листа",
-    "Add guest: {email}" : "Додај гостин: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Грешка при споделување. Гостинскиот корисник е отстранет. Проверете дали споделувањето е дозволено за овој корисник.",
-    "User is not a guest user." : "Корисникот не е гостин.",
-    "Cannot remove an active guest user." : "Не може да се отстрани активен гостин.",
-    "Guest user was created too long ago to be removed automatically." : "Гостинскиот корисник е создаден премногу одамна за автоматско отстранување.",
-    "User not found." : "Корисникот не е пронајден.",
-    "Guest user removed." : "Гостинскиот корисник е отстранет."
+    "Add guest: {email}" : "Додај гостин: {email}"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

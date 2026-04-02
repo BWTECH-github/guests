@@ -30,12 +30,6 @@
     "Group name" : "群组名称",
     "Limit guest access to an app whitelist" : "限制访客只能访问白名单中的应用",
     "Reset whitelist" : "重置白名单",
-    "Add guest: {email}" : "添加访客: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "共享时出错。访客用户已被删除。请检查是否允许与此用户共享。",
-    "User is not a guest user." : "用户不是访客用户。",
-    "Cannot remove an active guest user." : "无法删除活跃的访客用户。",
-    "Guest user was created too long ago to be removed automatically." : "访客用户创建时间过长，无法自动删除。",
-    "User not found." : "找不到用户。",
-    "Guest user removed." : "访客用户已删除。"
+    "Add guest: {email}" : "添加访客: {email}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -31,12 +31,6 @@
     "Group name" : "Nome do grupo",
     "Limit guest access to an app whitelist" : "Limitar o acceso dos convidados a unha lista de autorización de aplicacións",
     "Reset whitelist" : "Restabelecer a lista de autorización",
-    "Add guest: {email}" : "Engadir convidado: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Erro ao compartir. O usuario convidado foi eliminado. Comprobe se se permite compartir con este usuario.",
-    "User is not a guest user." : "O usuario non é un convidado.",
-    "Cannot remove an active guest user." : "Non se pode eliminar un convidado activo.",
-    "Guest user was created too long ago to be removed automatically." : "O usuario convidado foi creado hai demasiado tempo para ser eliminado automaticamente.",
-    "User not found." : "Usuario non atopado.",
-    "Guest user removed." : "Usuario convidado eliminado."
+    "Add guest: {email}" : "Engadir convidado: {email}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

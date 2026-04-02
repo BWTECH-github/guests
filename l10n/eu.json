@@ -30,12 +30,6 @@
     "Group name" : "Taldearen izena",
     "Limit guest access to an app whitelist" : "Mugatu gonbidatuaren atzipena aplikazio zerrenda zurira",
     "Reset whitelist" : "Berrezarri zerrenda zuria",
-    "Add guest: {email}" : "Gonbidatua gehitu: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "Errorea partekatzean. Gonbidatu erabiltzailea kendu da. Mesedez, egiaztatu partekatzea baimenduta dagoen erabiltzaile honentzat.",
-    "User is not a guest user." : "Erabiltzailea ez da gonbidatu bat.",
-    "Cannot remove an active guest user." : "Ezin da gonbidatu aktibo bat kendu.",
-    "Guest user was created too long ago to be removed automatically." : "Gonbidatu erabiltzailea aspaldi sortu zen automatikoki kentzeko.",
-    "User not found." : "Erabiltzailea ez da aurkitu.",
-    "Guest user removed." : "Gonbidatu erabiltzailea kendu da."
+    "Add guest: {email}" : "Gonbidatua gehitu: {email}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -32,12 +32,6 @@ OC.L10N.register(
     "Group name" : "ชื่อกลุ่ม",
     "Limit guest access to an app whitelist" : "จำกัดการใช้งานรายการที่อนุญาตในแอปฯ",
     "Reset whitelist" : "รีเซ็ตรายการที่อนุญาต",
-    "Add guest: {email}" : "เพิ่มผู้เยี่ยมชม: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "เกิดข้อผิดพลาดขณะแชร์ ผู้ใช้แขกถูกลบแล้ว กรุณาตรวจสอบว่าอนุญาตให้แชร์สำหรับผู้ใช้นี้หรือไม่",
-    "User is not a guest user." : "ผู้ใช้ไม่ใช่ผู้ใช้แขก",
-    "Cannot remove an active guest user." : "ไม่สามารถลบผู้ใช้แขกที่ใช้งานอยู่",
-    "Guest user was created too long ago to be removed automatically." : "ผู้ใช้แขกถูกสร้างนานเกินไปที่จะลบโดยอัตโนมัติ",
-    "User not found." : "ไม่พบผู้ใช้",
-    "Guest user removed." : "ผู้ใช้แขกถูกลบแล้ว"
+    "Add guest: {email}" : "เพิ่มผู้เยี่ยมชม: {email}"
 },
 "nplurals=1; plural=0;");

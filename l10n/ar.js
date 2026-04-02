@@ -32,12 +32,6 @@ OC.L10N.register(
     "Group name" : "اسم المجموعة",
     "Limit guest access to an app whitelist" : "وصول محدود للضيوف إلى قائمة التطبيقات البيضاء",
     "Reset whitelist" : "إعادة تعيين القائمة البيضاء",
-    "Add guest: {email}" : "إضافة ضيف: {email}",
-    "Error while sharing. The guest user has been removed. Please check if sharing is allowed for this user." : "خطأ أثناء المشاركة. تم إزالة المستخدم الضيف. يرجى التحقق مما إذا كانت المشاركة مسموحة لهذا المستخدم.",
-    "User is not a guest user." : "المستخدم ليس مستخدمًا ضيفًا.",
-    "Cannot remove an active guest user." : "لا يمكن إزالة مستخدم ضيف نشط.",
-    "Guest user was created too long ago to be removed automatically." : "تم إنشاء المستخدم الضيف منذ فترة طويلة جدًا لإزالته تلقائيًا.",
-    "User not found." : "المستخدم غير موجود.",
-    "Guest user removed." : "تمت إزالة المستخدم الضيف."
+    "Add guest: {email}" : "إضافة ضيف: {email}"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");
