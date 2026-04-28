@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Self-contained GitHub Actions CI: `main.yml` (lint + integration against `BWTECH-github/owncloud.online`), `dist.yml` (appstore artifact), `lint-pr-title.yml` (Conventional Commits)
+- `<website>`, `<bugs>`, `<repository>` entries in `appinfo/info.xml` pointing to the BW-Tech fork
+- BW-Tech GmbH co-author attribution in `<author>` and `composer.json`
+
+### Changed
+- `composer.json` package name: `owncloud/guests` → `bwtech/guests` (description marks it as a PHP 8.4 fork)
+- `composer.lock` content-hash regenerated to match the renamed `composer.json`
+- `appinfo/info.xml` minimum ownCloud version bumped from `10.11` to `10.15` (matches upstream PR #666 / `feat: oc11`)
+- Acceptance test text aligned with ownCloud 11 ("Error while sharing" → "Error whilst sharing")
+- `README.md` rewritten for owncloud.online installation flow and BW-Tech fork
+
+### Removed
+- Upstream marketplace screenshots (`<screenshot>` entries) from `appinfo/info.xml`
+
 ## [1.0.0] - 2025-01-23
 
 ### Added
