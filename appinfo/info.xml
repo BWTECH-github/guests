@@ -18,6 +18,8 @@ Furthermore guests are fully auditable with the [ownCloud Auditing application](
 
 ### Resources
 - Video: [ownCloud X Insights: Guest Users](https://www.youtube.com/watch?v=L42PBHgqKVI)
+
+This is a PHP 8.4 fork maintained by BW-Tech GmbH for owncloud.online.
 	</description>
 	<namespace>Guests</namespace>
 	<version>0.13.0</version>
@@ -25,10 +27,13 @@ Furthermore guests are fully auditable with the [ownCloud Auditing application](
     		<user>https://doc.owncloud.com/server/latest/user_manual/files/webgui/sharing.html?highlight=guest#sharing-files-with-guest-users</user>
     	</documentation>
 	<licence>GPLv2</licence>
-	<author>ownCloud GmbH</author>
+	<author>ownCloud GmbH, modified by BW-Tech GmbH</author>
+	<website>https://bw.tech</website>
+	<bugs>https://github.com/BWTECH-github/owncloud.online/issues</bugs>
+	<repository type="git">https://github.com/BWTECH-github/owncloud.online.git</repository>
 	<dependencies>
 		<php min-version="8.4" />
-		<owncloud min-version="10.11" max-version="11" />
+		<owncloud min-version="10.15" max-version="11" />
 	</dependencies>
 	<category>collaboration</category>
 	<types>
@@ -37,6 +42,4 @@ Furthermore guests are fully auditable with the [ownCloud Auditing application](
 	<settings>
 		<admin>OCA\Guests\Settings\Admin</admin>
 	</settings>
-	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/master/guests/owncloud-app-guests.jpg</screenshot>
-	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/master/guests/owncloud-app-guests-2.jpg</screenshot>
 </info>

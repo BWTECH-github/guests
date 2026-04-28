@@ -1,6 +1,6 @@
 {
-  "name": "owncloud/guests",
-  "description": "Share with externals easily via email address",
+  "name": "bwtech/guests",
+  "description": "Share with externals easily via email address (PHP 8.4 fork of owncloud/guests for owncloud.online)",
   "modified-by": "BW-Tech GmbH",
   "config": {
     "platform": {
