@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-style:
+    name: Lint & Code Style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ runner.os }}-php8.4-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-php8.4-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Syntax check (php -l)
+        run: |
+          set -e
+          for dir in appinfo lib templates tests; do
+            [ -d "$dir" ] || continue
+            find "$dir" -name '*.php' -print0 | xargs -0 -n1 -P4 php -l
+          done
+
+      - name: Install codestyle bin
+        run: composer bin owncloud-codestyle install --no-interaction --no-progress
+
+      - name: php-cs-fixer (dry-run)
+        run: |
+          if [ -f vendor-bin/owncloud-codestyle/vendor/bin/php-cs-fixer ]; then
+            vendor-bin/owncloud-codestyle/vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes
+          else
+            echo "::warning::owncloud-codestyle bin not produced; skipping php-cs-fixer"
+          fi
+
+  integration:
+    name: Integration (owncloud.online + guests)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout owncloud.online (core)
+        uses: actions/checkout@v4
+        with:
+          repository: BWTECH-github/owncloud.online
+          ref: main
+          path: server
+
+      - name: Checkout guests app
+        uses: actions/checkout@v4
+        with:
+          path: server/apps/guests
+
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: gd, intl, sqlite3, zip, mbstring, xml, curl
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: composer-int-${{ runner.os }}-php8.4-${{ hashFiles('server/composer.lock', 'server/apps/guests/composer.lock') }}
+          restore-keys: composer-int-${{ runner.os }}-php8.4-
+
+      - name: Install core dependencies
+        working-directory: server
+        run: composer install --no-interaction --no-progress --prefer-dist --no-dev || composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Install plugin dependencies
+        working-directory: server/apps/guests
+        run: composer install --no-interaction --no-progress --prefer-dist --no-dev
+
+      - name: Install owncloud (sqlite)
+        working-directory: server
+        run: |
+          mkdir -p data
+          php occ maintenance:install \
+            --database sqlite \
+            --admin-user admin \
+            --admin-pass admin
+
+      - name: Enable guests app
+        working-directory: server
+        run: php occ app:enable guests
+
+      - name: Smoke check (occ list)
+        working-directory: server
+        run: |
+          php occ list --no-ansi > /tmp/occ-list.txt
+          cat /tmp/occ-list.txt
+          # No <commands> entry in info.xml, but verify app is loaded.
+          php occ app:list --no-ansi | grep -E "^\s+- guests:" || (echo "guests app not enabled" && exit 1)
