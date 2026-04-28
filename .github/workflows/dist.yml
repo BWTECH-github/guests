@@ -1,0 +1,56 @@
+name: Build distribution
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build appstore tarball
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: composer-dist-${{ runner.os }}-php8.4-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-dist-${{ runner.os }}-php8.4-
+
+      - name: Install runtime dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist --no-dev
+
+      - name: Build appstore artifact
+        run: |
+          if [ -f Makefile ] && grep -qE '^appstore:' Makefile; then
+            make appstore
+          else
+            echo "No 'appstore' target in Makefile; building tarball manually"
+            mkdir -p build/dist
+            tar --exclude='./.git' \
+                --exclude='./.github' \
+                --exclude='./tests' \
+                --exclude='./build' \
+                --exclude='./node_modules' \
+                --exclude='./vendor-bin' \
+                -czf build/dist/guests.tar.gz .
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: guests-${{ github.ref_name }}
+          path: |
+            build/dist/*.tar.gz
+            build/dist/*.zip
+          if-no-files-found: error
