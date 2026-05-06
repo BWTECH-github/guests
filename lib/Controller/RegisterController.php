@@ -138,6 +138,12 @@ class RegisterController extends Controller {
 			);
 		}
 
+		if (!empty($checkToken) && $checkToken !== $token) {
+			$errorMessages['token'] = (string)$this->l10n->t(
+				'The token is invalid'
+			);
+		}
+
 		$parameters = [];
 		$parameters['email'] = $email;
 		$parameters['messages'] = $errorMessages;

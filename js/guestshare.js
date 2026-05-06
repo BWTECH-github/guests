@@ -31,9 +31,10 @@
 		model: null,
 		email: null,
 
-		addGuest: function (model, email) {
+		addGuest: function (model, email, callbacks) {
 			this.model = model;
 			this.email = email;
+			callbacks = callbacks || {};
 
 			var self = this;
 			var xhrObject = {
@@ -47,7 +48,7 @@
 				}
 			};
 
-			$.ajax(xhrObject).done(function (xhr) {
+			var shareWithGuest = function() {
 				// User was successfully created - now create the share
 				var properties = {
 					shareType: 0, // SHARE_TYPE_USER
@@ -60,16 +61,26 @@
 						if (self.model) {
 							self.model.fetch();
 						}
+						if (callbacks.success) {
+							callbacks.success();
+						}
 					},
 					error: function(obj, msg) {
 						OC.dialogs.alert(
 							t('guests', 'Error while sharing'), // text
 							t('guests', 'Error') // title
 						);
+						if (callbacks.error) {
+							callbacks.error(msg);
+						}
 					}
 				};
 
 				self.model.addShare(properties, options);
+			};
+
+			$.ajax(xhrObject).done(function (xhr) {
+				shareWithGuest();
 			}).fail(function (xhr) {
 				// Check if user already exists (HTTP 422)
 				if (xhr.status === 422) {
@@ -85,27 +96,7 @@
 					if (response.errorMessages && response.errorMessages.email
 						&& (response.errorMessages.email.indexOf('already exists') !== -1
 							|| response.errorMessages.email.indexOf('existiert bereits') !== -1)) {
-						var properties = {
-							shareType: 0, // SHARE_TYPE_USER
-							shareWith: email.toLowerCase(),
-							permissions: OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE
-								| OC.PERMISSION_READ | OC.PERMISSION_DELETE
-						};
-						var options = {
-							success: function() {
-								if (self.model) {
-									self.model.fetch();
-								}
-							},
-							error: function(obj, msg) {
-								OC.dialogs.alert(
-									t('guests', 'Error while sharing'), // text
-									t('guests', 'Error') // title
-								);
-							}
-						};
-						
-						self.model.addShare(properties, options);
+						shareWithGuest();
 					} else {
 						// Other validation errors (invalid email, blocked domain, etc.)
 						var error = response.errorMessages || {};
@@ -113,6 +104,9 @@
 							error.email || t('guests', 'Error while sharing'), // text
 							t('guests', 'Error') // title
 						);
+						if (callbacks.error) {
+							callbacks.error(error.email);
+						}
 					}
 				} else {
 					// Other HTTP errors
@@ -124,11 +118,17 @@
 							error.email || error.message || t('guests', 'Error while sharing'),
 							t('guests', 'Error')
 						);
+						if (callbacks.error) {
+							callbacks.error(error.email || error.message);
+						}
 					} catch (e) {
 						OC.dialogs.alert(
 							t('guests', 'Error while sharing'),
 							t('guests', 'Error')
 						);
+						if (callbacks.error) {
+							callbacks.error();
+						}
 					}
 				}
 			});
@@ -194,11 +194,11 @@
 						return new Promise(function(resolve, reject) {
 							resolve(res);
 						})
-					})
+					});
 				};
 
 				obj._getBatchActionLabel = function() {
-					return t('guests', 'Add multiple users and guests');
+					return t('guests', 'Add multiple users and guest users');
 				};
 
 				var oldHandler = obj.autocompleteHandler;
@@ -258,7 +258,7 @@
 
 							if (provideGuestEntry) {
 								result.push({
-									label: t('guests', 'Add guest: {email}', {email: searchTerm}),
+									label: t('guests', 'Add Guest User: {email}', {email: searchTerm}),
 									value: {
 										shareType: OC.Share.SHARE_TYPE_USER,
 										shareWith: searchTerm,
@@ -289,14 +289,18 @@
 					for (var i = 0; i < shares.length; i++) {
 						var share = shares[i];
 						if (share.shareType === OC.Share.SHARE_TYPE_USER) {
-							// Check if this is a guest user by checking if email validation was done
-							// The guest user creation happens via UsersController
-							if (OC.validateEmail(share.shareWith)) {
-								// Try to create guest user if it doesn't exist
-								if (!GuestShare.addGuest(obj.model, share.shareWith)) {
-									$this.val('').attr('disabled', false);
-									$loading.addClass('hidden').removeClass('inlineblock');
-								}
+							// Guest user creation happens via UsersController.
+							if (share.userType === OC.User.USER_TYPE_GUEST && OC.validateEmail(share.shareWith)) {
+								GuestShare.addGuest(obj.model, share.shareWith, {
+									success: function () {
+										$this.val('').attr('disabled', false);
+										$loading.addClass('hidden').removeClass('inlineblock');
+									},
+									error: function () {
+										$this.attr('disabled', false).autocomplete('search', $this.val());
+										$loading.addClass('hidden').removeClass('inlineblock');
+									}
+								});
 							} else {
 								// Regular user sharing
 								obj.model.addShare(share, {
