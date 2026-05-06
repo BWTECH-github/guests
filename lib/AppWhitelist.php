@@ -90,7 +90,7 @@ class AppWhitelist {
 		if (str_starts_with($url, '/apps/')) {
 			// empty string / 'apps' / $app / rest of the route
 			$parts = \explode('/', $url, 4);
-			return \OC_App::cleanAppId($parts[2] ?? '');
+			return self::cleanAppId($parts[2] ?? '');
 		} elseif (str_starts_with($url, '/core/')) {
 			return 'core';
 		} elseif (str_starts_with($url, '/settings/')) {
@@ -106,7 +106,7 @@ class AppWhitelist {
 		} elseif (str_starts_with($url, '/index.php/apps/')) {
 			// Handle /index.php/apps/{appname} - essential for directory listing
 			$parts = \explode('/', $url, 5);
-			return \OC_App::cleanAppId($parts[3] ?? '');
+			return self::cleanAppId($parts[3] ?? '');
 		} elseif (str_starts_with($url, '/index.php/')) {
 			// Handle other /index.php endpoints (AJAX, API, etc.)
 			return 'core';
@@ -118,5 +118,9 @@ class AppWhitelist {
 			return 'files';
 		}
 		return false;
+	}
+
+	private static function cleanAppId(string $app): string {
+		return \str_replace(["\0", '/', '\\', '..'], '', $app);
 	}
 }
