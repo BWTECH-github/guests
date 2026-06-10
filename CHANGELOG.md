@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Roll back a persisted guest share when its invitation email cannot be sent.
 - Show the concrete share API error instead of the generic "Error while sharing" message.
+- Identify the affected guest address and use a specific invitation error title.
 
 ### Added
 - Self-contained GitHub Actions CI: `main.yml` (lint + integration against `BWTECH-github/owncloud.online`), `dist.yml` (appstore artifact), `lint-pr-title.yml` (Conventional Commits)
