@@ -33,6 +33,7 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -53,6 +54,8 @@ class HooksTest extends TestCase {
 
 	private IConfig&MockObject $config;
 
+	private IManager&MockObject $shareManager;
+
 	private Hooks $hooks;
 
 	public function setUp(): void {
@@ -60,11 +63,13 @@ class HooksTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->mail = $this->createMock(Mail::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->shareManager = $this->createMock(IManager::class);
 		$this->hooks = new Hooks(
 			$this->logger,
 			$this->userSession,
 			$this->mail,
-			$this->config
+			$this->config,
+			$this->shareManager
 		);
 	}
 
@@ -191,6 +196,54 @@ class HooksTest extends TestCase {
 		$this->mail->expects($this->once())
 			->method('sendGuestInviteMail')
 			->with($shareMock, self::GUEST_UID, 'token');
+
+		$this->hooks->handlePostShare($shareMock);
+	}
+
+	public function testPostShareHookRollsBackShareWhenInviteMailCannotBeSent(): void {
+		$shareMock = $this->createMock(IShare::class);
+		$shareMock->method('getNodeType')->willReturn('file');
+		$shareMock->method('getSharedWith')->willReturn(self::GUEST_UID);
+
+		$this->config->method('getUserValue')
+			->willReturnCallback(static function (
+				string $userId,
+				string $app,
+				string $key,
+				string $default = ''
+			): string {
+				if ($userId === self::GUEST_UID && $app === 'owncloud' && $key === 'isGuest') {
+					return '1';
+				}
+				if ($userId === self::GUEST_UID && $app === 'guests' && $key === 'registerToken') {
+					return 'token';
+				}
+				return $default;
+			});
+
+		$userMock = $this->createMock(IUser::class);
+		$userMock->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($userMock);
+
+		$this->mail->expects($this->once())
+			->method('sendGuestInviteMail')
+			->with($shareMock, 'admin', 'token')
+			->willThrowException(new \Exception('SMTP unavailable'));
+
+		$this->logger->expects($this->once())
+			->method('error')
+			->with(
+				"Guest invitation for '" . self::GUEST_UID
+				. "' failed after creating the share: SMTP unavailable",
+				['app' => 'guests']
+			);
+
+		$this->shareManager->expects($this->once())
+			->method('deleteShare')
+			->with($shareMock);
+
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('SMTP unavailable');
 
 		$this->hooks->handlePostShare($shareMock);
 	}

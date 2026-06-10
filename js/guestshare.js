@@ -31,6 +31,13 @@
 		model: null,
 		email: null,
 
+		showShareError: function(message) {
+			OC.dialogs.alert(
+				message || t('guests', 'Error while sharing'),
+				t('guests', 'Error while sharing')
+			);
+		},
+
 		addGuest: function (model, email, callbacks) {
 			this.model = model;
 			this.email = email;
@@ -66,10 +73,7 @@
 						}
 					},
 					error: function(obj, msg) {
-						OC.dialogs.alert(
-							t('guests', 'Error while sharing'), // text
-							t('guests', 'Error') // title
-						);
+						GuestShare.showShareError(msg);
 						if (callbacks.error) {
 							callbacks.error(msg);
 						}
