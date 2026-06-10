@@ -59,7 +59,8 @@ class Application extends App {
 					$server->getLogger(),
 					$server->getUserSession(),
 					$c->query('Mail'),
-					$server->getConfig()
+					$server->getConfig(),
+					$server->getShareManager()
 				);
 			}
 		);

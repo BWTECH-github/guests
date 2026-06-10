@@ -1,3 +1,5 @@
+<!-- Modified by BW-Tech GmbH -->
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -6,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Fixed
+- Roll back a persisted guest share when its invitation email cannot be sent.
+- Show the concrete share API error instead of the generic "Error while sharing" message.
 
 ### Added
 - Self-contained GitHub Actions CI: `main.yml` (lint + integration against `BWTECH-github/owncloud.online`), `dist.yml` (appstore artifact), `lint-pr-title.yml` (Conventional Commits)

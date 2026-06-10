@@ -28,10 +28,10 @@ declare(strict_types=1);
 
 namespace OCA\Guests;
 
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 class Hooks {
@@ -43,6 +43,8 @@ class Hooks {
 
 	private IConfig $config;
 
+	private IManager $shareManager;
+
 	/**
 	 * Hooks constructor.
 	 *
@@ -50,17 +52,20 @@ class Hooks {
 	 * @param IUserSession $userSession
 	 * @param Mail $mail
 	 * @param IConfig $config
+	 * @param IManager $shareManager
 	 */
 	public function __construct(
 		ILogger $logger,
 		IUserSession $userSession,
 		Mail $mail,
-		IConfig $config
+		IConfig $config,
+		IManager $shareManager
 	) {
 		$this->logger = $logger;
 		$this->userSession = $userSession;
 		$this->mail = $mail;
 		$this->config = $config;
+		$this->shareManager = $shareManager;
 	}
 
 	public function handlePostShare(IShare $share): void {
@@ -121,11 +126,25 @@ class Hooks {
 					$registerToken
 				);
 			}
-		} catch (DoesNotExistException $ex) {
+		} catch (\Exception $ex) {
 			$this->logger->error(
-				"'$shareWith' does not exist",
+				"Guest invitation for '$shareWith' failed after creating the share: "
+				. $ex->getMessage(),
 				['app' => 'guests']
 			);
+
+			try {
+				// The share is already persisted before this post-create hook runs.
+				$this->shareManager->deleteShare($share);
+			} catch (\Exception $rollbackException) {
+				$this->logger->critical(
+					"Could not roll back failed guest share for '$shareWith': "
+					. $rollbackException->getMessage(),
+					['app' => 'guests']
+				);
+			}
+
+			throw $ex;
 		}
 	}
 

@@ -2,6 +2,8 @@
 /**
  * Bootstrap file for standalone testing of the Guest plugin
  * This creates mock interfaces for ownCloud Core dependencies
+ *
+ * Modified by BW-Tech GmbH
  */
 
 declare(strict_types=1);
@@ -32,6 +34,7 @@ require_once __DIR__ . '/stubs/OCP/Mail/IMessage.php';
 
 // Load OCP Share stubs
 require_once __DIR__ . '/stubs/OCP/Share/IShare.php';
+require_once __DIR__ . '/stubs/OCP/Share/IManager.php';
 
 // Load OCP AppFramework stubs
 require_once __DIR__ . '/stubs/OCP/AppFramework/Controller.php';
