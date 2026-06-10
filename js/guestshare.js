@@ -31,10 +31,18 @@
 		model: null,
 		email: null,
 
-		showShareError: function(message) {
+		showShareError: function(message, email) {
+			var reason = message || t('guests', 'The server did not provide a reason.');
 			OC.dialogs.alert(
-				message || t('guests', 'Error while sharing'),
-				t('guests', 'Error while sharing')
+				t(
+					'guests',
+					'Guest {email} could not be invited: {error}',
+					{
+						email: email || this.email,
+						error: reason
+					}
+				),
+				t('guests', 'Guest invitation failed')
 			);
 		},
 
@@ -73,7 +81,7 @@
 						}
 					},
 					error: function(obj, msg) {
-						GuestShare.showShareError(msg);
+						GuestShare.showShareError(msg, email);
 						if (callbacks.error) {
 							callbacks.error(msg);
 						}
