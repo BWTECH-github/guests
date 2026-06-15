@@ -22,8 +22,8 @@
 ?>
 <div>
 	<form action="<?php p($_['postAction']); ?>" name="register" method="post">
-		<?php foreach($_['messages'] as $message): ?>
-			<div class="warning">
+		<?php foreach($_['messages'] as $messageKey => $message): ?>
+			<div class="warning" id="register-error-<?php p($messageKey); ?>" role="alert">
 				<?php p($message); ?><br>
 			</div>
 		<?php endforeach; ?>
@@ -31,14 +31,14 @@
 			<label for="email"><?php p($l->t('Email')); ?></label>
 			<input type="text" name="email" id="email"
 					value="<?php p($_['email']); ?>"
-					autocomplete="off" autocapitalize="off" autocorrect="off" required>
-				
+					<?php if (isset($_['messages']['email'])) { ?>aria-invalid="true" aria-describedby="register-error-email" <?php } ?>autocomplete="off" autocapitalize="off" autocorrect="off" required>
+
 		</div>
 
 		<div class="groupbottom<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
 		<label for="password"><?php p($l->t('Password')); ?></label>
 		<input type="password" name="password" id="password" value=""
-				autocomplete="off" autocapitalize="off" autocorrect="off" required autofocus>
+				<?php if (isset($_['messages']['password'])) { ?>aria-invalid="true" aria-describedby="register-error-password" <?php } ?>autocomplete="off" autocapitalize="off" autocorrect="off" required autofocus>
 			
 		</div>
 		<div class="submit-wrap">

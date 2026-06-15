@@ -36,7 +36,7 @@ script('guests', 'guests');
 		<em><?php p($l->t('The following domains will not be accepted when users try to invite guests.')); ?></em><br/>
 		<br/>
 		<input type="checkbox" id="guestUseWhitelist" value="useWhitelist"/><label for="guestUseWhitelist"><?php p($l->t('Limit guest access to an app whitelist'));?></label><br/>
-		<input type="text" id="guestWhitelist" value="" style="display:none; width:99%;"/><br/>
-		<button type="button" id="guestResetWhitelist"><?php p($l->t('Reset whitelist'));?></button><span class="msg"></span>
+		<input type="text" id="guestWhitelist" value="" aria-label="<?php p($l->t('App whitelist for guest access'));?>" style="display:none; width:99%;"/><br/>
+		<button type="button" id="guestResetWhitelist"><?php p($l->t('Reset whitelist'));?></button><span class="msg" role="status" aria-live="polite"></span>
 	</div>
 </div>
