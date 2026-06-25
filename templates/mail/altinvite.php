@@ -25,10 +25,5 @@ if ( isset($_['expiration']) ) {
 	print_unescaped($l->t("The share will expire on %s.", array($_['expiration'])));
 	print_unescaped("\n\n");
 }
-// TRANSLATORS term at the end of a mail
-p($l->t("Cheers!"));
 ?>
-
---
-<?php p($theme->getName() . ' - ' . $theme->getSlogan()); ?>
-<?php print_unescaped("\n".$theme->getBaseUrl());
+<?php print_unescaped($this->inc('plain.mail.footer'));
