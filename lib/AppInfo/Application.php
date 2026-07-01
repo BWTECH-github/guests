@@ -110,7 +110,12 @@ class Application extends App {
 	): void {
 		$user = $attributesEvent->getUser();
 		$isGuestUser = $server->getConfig()->getUserValue($user->getUID(), 'owncloud', 'isGuest', '0');
-		if ($isGuestUser === '0') {
+		// Real guests are flagged with isGuest === '1'. During user creation the
+		// preference may not be readable yet (getUserValue can yield null), so only
+		// proceed for an explicit guest. Otherwise regular users would wrongly receive
+		// the guest app whitelist and lose access to non-whitelisted apps such as
+		// files_trashbin and files_versions.
+		if ($isGuestUser !== '1') {
 			return;
 		}
 		$appWhiteList = AppWhitelist::getWhitelist();
