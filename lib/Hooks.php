@@ -88,7 +88,11 @@ class Hooks {
 			''
 		);
 
-		if ($isGuest === '' || $isGuest === '0') {
+		// Real guests are flagged with isGuest === '1'; anything else (including an
+		// unset preference that reads back as null) means the recipient is a regular
+		// user, so skip the guest invitation flow to avoid passing a null token to
+		// sendGuestInviteMail().
+		if ($isGuest !== '1') {
 			$this->logger->debug(
 				"ignoring user '$shareWith', not a guest",
 				['app' => 'guests']
