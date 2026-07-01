@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- Only treat accounts flagged with `isGuest === '1'` as guests. The guards read the
+  preference during user creation where it can read back as `null`, so regular users
+  were wrongly given the guest app whitelist and lost access to non-whitelisted apps
+  (files_trashbin, files_versions). This also avoids a null token reaching
+  `Mail::sendGuestInviteMail()` from the share hook.
 - Roll back a persisted guest share when its invitation email cannot be sent.
 - Show the concrete share API error instead of the generic "Error while sharing" message.
 - Identify the affected guest address and use a specific invitation error title.
