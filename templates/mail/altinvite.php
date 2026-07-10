@@ -26,4 +26,4 @@ if ( isset($_['expiration']) ) {
 	print_unescaped("\n\n");
 }
 ?>
-<?php print_unescaped($this->inc('plain.mail.footer'));
+<?php print_unescaped($this->inc('plain.mail.footer', ['app' => 'core']));
