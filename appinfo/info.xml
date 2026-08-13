@@ -9,7 +9,7 @@ Share with external users conveniently just by entering an email address in the 
 They can log in using their email address as username and the password they chose during activation.
 Guests may even use the owncloud.online desktop clients and mobile apps to connect to owncloud.online and work on shared contents.
 
-Guest users do not have storage space and can only work in contents that are shared with them.
+Guest accounts are limited to the applications an administrator puts on the whitelist, so in practice they work in the contents shared with them. They are regular accounts otherwise and receive the server's default quota; set that quota to 0 if guests should not store anything of their own.
 
 In the 'Sharing' section of owncloud.online settings administrators find configuration options for the application enabling to whitelist other owncloud.online applications that guests are allowed use.
 It is important to note that the whitelist defaults are quite conservative. We recommend administrators to check carefully which apps they want to offer.
@@ -20,7 +20,7 @@ Furthermore guests are fully auditable with the owncloud.online Auditing applica
 This is a PHP 8.4 fork maintained by BW-Tech GmbH for owncloud.online.
 	</description>
 	<namespace>Guests</namespace>
-	<version>0.13.5</version>
+	<version>0.13.6</version>
 	<documentation>
     		<user>https://github.com/BWTECH-github/guests#readme</user>
     	</documentation>
