@@ -1,6 +1,6 @@
 # Guests (BW-Tech fork for owncloud.online)
 
-PHP 8.4 fork of [owncloud/guests](https://github.com/owncloud/guests) maintained by
+PHP 8.4 fork of [owncloud/guests](https://github.com/BWTECH-github/guests) maintained by
 **BW-Tech GmbH** for [owncloud.online](https://github.com/BWTECH-github/owncloud.online).
 
 Share with external users by entering an email address in the sharing dialog.
@@ -10,7 +10,7 @@ and can only access content that has been shared with them.
 
 ## Features
 
-- Email-based guest invitation via the standard ownCloud share dialog
+- Email-based guest invitation via the standard owncloud.online share dialog
 - Self-service activation flow (recipient picks the password)
 - Virtual `guest_app` group for filtering / permission scoping in user management
 - Configurable per-app whitelist that limits which apps guests are allowed to use
@@ -23,7 +23,7 @@ and can only access content that has been shared with them.
 | Component   | Version             |
 |-------------|---------------------|
 | PHP         | **8.4** or newer    |
-| ownCloud    | **10.15** – **11.x** (tested against `BWTECH-github/owncloud.online`) |
+| owncloud.online    | **10.15** – **11.x** (tested against `BWTECH-github/owncloud.online`) |
 | Composer    | 2.x                 |
 | Database    | sqlite, mysql, mariadb, postgres (whatever core supports) |
 
@@ -129,7 +129,7 @@ CI runs the same lint + a full integration boot against
 ## Attribution
 
 - Original implementation: **ownCloud GmbH** and contributors —
-  see [upstream history](https://github.com/owncloud/guests/graphs/contributors)
+  see [upstream history](https://github.com/BWTECH-github/guests/graphs/contributors)
 - PHP 8.4 migration, WebDAV/whitelist fixes, owncloud.online integration:
   **BW-Tech GmbH** ([bw.tech](https://bw.tech))
 
