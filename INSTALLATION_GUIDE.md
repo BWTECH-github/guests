@@ -766,7 +766,7 @@ Die Installation des ownCloud Guest Plugins (PHP 8.4 Version) ist unkompliziert 
 Bei Problemen oder Fragen:
 - **GitHub Issues:** https://github.com/GrossLukas/guest-php84/issues
 - **Email:** support@bw-tech.de
-- **Forum:** https://central.owncloud.org
+- **Forum:** https://owncloud.online
 
 ---
 

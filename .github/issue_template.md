@@ -1,121 +1,37 @@
+---
+name: Fehlermeldung
+about: Ein Fehlverhalten in diesem Plugin melden
+labels: bug
+---
+
 <!--
-Thanks for reporting issues back to ownCloud! This is the issue tracker of ownCloud, if you have any support question please check out https://owncloud.org/support
+Sicherheitsluecken bitte NICHT hier melden, sondern vertraulich an
+security@bw.tech.
 
-This is the bug tracker for the Guests app. Find other components at https://github.com/owncloud/guests/blob/master/.github/CONTRIBUTING.md#guidelines
+Bitte vor dem Einfuegen pruefen, ob in Protokollauszuegen Namen, Pfade oder
+Token stehen.
+-->
 
-For reporting potential security issues please see https://owncloud.org/security/
+### Schritte zum Nachstellen
 
-To make it possible for us to help you please fill out below information carefully.
-
-Before reporting any issues please make sure that you're using the latest available version.
---> 
-### Steps to reproduce
 1.
 2.
 3.
 
-### Expected behaviour
-Tell us what should happen
+### Erwartetes Verhalten
 
-### Actual behaviour
-Tell us what happens instead
+### Tatsaechliches Verhalten
 
-### Server configuration
-**Operating system**:
+### Umgebung
 
-**Web server:**
+**Version des Plugins:**
 
-**Database:**
+**Version von owncloud.online:**
 
-**PHP version:**
+**PHP-Version, Datenbank, Betriebssystem:**
 
-**ownCloud version:** (see ownCloud admin page)
-
-**Updated from an older ownCloud or fresh install:**
-
-**Where did you install ownCloud from:**
-
-**Signing status:**
+### Protokoll
 
 ```
-Login as admin user into your ownCloud and access 
-http://example.com/index.php/settings/integrity/failed 
-paste the results into https://gist.github.com/ and puth the link here.
-```
 
-
-**The content of config/config.php:**
-
-```
-Log in to the web-UI with an administrator account and click on
-'admin' -> 'Generate Config Report' -> 'Download ownCloud config report'
-This report includes the config.php settings, the list of activated apps
-and other details in a well sanitized form.
-
-or 
-
-If you have access to your command line run e.g.:
-sudo -u www-data php occ config:list system
-from within your ownCloud installation folder
-
-*ATTENTION:* Do not post your config.php file in public as is. Please use one of the above
-methods whenever possible. Both, the generated reports from the web-ui and from occ config:list
-consistently remove sensitive data. You still may want to review the report before sending.
-If done manually then it is critical for your own privacy to dilligently
-remove *all* host names, passwords, usernames, salts and other credentials before posting.
-You should assume that attackers find such information and will use them against your systems.
-```
-
-**List of activated apps:**
-
-```
-If you have access to your command line run e.g.:
-sudo -u www-data php occ app:list
-from within your ownCloud installation folder.
-```
-
-**Are you using external storage, if yes which one:** local/smb/sftp/...
-
-**Are you using encryption:** yes/no
-
-**Are you using an external user-backend, if yes which one:** LDAP/ActiveDirectory/Webdav/...
-
-#### LDAP configuration (delete this part if not used)
-
-```
-With access to your command line run e.g.:
-sudo -u www-data php occ ldap:show-config
-from within your ownCloud installation folder
-
-Without access to your command line download the data/owncloud.db to your local
-computer or access your SQL server remotely and run the select query:
-SELECT * FROM `oc_appconfig` WHERE `appid` = 'user_ldap';
-
-
-Eventually replace sensitive data as the name/IP-address of your LDAP server or groups.
-```
-
-### Client configuration
-**Browser:**
-
-**Operating system:**
-
-### Logs
-#### Web server error log
-```
-Insert your webserver log here
-```
-
-#### ownCloud log (data/owncloud.log)
-```
-Insert your ownCloud log here
-```
-
-#### Browser log
-```
-Insert your browser log here, this could for example include:
-
-a) The javascript console log
-b) The network log 
-c) ...
 ```
