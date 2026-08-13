@@ -1213,7 +1213,7 @@ efad98f - fix: Compatibility fixes for ownCloud Core PHP 8.4
 #### Kontakt
 - **BW-Tech GmbH:** info@bw-tech.de
 - **Support:** support@bw-tech.de
-- **Forum:** https://central.owncloud.org
+- **Forum:** https://owncloud.online
 
 ---
 

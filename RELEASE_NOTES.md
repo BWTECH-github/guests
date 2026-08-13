@@ -575,7 +575,7 @@ sudo systemctl restart apache2  # oder nginx
 Für Support und Bug-Reports:
 - **GitHub Issues:** https://github.com/GrossLukas/guest-php84/issues
 - **Email:** support@bw-tech.de
-- **Forum:** https://central.owncloud.org
+- **Forum:** https://owncloud.online
 
 ---
 
