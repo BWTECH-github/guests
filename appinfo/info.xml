@@ -7,30 +7,28 @@
 	<description>
 Share with external users conveniently just by entering an email address in the sharing dialog. Recipients receive an email containing an activation link.
 They can log in using their email address as username and the password they chose during activation.
-Guests may even use the ownCloud desktop clients and mobile apps to connect to ownCloud and work on shared contents.
+Guests may even use the owncloud.online desktop clients and mobile apps to connect to owncloud.online and work on shared contents.
 
 Guest users do not have storage space and can only work in contents that are shared with them.
 
-In the 'Sharing' section of ownCloud settings administrators find configuration options for the application enabling to whitelist other ownCloud applications that guests are allowed use.
+In the 'Sharing' section of owncloud.online settings administrators find configuration options for the application enabling to whitelist other owncloud.online applications that guests are allowed use.
 It is important to note that the whitelist defaults are quite conservative. We recommend administrators to check carefully which apps they want to offer.
 Guest accounts are grouped under a virtual group allowing administrators to easily filter them in the user management.
-Furthermore guests are fully auditable with the [ownCloud Auditing application](https://marketplace.owncloud.com/apps/admin_audit).
+Furthermore guests are fully auditable with the owncloud.online Auditing application.
 
-### Resources
-- Video: [ownCloud X Insights: Guest Users](https://www.youtube.com/watch?v=L42PBHgqKVI)
 
 This is a PHP 8.4 fork maintained by BW-Tech GmbH for owncloud.online.
 	</description>
 	<namespace>Guests</namespace>
 	<version>0.13.4</version>
 	<documentation>
-    		<user>https://doc.owncloud.com/server/latest/user_manual/files/webgui/sharing.html?highlight=guest#sharing-files-with-guest-users</user>
+    		<user>https://github.com/BWTECH-github/guests#readme</user>
     	</documentation>
 	<licence>GPLv2</licence>
 	<author>ownCloud GmbH, modified by BW-Tech GmbH</author>
-	<website>https://bw.tech</website>
-	<bugs>https://github.com/BWTECH-github/owncloud.online/issues</bugs>
-	<repository type="git">https://github.com/BWTECH-github/owncloud.online.git</repository>
+	<website>https://owncloud.online</website>
+	<bugs>https://github.com/BWTECH-github/guests/issues</bugs>
+	<repository type="git">https://github.com/BWTECH-github/guests.git</repository>
 	<dependencies>
 		<php min-version="8.4" />
 		<owncloud min-version="10.15" max-version="11.99" />
