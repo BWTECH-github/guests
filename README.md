@@ -32,7 +32,7 @@ and can only access content that has been shared with them.
 ```bash
 cd /var/www/owncloud/apps
 git clone https://github.com/BWTECH-github/owncloud.online.git -b main owncloud.online   # if not already present
-git clone https://github.com/GrossLukas/guests.git guests
+git clone https://github.com/BWTECH-github/guests.git guests
 cd guests
 composer install --no-dev --no-interaction --prefer-dist
 chown -R www-data:www-data .
