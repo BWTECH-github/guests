@@ -20,7 +20,7 @@ Furthermore guests are fully auditable with the owncloud.online Auditing applica
 This is a PHP 8.4 fork maintained by BW-Tech GmbH for owncloud.online.
 	</description>
 	<namespace>Guests</namespace>
-	<version>0.13.4</version>
+	<version>0.13.5</version>
 	<documentation>
     		<user>https://github.com/BWTECH-github/guests#readme</user>
     	</documentation>
