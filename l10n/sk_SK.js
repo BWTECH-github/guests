@@ -18,7 +18,6 @@ OC.L10N.register(
     "No users or groups found for {search}" : "{search} nenašlo žiadnych používateľov alebo skupiny",
     "No users found for {search}" : "{search} nenašlo žiadnych používateľov",
     "An error occurred. Please try again" : "Nastala chyba. Prosím, skúste to znovu.",
-    "The share will expire on %s." : "Zdieľanie vyprší %s.",
     "Cheers!" : "Pekný deň!",
     "Guest users are grouped under a virtual group in the user manager" : "Hostia sú zoskupení vo virtuálnej skupine v manažéri používateľov",
     "Group name" : "Názov skupiny",

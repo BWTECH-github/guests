@@ -19,61 +19,83 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * @copyright Copyright (c) 2026, BW-Tech GmbH
+ *
+ * Modified by BW-Tech GmbH on 2026-09-15.
+ * Changes:
+ *   - use the shared owncloud.online mail frame instead of an own 2017 layout
+ *   - one call to action as a button, address and expiry as a labelled block
  */
-?>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr><td>
-<table cellspacing="0" cellpadding="0" border="0" width="600px">
-<tr>
-<td colspan="2" style="padding:0;">
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr><td style="height:4px;line-height:4px;font-size:0;background-color:<?php p($theme->getMailHeaderColor());?>;">&nbsp;</td></tr>
-<tr><td align="center" style="padding:26px 0 14px;background-color:#ffffff;"><img src="<?php p(\OC::$server->getURLGenerator()->getAbsoluteURL(image_path('', 'logo-mail.gif'))); ?>" alt="<?php p($theme->getName()); ?>" style="display:block;margin:0 auto;border:0;max-width:210px;height:auto;"></td></tr>
-</table>
-</td>
-</tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr>
-<td width="20px">&nbsp;</td>
-<td style="font-weight:normal; font-size:0.8em; line-height:1.2em; font-family:verdana,'arial',sans;">
-<?php
-if ($_['filename']) {
-	print_unescaped($l->t(
-		'Hey there,<br><br>
-         
-         just letting you know that %s shared <strong>%s</strong> with you.<br><br>
-         Activate your guest account at %s by <a href="%s">setting a password</a>.<br><br>
-         Then <a href="%s">view it!</a><br><br>You can login using the email address <strong>"%s"</strong> .<br><br>',
-		[$_['user_displayname'], $_['filename'], $_['cloud_name'], $_['password_link'], $_['link'], $_['guestEmail']]
-	));
-} else {
-	print_unescaped($l->t(
-		'Hey there,<br><br>
-         
-         just letting you know that %s shared files with you.<br><br>
-         Activate your guest account at %s by <a href="%s">setting a password</a>.<br><br>
-         <br><br>You can login using the email address <strong>"%s"</strong> .<br><br>',
-		[$_['user_displayname'], $_['cloud_name'], $_['password_link'], $_['guestEmail']]
-	));
-}
 
-if ( isset($_['expiration']) ) {
-	p($l->t("The share will expire on %s.", array($_['expiration'])));
-	print_unescaped('<br><br>');
-}
+/**
+ * Der Rahmen kommt aus dem Kern (html.mail.header/-end), nicht mehr aus dieser
+ * Datei. Vorher trug die Einladung ihr eigenes Layout von 2017 - 4-Pixel-
+ * Streifen, Verdana in 0,8em, kein Kartenrand - und stand damit neben jeder
+ * anderen Mail der Instanz wie ein Fremdkoerper. 'app' => 'core' ist Pflicht,
+ * sonst sucht das Blatt die Bausteine im guests-Verzeichnis und bricht mit
+ * "template file not found" ab.
+ */
+print_unescaped($this->inc('html.mail.header', ['app' => 'core']));
+
+$ausrichtung = 'font-family:-apple-system,\'Segoe UI\',Roboto,Helvetica,Arial,sans-serif;';
 ?>
+
+<p style="margin:0 0 16px;"><?php p($l->t('Hello,')); ?></p>
+
+<?php if ($_['filename']) { ?>
+<p style="margin:0 0 16px;">
+	<?php print_unescaped($l->t('%s has shared <strong>%s</strong> with you.', [$_['user_displayname'], $_['filename']])); ?>
+</p>
+<?php } else { ?>
+<p style="margin:0 0 16px;">
+	<?php print_unescaped($l->t('%s has shared files with you.', [$_['user_displayname']])); ?>
+</p>
+<?php } ?>
+
+<p style="margin:0 0 20px;">
+	<?php p($l->t('To see them, activate your guest account at %s by setting a password.', [$_['cloud_name']])); ?>
+</p>
+
+<?php /* Die Schaltfläche ist eine Tabelle, weil Outlook Polsterung an einem
+         <a> ignoriert. Der Rand hat dieselbe Farbe wie die Fläche, damit ein
+         Programm ohne Hintergrundfarben trotzdem eine Schaltfläche zeigt. */ ?>
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;margin:0 0 24px;">
+<tr>
+<td align="center" style="border-radius:6px;background-color:#00806b;border:1px solid #00806b;">
+	<a href="<?php p($_['password_link']); ?>" style="display:inline-block;padding:12px 24px;<?php p($ausrichtung); ?>font-size:14px;font-weight:600;line-height:1.2;color:#ffffff;text-decoration:none;">
+		<?php p($l->t('Set password')); ?>
+	</a>
 </td>
 </tr>
-<tr><td colspan="2">&nbsp;</td></tr>
+</table>
+
+<?php /* Derselbe Verweis noch einmal als Text: manche Programme zeigen
+         Schaltflächen ohne Hintergrund an, und der Empfänger muss den Weg
+         auch dann finden. */ ?>
+<p style="margin:0 0 24px;font-size:12px;color:#5b6675;">
+	<?php p($l->t('If the button does not work, open this address:')); ?><br>
+	<a href="<?php p($_['password_link']); ?>" style="color:#00806b;word-break:break-all;"><?php p($_['password_link']); ?></a>
+</p>
+
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-collapse:collapse;background-color:#F5F7FA;border-radius:8px;">
 <tr>
-	<td width="20px">&nbsp;</td>
-	<td style="font-weight:normal; font-size:0.8em; line-height:1.2em; font-family:verdana,'arial',sans;">
-		<?php print_unescaped($this->inc('html.mail.footer', ['app' => 'core'])); ?>
-	</td>
-</tr>
-<tr>
-	<td colspan="2">&nbsp;</td>
+<td style="padding:14px 18px;<?php p($ausrichtung); ?>font-size:13px;line-height:1.6;color:#1f2733;">
+	<strong><?php p($l->t('Your login')); ?></strong><br>
+	<?php p($_['guestEmail']); ?>
+	<?php if (isset($_['expiration']) && $_['expiration']) { ?>
+	<br><br>
+	<strong><?php p($l->t('Expires on')); ?></strong><br>
+	<?php p($_['expiration']); ?>
+	<?php } ?>
+</td>
 </tr>
 </table>
-</td></tr>
-</table>
+
+<?php if ($_['filename'] && $_['link']) { ?>
+<p style="margin:20px 0 0;">
+	<?php print_unescaped($l->t('After that you can <a href="%s">open the share</a> directly.', [$_['link']])); ?>
+</p>
+<?php } ?>
+
+<?php
+print_unescaped($this->inc('html.mail.end', ['app' => 'core']));

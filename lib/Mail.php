@@ -263,12 +263,26 @@ class Mail {
 		$formattedDate = $expiration !== null ? $this->l10n->l('date', $expiration) : null;
 		$l10n = $overrideL10n ?? $this->l10n;
 
+		/*
+		 * Anzeigename und Dateiname stehen in der HTML-Fassung in einem Satz,
+		 * der selbst Auszeichnung traegt ("%s has shared <strong>%s</strong>
+		 * with you") und deshalb mit print_unescaped ausgegeben wird.
+		 * IL10N::t() setzt die Werte per vsprintf ein und maskiert nichts: wer
+		 * eine Datei mit Markup im Namen teilt oder seinen Anzeigenamen setzt,
+		 * bestimmt damit HTML in einer Mail, die der Server unter der Marke der
+		 * Instanz verschickt. Maskiert wird deshalb hier, an der Uebergabe an
+		 * das HTML-Blatt - der Kern macht es an derselben Stelle so
+		 * (OC\Share\MailNotifications::createMailBody).
+		 *
+		 * Die Textfassung unten bekommt weiter die Rohwerte, sonst staenden
+		 * Entitaeten in der reinen Textmail.
+		 */
 		$html = new Template('guests', 'mail/invite', '', false, $l10n->getLanguageCode());
 		$html->assign('link', $link);
 		$html->assign('password_link', $passwordLink);
 		$html->assign('cloud_name', $cloudName);
-		$html->assign('user_displayname', $displayName);
-		$html->assign('filename', $filename);
+		$html->assign('user_displayname', Util::sanitizeHTML($displayName));
+		$html->assign('filename', $filename === null ? null : Util::sanitizeHTML($filename));
 		$html->assign('expiration', $formattedDate);
 		$html->assign('guestEmail', $guestEmail);
 		$htmlMail = $html->fetchPage();
