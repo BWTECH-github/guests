@@ -7,6 +7,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2026-09-15
+
+Erster Stand, der am laufenden Server vollständig durchgespielt wurde: Gast
+anlegen, Einladung zustellen, Freigabe mit Schreibrecht.
+
+### Changed
+
+- Die Einladung benutzt den Mailrahmen der Instanz statt eines eigenen Layouts
+  von 2017. Gleiche Form wie jede andere Mail: Anrede, ein Satz zur Sache, eine
+  Schaltfläche, ein abgesetzter Block mit Anmeldeadresse und Ablauf. Die
+  Schaltfläche kommt aus dem Kern (`html.mail.button`), damit Einladung,
+  Freigabemail und Passwortmail dieselbe tragen.
+- Die Textfassung folgt der HTML-Fassung Satz für Satz.
+
+### Fixed
+
+- Anzeigename und Dateiname werden für die HTML-Fassung maskiert. Sie stehen
+  dort in einem Satz, der selbst Auszeichnung trägt, und `IL10N::t()` setzt die
+  Werte per `vsprintf` ein, ohne zu maskieren.
+- Die Einladung ohne Freigabe (`sendGuestPlainInviteMail`) nannte Dateinamen und
+  Verweis bedingungslos — beide sind auf diesem Weg `null`, der Text trug
+  deshalb einen Satz mit leerem Namen und einen leeren Verweis.
+- Fehlender Anzeigename oder fehlende Adresse beim Anlegen eines Gasts
+  beantwortet 422 statt 500 (0.13.7, 0.13.8).
+
 ## [0.13.6] - 2026-08-13
 
 ### Changed
