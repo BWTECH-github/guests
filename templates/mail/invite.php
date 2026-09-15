@@ -36,8 +36,6 @@
  * "template file not found" ab.
  */
 print_unescaped($this->inc('html.mail.header', ['app' => 'core']));
-
-$ausrichtung = 'font-family:-apple-system,\'Segoe UI\',Roboto,Helvetica,Arial,sans-serif;';
 ?>
 
 <p style="margin:0 0 16px;"><?php p($l->t('Hello,')); ?></p>
@@ -56,30 +54,25 @@ $ausrichtung = 'font-family:-apple-system,\'Segoe UI\',Roboto,Helvetica,Arial,sa
 	<?php p($l->t('To see them, activate your guest account at %s by setting a password.', [$_['cloud_name']])); ?>
 </p>
 
-<?php /* Die Schaltfläche ist eine Tabelle, weil Outlook Polsterung an einem
-         <a> ignoriert. Der Rand hat dieselbe Farbe wie die Fläche, damit ein
-         Programm ohne Hintergrundfarben trotzdem eine Schaltfläche zeigt. */ ?>
-<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;margin:0 0 24px;">
-<tr>
-<td align="center" style="border-radius:6px;background-color:#00806b;border:1px solid #00806b;">
-	<a href="<?php p($_['password_link']); ?>" style="display:inline-block;padding:12px 24px;<?php p($ausrichtung); ?>font-size:14px;font-weight:600;line-height:1.2;color:#ffffff;text-decoration:none;">
-		<?php p($l->t('Set password')); ?>
-	</a>
-</td>
-</tr>
-</table>
-
-<?php /* Derselbe Verweis noch einmal als Text: manche Programme zeigen
-         Schaltflächen ohne Hintergrund an, und der Empfänger muss den Weg
-         auch dann finden. */ ?>
-<p style="margin:0 0 24px;font-size:12px;color:#5b6675;">
-	<?php p($l->t('If the button does not work, open this address:')); ?><br>
-	<a href="<?php p($_['password_link']); ?>" style="color:#00806b;word-break:break-all;"><?php p($_['password_link']); ?></a>
-</p>
+<?php
+/*
+ * Die Schaltfläche kommt aus dem Kern, damit Einladung, Freigabemail und
+ * Passwortmail dieselbe tragen. Die Beschriftung geht fertig übersetzt hinein:
+ * inc() mit 'app' => 'core' tauscht im eingebundenen Blatt auch das
+ * l10n-Objekt gegen das des Kerns, ein $l->t() dort fände die Texte von
+ * guests also nie.
+ */
+print_unescaped($this->inc('html.mail.button', [
+	'app' => 'core',
+	'url' => $_['password_link'],
+	'label' => $l->t('Set password'),
+	'hint' => $l->t('If the button does not work, open this address:'),
+]));
+?>
 
 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-collapse:collapse;background-color:#F5F7FA;border-radius:8px;">
 <tr>
-<td style="padding:14px 18px;<?php p($ausrichtung); ?>font-size:13px;line-height:1.6;color:#1f2733;">
+<td style="padding:14px 18px;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;line-height:1.6;color:#1f2733;">
 	<strong><?php p($l->t('Your login')); ?></strong><br>
 	<?php p($_['guestEmail']); ?>
 	<?php if (isset($_['expiration']) && $_['expiration']) { ?>
