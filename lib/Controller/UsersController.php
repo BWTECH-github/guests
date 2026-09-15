@@ -91,6 +91,17 @@ class UsersController extends Controller {
 		$this->currentUser = $currentUser;
 	}
 
+	// Beide Parameter der Methode unten tragen einen Vorgabewert. Fehlt einer in
+	// der Anfrage, uebergibt der Dispatcher sonst null - und die strikte
+	// Signatur wirft einen TypeError, bevor der Rumpf ueberhaupt laeuft. Beim
+	// Aufrufer kam dann ein HTTP 500 an. Gemessen: PUT /apps/guests/users ohne
+	// displayName lieferte 500 ("Argument #2 ($displayName) must be of type
+	// string, null given"). Leere Werte sind im Rumpf bereits vorgesehen: eine
+	// leere Adresse beantwortet die Pruefung mit 422, ein leerer Anzeigename
+	// wird uebergangen.
+	// Dieser Text steht bewusst VOR dem DocComment: das AppFramework liest
+	// @NoAdminRequired und @NoCSRFRequired per Reflection aus dem DocComment der
+	// Methode, und dazwischen gehoert nichts.
 	/**
 	 *
 	 * @NoCSRFRequired
@@ -102,7 +113,7 @@ class UsersController extends Controller {
 	 * @return DataResponse
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function create(string $email, string $displayName): DataResponse {
+	public function create(string $email = '', string $displayName = ''): DataResponse {
 		$errorMessages = [];
 		$email = \trim(\rawurldecode($email));
 		$username = \strtolower($email);
