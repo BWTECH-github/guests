@@ -37,9 +37,7 @@ OC.L10N.register(
     "The following domains will not be accepted when users try to invite guests." : "Folgende Domains werden für Gast Einladungen nicht akzeptiert.",
     "Limit guest access to an app whitelist" : "Gastzugriff auf eine App-Whitelist beschränken",
     "Reset whitelist" : "Whitelist zurücksetzen",
-    "Add guest: {email}" : "Gast hinzufügen: {email}"
-},
-"nplurals=2; plural=(n != 1);");,
+    "Add guest: {email}" : "Gast hinzufügen: {email}",
     "Hello," : "Hallo,",
     "%s has shared <strong>%s</strong> with you." : "%s hat <strong>%s</strong> mit dir geteilt.",
     "%s has shared \"%s\" with you." : "%s hat „%s“ mit dir geteilt.",
@@ -53,3 +51,5 @@ OC.L10N.register(
     "Expires on: %s" : "Läuft ab am: %s",
     "After that you can <a href=\"%s\">open the share</a> directly." : "Danach kannst du <a href=\"%s\">die Freigabe direkt öffnen</a>.",
     "After that you can open the share directly:" : "Danach kannst du die Freigabe direkt öffnen:"
+},
+"nplurals=2; plural=(n != 1);");
