@@ -39,7 +39,7 @@ arbeiten in den Inhalten, die mit ihnen geteilt wurden.
 | Komponente     | Anforderung                                    |
 |----------------|------------------------------------------------|
 | PHP            | 8.4 oder neuer                                 |
-| owncloud.online| 10.15 bis 11.99                                |
+| owncloud.online| 11.1 bis 11.99 (Redesign-Kern; für 11.0.x gilt 0.13.x) |
 | Composer       | 2.x (nur für die Installation aus dem Quelltext)|
 | E-Mail-Versand | im Server eingerichtet, sonst keine Einladungen |
 

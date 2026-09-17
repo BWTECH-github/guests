@@ -19,6 +19,13 @@ Sprachdatei, die nicht parst, registriert ihr Bündel nicht; die Oberfläche der
 App wäre im Deutschen vollständig auf Englisch zurückgefallen. Die Texte selbst
 waren richtig und stehen jetzt an der richtigen Stelle.
 
+Nachgebessert am 17.09.2026, ohne neue Versionsnummer: Voraussetzung ist jetzt
+owncloud.online 11.1 statt 10.15. Die Einladung bindet `html.mail.header`,
+`html.mail.button` und `html.mail.end` aus dem Kern ein, und die gibt es nur im
+Redesign-Kern. Auf einem 11.0.x-Kern scheiterte der Versand mit „template file
+not found“, der Gast wäre angelegt, aber nie eingeladen worden. Für 11.0.x
+bleibt 0.13.x (Zweig `main`).
+
 ### Changed
 
 - Die Einladung benutzt den Mailrahmen der Instanz statt eines eigenen Layouts
