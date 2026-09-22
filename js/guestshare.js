@@ -269,7 +269,12 @@
 							}
 
 							if (provideGuestEntry) {
-								result.push({
+								// An den Anfang, nicht ans Ende: der Kern bietet für jede
+								// Adresse mit @ zuerst „Verbunden zu anderer Instanz“ an
+								// (Verbund-Freigabe). Wer eine E-Mail eintippt, meint fast
+								// immer den Gast; der Verbund-Eintrag stand davor und
+								// endete in „nicht gefunden … Server nicht erreichbar“.
+								result.unshift({
 									label: t('guests', 'Add Guest User: {email}', {email: searchTerm}),
 									value: {
 										shareType: OC.Share.SHARE_TYPE_USER,
@@ -308,10 +313,18 @@
 										$this.val('').attr('disabled', false);
 										$loading.addClass('hidden').removeClass('inlineblock');
 									},
-									error: function () {
-										$this.attr('disabled', false).autocomplete('search', $this.val());
-										$loading.addClass('hidden').removeClass('inlineblock');
-									}
+									error: (function (adresse) {
+										return function () {
+											// Im Feld steht während des Anlegens der Vorschlagstext
+											// („Add Guest User: …“). Blieb er nach einem Fehler
+											// stehen, suchte der Dialog damit weiter und legte beim
+											// nächsten Enter eine Verbund-Freigabe an genau diesen
+											// Text an (Protokoll 21.09.: „Failed to notify remote
+											// server … Add Guest User: …“). Zurück auf die Adresse.
+											$this.val(adresse).attr('disabled', false);
+											$loading.addClass('hidden').removeClass('inlineblock');
+										};
+									})(share.shareWith)
 								});
 							} else {
 								// Regular user sharing
