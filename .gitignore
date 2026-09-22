@@ -24,3 +24,4 @@ tests/acceptance/output*
 
 # Generated from .drone.star
 .drone.yml
+.phpunit.cache/

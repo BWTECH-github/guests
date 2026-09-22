@@ -7,6 +7,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.7] - 2026-09-22
+
+### Fixed
+
+- **Sicherheit:** Die Gast-Erlaubnisliste liess sich umgehen. `getRequestedApp()`
+  ordnete ganze Pfadfamilien pauschal dem Kern zu, statt die angesprochene
+  Anwendung zu bestimmen:
+  - `/ocs/...` lieferte immer `core`. Damit war die OCS-Schnittstelle **jeder**
+    installierten Anwendung fuer Gaeste erreichbar, auch derer, die
+    ausdruecklich nicht auf der Liste stehen.
+  - `/index.php/...` (ausser `/index.php/apps/...`) lieferte ebenfalls `core`.
+  - Ein abschliessender Sammelzweig ordnete **jeden** uebrigen Pfad `files` zu,
+    wodurch die Pruefung nie mehr fehlschlug.
+  - `CORE_WHITELIST` begann mit einem Komma, weshalb der leere Anwendungsname
+    auf der Liste stand - und `/apps/..` ergab nach dem Saeubern genau den.
+
+  Die Zuordnung bestimmt jetzt die Anwendung aus dem Pfad, ueber alle
+  Einstiegspunkte hinweg (`/apps/<app>`, `/index.php/apps/<app>`,
+  `/ocs/v1.php/apps/<app>`, `/ocs/v2.php/apps/<app>`). Pfade, die gar keine
+  Anwendung benennen - die Wurzel, `/login`, `/logout`, statische Dateien, die
+  OCS-Kernrouten - gelten weiterhin als `core` und bleiben erreichbar; dort
+  greift die Rechtepruefung des Kerns. Ein Anwendungsname, von dem nach dem
+  Saeubern nichts uebrig bleibt, wird abgewiesen statt als Kernpfad behandelt.
+
+  Damit bleibt jeder Pfad erreichbar, der es heute ist, ausser er benennt eine
+  Anwendung, die nicht auf der Liste steht - genau das ist der Zweck der Liste.
+  77 Tests decken die Zuordnung ab.
+
+- Leere Felder werden beim Speichern der Erlaubnisliste verworfen, damit der
+  leere Anwendungsname nicht wieder auf die Liste geraet.
+
 ## [0.13.6] - 2026-08-13
 
 ### Changed

@@ -103,11 +103,18 @@ class SettingsController extends Controller {
 			]);
 		}
 
+		// Leere Felder verwerfen. Landet ein leerer Eintrag in der
+		// gespeicherten Liste, steht der leere Anwendungsname auf der
+		// Erlaubnisliste - und damit jeder Pfad, aus dem sich kein Name
+		// gewinnen laesst.
 		$newWhitelist = [];
 		foreach ($whitelist as $app) {
-			$newWhitelist[] = \trim($app);
+			$app = \trim($app);
+			if ($app !== '') {
+				$newWhitelist[] = $app;
+			}
 		}
-		$newWhitelistStr = \implode(',', $newWhitelist);
+		$newWhitelistStr = \implode(',', \array_unique($newWhitelist));
 		$this->config->setAppValue('guests', 'group', $group);
 		$this->config->setAppValue('guests', 'usewhitelist', $useWhitelist);
 		$this->config->setAppValue('guests', 'whitelist', $newWhitelistStr);

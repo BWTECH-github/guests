@@ -56,6 +56,7 @@ require_once __DIR__ . '/stubs/OCP/Settings/ISettings.php';
 
 // Load OC stubs
 require_once __DIR__ . '/stubs/OC/Hooks.php';
+require_once __DIR__ . '/stubs/OC/Server.php';
 require_once __DIR__ . '/stubs/OC/User/User.php';
 
 // Load Test stubs
