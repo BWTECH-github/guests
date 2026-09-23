@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+- Startseite (dashboard) steht auf der Kern-Erlaubnisliste: sie ist im Redesign das Ziel nach der Anmeldung, ohne Eintrag landete ein Gast auf der Sperrseite.
 - Gast-Erlaubnisliste ließ sich umgehen: getRequestedApp() ordnete /ocs/…, /index.php/… und alles Übrige pauschal dem Kern bzw. files zu, die OCS-Schnittstelle jeder Anwendung war für Gäste erreichbar; CORE_WHITELIST begann mit einem Komma (leerer Name auf der Liste). Aus main übernommen (3f0ae9f, 0.13.7).
 
 ## [1.0.1] - 2026-09-23
