@@ -33,9 +33,14 @@
 			function (data) {
 				if (data.enabled) {
 					// remove items from navigation menu
-					$('#navigation li').each(function (i, e) {
+					// Im Redesign stehen unter #navigation nur Start und Dateien;
+					// alle übrigen Apps liegen im Menü #oco-apps-liste (der Kern
+					// setzt dort seit 23.09.2026 data-id). Ohne diesen Selektor sahen
+					// Gäste z. B. „Gruppen“ und bekamen beim Klick 403.
+					// attr statt data(): jQuery.data deutet Werte wie JSON.
+					$('#navigation li, #oco-apps-liste li[data-id]').each(function (i, e) {
 						var $e = $(e);
-						if ($.inArray($e.data('id'), data.apps) < 0) {
+						if ($.inArray($e.attr('data-id'), data.apps) < 0) {
 							$e.remove();
 						}
 					});

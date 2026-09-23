@@ -7,6 +7,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2026-09-23
+
+### Security
+
+- Kommentare über den DAV-Baum (/dav/comments, /remote.php/dav/comments) gehören wieder der App comments: seit der verschärften Zuordnung (1.0.2) fielen sie unter dav und waren für Gäste erlaubt.
+
+### Fixed
+
+- Navigation für Gäste: auch das Menü der Redesign-Schale (#oco-apps-liste) wird nach der Erlaubnisliste gefiltert; Gäste sahen dort Apps, die ihnen 403 lieferten.
+
 ## [1.0.2] - 2026-09-23
 
 ### Security

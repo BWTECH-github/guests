@@ -127,6 +127,13 @@ class AppWhitelistTest extends TestCase {
 			// Oeffentlicher Link ueber WebDAV: der Einstiegspunkt wird
 			// abgetragen, es bleibt der DAV-Baum.
 			['/public.php/webdav', 'dav'],
+			// Kommentare gehören der App comments (nicht auf der Liste), auch
+			// wenn sie über den DAV-Baum kommen.
+			['/dav/comments/files/123', 'comments'],
+			['/remote.php/dav/comments/files/123', 'comments'],
+			['//dav//comments/files/1', 'comments'],
+			['/dav/comments', 'comments'],
+			['/dav/commentsX/files/1', 'dav'],
 		];
 	}
 
