@@ -206,6 +206,11 @@ class RegisterController extends Controller {
 		}
 
 		if (!empty($parameters['messages'])) {
+			// Die Vorlage braucht das Formularziel auch im Fehlerfall; ohne
+			// diese Zuweisung schrieb jeder POST mit ungültigem Token
+			// „Undefined array key postAction“ ins Protokoll.
+			$parameters['postAction'] =
+				$this->urlGenerator->linkToRouteAbsolute('guests.register.register');
 			return new TemplateResponse(
 				$this->appName,
 				'form.password',
