@@ -43,15 +43,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Gast anlegen ohne oder mit leerer Adresse beziehungsweise ohne
   Anzeigenamen beantwortet 422 statt HTTP 500 (TypeError in der Signatur,
   InvalidArgumentException aus `getByEmail('')`).
-- Ein gescheiterter Versand der Einladung warf einen TypeError statt der
-  vorgesehenen Meldung (Objekt an `new \Exception()` unter `strict_types`).
-  Der Rückbau der Freigabe griff deshalb nicht; die Freigabe blieb bestehen,
-  obwohl die Einladung nie ankam.
 - Registrierung mit ungültigem Token schrieb „Undefined array key
   postAction“ ins Protokoll.
 - Freigabedialog: „Add Guest User“ steht vor dem Verbund-Eintrag des Kerns.
   Schlägt die Einladung fehl, fällt das Feld auf die Adresse zurück; vorher
   legte das nächste Enter eine Verbund-Freigabe an den Vorschlagstext an.
+
+### Changed
+
+- Die Meldung bei gescheitertem Einladungsversand wird ausdrücklich als
+  Zeichenkette an `new \Exception()` übergeben. Der Schnittstellenvertrag
+  `OCP\IL10N::t()` nennt `\OC_L10N_String` als Rückgabe, die einzige
+  Kernimplementierung liefert aber seit jeher eine Zeichenkette. Reine
+  Härtung gegen den Vertrag der Schnittstelle; auf dem 11.0-Kern ändert sich
+  nichts, der Rückbau der Freigabe griff schon vorher.
 
 ## [0.13.7] - 2026-09-22
 
