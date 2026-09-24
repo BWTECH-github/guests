@@ -107,9 +107,20 @@ class UsersController extends Controller {
 		$email = \trim(\rawurldecode($email));
 		$username = \strtolower($email);
 
+		// Ohne brauchbare Adresse haben die folgenden Pruefungen keinen Sinn -
+		// und getByEmail() wirft bei einer leeren Zeichenkette eine
+		// InvalidArgumentException. Sie lief bisher trotzdem an, weil die
+		// Fehlermeldungen erst danach ausgewertet wurden; beim Aufrufer kam
+		// deshalb ein HTTP 500 an statt der Meldung, die daneben schon
+		// bereitlag.
 		if (empty($email) || !$this->mailer->validateMailAddress($email)) {
-			$errorMessages['email'] = (string)$this->l10n->t(
-				'Invalid mail address'
+			return new DataResponse(
+				[
+					'errorMessages' => [
+						'email' => (string)$this->l10n->t('Invalid mail address')
+					]
+				],
+				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
 		if ($this->isDomainBlocked($email)) {
