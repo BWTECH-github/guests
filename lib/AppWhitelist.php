@@ -167,6 +167,16 @@ class AppWhitelist {
 		if (\str_starts_with($url, '/heartbeat')) {
 			return 'heartbeat';
 		}
+		// Kommentare laufen über den DAV-Baum, gehören aber der App comments.
+		// Die steht auf keiner Liste; vor der verschärften Zuordnung bekamen
+		// Gäste hier 403. Ohne diesen Zweig fiele der Pfad unter 'dav' und
+		// wäre erlaubt (Gegen-Review 23.09.2026). Genaue Segmentprüfung, damit
+		// '/dav/commentsX' nicht mitgemeint ist.
+		foreach (['/dav/comments', '/remote.php/dav/comments'] as $kommentare) {
+			if ($url === $kommentare || \str_starts_with($url, $kommentare . '/')) {
+				return 'comments';
+			}
+		}
 		// Der DAV-Baum ist ein einziger Endpunkt; wer dort was sehen darf,
 		// entscheidet die Rechtepruefung des Kerns an der Datei, nicht diese
 		// Liste. Beide Schreibweisen fuehren deshalb zur selben Antwort.
