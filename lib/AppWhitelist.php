@@ -117,6 +117,7 @@ class AppWhitelist {
 	 *   - false, wenn der Pfad eine Anwendung benennt, der Name aber nach dem
 	 *     Saeubern leer ist - das ist ein Manipulationsversuch und wird
 	 *     abgewiesen
+	 *   - false auch für DAV-Pfade mit den Segmenten '.' oder '..'
 	 *
 	 * Sichtbar fuer die Tests; die Zuordnung ist reine Zeichenkettenarbeit und
 	 * laesst sich nur so vollstaendig pruefen.
@@ -167,6 +168,15 @@ class AppWhitelist {
 		if (\str_starts_with($url, '/heartbeat')) {
 			return 'heartbeat';
 		}
+		// Punktsegmente im DAV-Baum abweisen. Der Kern reicht REQUEST_URI
+		// unaufgelöst an Sabre weiter, und Sabre löst '.' und '..' vor der
+		// Knotensuche selbst auf (Sabre\Uri\normalize). '/dav/./comments/…'
+		// oder '/dav/files/../comments/…' fielen hier unter 'dav', Sabre
+		// lieferte dann doch den Kommentarbaum. Kein Client schickt solche
+		// Segmente, und Dateien namens '.' oder '..' lässt der Kern nicht zu.
+		if (self::isDavPath($url) && \preg_match('#/\.{1,2}(/|$)#', $url) === 1) {
+			return false;
+		}
 		// Kommentare laufen über den DAV-Baum, gehören aber der App comments.
 		// Die steht auf keiner Liste; vor der verschärften Zuordnung bekamen
 		// Gäste hier 403. Ohne diesen Zweig fiele der Pfad unter 'dav' und
@@ -180,9 +190,7 @@ class AppWhitelist {
 		// Der DAV-Baum ist ein einziger Endpunkt; wer dort was sehen darf,
 		// entscheidet die Rechtepruefung des Kerns an der Datei, nicht diese
 		// Liste. Beide Schreibweisen fuehren deshalb zur selben Antwort.
-		if (\str_starts_with($url, '/remote.php/dav') || \str_starts_with($url, '/dav/')
-			|| $url === '/dav' || \str_starts_with($url, '/remote.php/webdav')
-			|| \str_starts_with($url, '/webdav')) {
+		if (self::isDavPath($url)) {
 			return 'dav';
 		}
 
@@ -215,6 +223,12 @@ class AppWhitelist {
 		// Das ist kein Kernpfad, sondern ein Versuch, an der Liste
 		// vorbeizukommen.
 		return $app === '' ? false : $app;
+	}
+
+	private static function isDavPath(string $url): bool {
+		return \str_starts_with($url, '/remote.php/dav') || \str_starts_with($url, '/dav/')
+			|| $url === '/dav' || \str_starts_with($url, '/remote.php/webdav')
+			|| \str_starts_with($url, '/webdav');
 	}
 
 	private static function normalize(string $url): string {

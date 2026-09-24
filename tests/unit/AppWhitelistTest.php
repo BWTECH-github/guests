@@ -173,6 +173,49 @@ class AppWhitelistTest extends TestCase {
 	}
 
 	/**
+	 * Sabre löst '.' und '..' im DAV-Pfad selbst auf, der Kern reicht den Pfad
+	 * aber unaufgelöst weiter. Ohne Abweisung erreichte '/dav/./comments/…' den
+	 * Kommentarbaum, während die Liste 'dav' sah.
+	 */
+	public static function davDotSegmentProvider(): array {
+		return [
+			['/dav/./comments/files/1'],
+			['/dav/files/../comments/files/1'],
+			['/remote.php/dav/./comments/files/1'],
+			['/index.php/dav/./comments/files/1'],
+			['/dav/files/alice/..'],
+			['/dav/.'],
+			['/webdav/./x'],
+		];
+	}
+
+	/**
+	 * @dataProvider davDotSegmentProvider
+	 */
+	public function testDavDotSegmentsAreRejected(string $url): void {
+		$this->assertFalse(AppWhitelist::getRequestedApp($url));
+	}
+
+	/**
+	 * Punkte im Dateinamen sind keine Punktsegmente und bleiben erreichbar.
+	 */
+	public static function davDotNameProvider(): array {
+		return [
+			['/dav/files/alice/.hidden'],
+			['/dav/files/alice/...'],
+			['/dav/files/alice/a..b/c.'],
+			['/remote.php/webdav/.config/x'],
+		];
+	}
+
+	/**
+	 * @dataProvider davDotNameProvider
+	 */
+	public function testDavDotNamesStayDav(string $url): void {
+		$this->assertSame('dav', AppWhitelist::getRequestedApp($url));
+	}
+
+	/**
 	 * Der leere String darf nicht auf der Liste stehen. Bis hierher stand er
 	 * es: CORE_WHITELIST begann mit einem Komma.
 	 */
@@ -215,6 +258,9 @@ class AppWhitelistTest extends TestCase {
 			'/ocs/v1.php/apps/market/api/v1/search',
 			'/ocs/v2.php/apps/systemtags/api/v1/tags',
 			'/index.php/ocs/v2.php/apps/market/api',
+			'/dav/comments/files/1',
+			'/dav/./comments/files/1',
+			'/dav/files/../comments/files/1',
 		];
 		foreach ($forbidden as $url) {
 			$app = AppWhitelist::getRequestedApp($url);
