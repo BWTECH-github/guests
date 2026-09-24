@@ -7,6 +7,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.8] - 2026-09-24
+
+### Security
+
+- **Kommentare über DAV für Gäste wieder gesperrt.** Seit 0.13.7 fiel jeder
+  Pfad unter `/dav/` pauschal unter `dav`, und `dav` steht in
+  `CORE_WHITELIST`. `remote.php/dav/comments/…` war damit für Gäste offen,
+  sie konnten Kommentare lesen und schreiben. Der Kommentarbaum gehört
+  wieder der App `comments`, die auf keiner Liste steht (403).
+- **Punktsegmente im DAV-Pfad werden abgewiesen.** Die Liste prüft den Pfad
+  unaufgelöst, Sabre löst `.` und `..` vor der Knotensuche selbst auf.
+  `/remote.php/dav/./comments/…` oder `/remote.php/dav/files/../comments/…`
+  kamen so an der Kommentarsperre vorbei (schon vor 0.13.7). Legitime
+  Anfragen enthalten solche Segmente nie; Punkte im Dateinamen bleiben
+  erlaubt.
+- **Einladungsmail maskiert.** Anzeigename, Dateiname, Instanzname,
+  Anmeldeadresse und Verweise standen unmaskiert im HTML der Einladung. Wer
+  eine Datei mit Markup im Namen an einen Gast freigab oder seinen
+  Anzeigenamen entsprechend setzte, bestimmte HTML in einer Mail, die der
+  Server unter der Marke der Instanz verschickt. Die Textfassung bleibt
+  unverändert.
+
+### Fixed
+
+- `GET /apps/guests/whitelist` antwortete jedem Gast mit 403 (fehlende
+  Annotation NoAdminRequired). Die Navigation für Gäste wurde deshalb nie
+  gefiltert; Gäste sahen Einträge, die ihnen 403 lieferten.
+- Gast anlegen ohne oder mit leerer Adresse beziehungsweise ohne
+  Anzeigenamen beantwortet 422 statt HTTP 500 (TypeError in der Signatur,
+  InvalidArgumentException aus `getByEmail('')`).
+- Ein gescheiterter Versand der Einladung warf einen TypeError statt der
+  vorgesehenen Meldung (Objekt an `new \Exception()` unter `strict_types`).
+  Der Rückbau der Freigabe griff deshalb nicht; die Freigabe blieb bestehen,
+  obwohl die Einladung nie ankam.
+- Registrierung mit ungültigem Token schrieb „Undefined array key
+  postAction“ ins Protokoll.
+- Freigabedialog: „Add Guest User“ steht vor dem Verbund-Eintrag des Kerns.
+  Schlägt die Einladung fehl, fällt das Feld auf die Adresse zurück; vorher
+  legte das nächste Enter eine Verbund-Freigabe an den Vorschlagstext an.
+
 ## [0.13.7] - 2026-09-22
 
 ### Fixed
