@@ -28,6 +28,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Anzeigenamen entsprechend setzte, bestimmte HTML in einer Mail, die der
   Server unter der Marke der Instanz verschickt. Die Textfassung bleibt
   unverändert.
+- **`PUT /apps/guests/users` verlangt wieder das Anfrage-Token.** Der
+  Endpunkt legt Gastkonten an, war aber mit `NoCSRFRequired` von der
+  CSRF-Prüfung ausgenommen. Der Freigabedialog schickt das Token ohnehin
+  mit (`oc-requesttoken.js` des Kerns), und Aufrufe mit `Authorization`-Kopf
+  (Basic, Bearer, App-Passwort) nimmt der Kern selbst von der Prüfung aus;
+  für Skripte und Clients ändert sich also nichts.
 
 ### Fixed
 

@@ -99,12 +99,18 @@ class UsersController extends Controller {
 	// string, null given"). Leere Werte sind im Rumpf bereits vorgesehen: eine
 	// leere Adresse beantwortet die Prüfung mit 422, ein leerer Anzeigename
 	// wird übergangen.
+	// Die Methode legt Konten an und unterliegt deshalb der CSRF-Prüfung des
+	// Kerns; die frühere Ausnahme NoCSRFRequired ist entfallen. Der
+	// Freigabedialog (guestshare.js) schickt das Anfrage-Token ohnehin mit,
+	// weil oc-requesttoken.js des Kerns es an jede gleichursprüngliche
+	// jQuery-Anfrage hängt. Anfragen mit Authorization-Kopf (Basic, Bearer,
+	// App-Passwort) nimmt die SecurityMiddleware des Kerns selbst von der
+	// Prüfung aus; Skripte und Clients sind also nicht betroffen.
 	// Dieser Text steht bewusst VOR dem DocComment: das AppFramework liest die
-	// Annotationen NoAdminRequired und NoCSRFRequired per Reflection aus dem
-	// DocComment der Methode, und dazwischen gehört nichts.
+	// Annotation NoAdminRequired per Reflection aus dem DocComment der
+	// Methode, und dazwischen gehört nichts.
 	/**
 	 *
-	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 *
 	 * @param string $email
