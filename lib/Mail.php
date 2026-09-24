@@ -263,14 +263,30 @@ class Mail {
 		$formattedDate = $expiration !== null ? $this->l10n->l('date', $expiration) : null;
 		$l10n = $overrideL10n ?? $this->l10n;
 
+		/*
+		 * Die HTML-Fassung setzt alle Werte in Sätze ein, die selbst
+		 * Auszeichnung tragen ("%s shared <strong>%s</strong> with you",
+		 * <a href="%s">) und deshalb mit print_unescaped ausgegeben werden.
+		 * IL10N::t() setzt die Werte per vsprintf ein und maskiert nichts: wer
+		 * eine Datei mit Markup im Namen teilt oder seinen Anzeigenamen setzt,
+		 * bestimmt damit HTML in einer Mail, die der Server unter der Marke der
+		 * Instanz verschickt. Maskiert wird deshalb hier, an der Übergabe an
+		 * das HTML-Blatt - der Kern maskiert für seine Freigabe-Mails ebenfalls
+		 * vor der Übergabe (OC\Share\Filters\MailNotificationFilter).
+		 *
+		 * Das Ablaufdatum gibt das Blatt selbst mit p() aus und bleibt roh,
+		 * sonst stünde es doppelt maskiert in der Mail. Die Textfassung unten
+		 * bekommt weiter die Rohwerte, sonst stünden Entitäten in der reinen
+		 * Textmail.
+		 */
 		$html = new Template('guests', 'mail/invite', '', false, $l10n->getLanguageCode());
-		$html->assign('link', $link);
-		$html->assign('password_link', $passwordLink);
-		$html->assign('cloud_name', $cloudName);
-		$html->assign('user_displayname', $displayName);
-		$html->assign('filename', $filename);
+		$html->assign('link', $link === null ? null : Util::sanitizeHTML($link));
+		$html->assign('password_link', Util::sanitizeHTML($passwordLink));
+		$html->assign('cloud_name', Util::sanitizeHTML($cloudName));
+		$html->assign('user_displayname', Util::sanitizeHTML($displayName));
+		$html->assign('filename', $filename === null ? null : Util::sanitizeHTML($filename));
 		$html->assign('expiration', $formattedDate);
-		$html->assign('guestEmail', $guestEmail);
+		$html->assign('guestEmail', Util::sanitizeHTML($guestEmail));
 		$htmlMail = $html->fetchPage();
 
 		$plainText = new Template('guests', 'mail/altinvite', '', false, $l10n->getLanguageCode());
