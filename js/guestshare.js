@@ -210,7 +210,7 @@
 				};
 
 				obj._getBatchActionLabel = function() {
-					return t('guests', 'Add multiple users and guest users');
+					return t('guests', 'Add multiple users and guests');
 				};
 
 				var oldHandler = obj.autocompleteHandler;
@@ -275,7 +275,7 @@
 								// immer den Gast; der Verbund-Eintrag stand davor und
 								// endete in „nicht gefunden … Server nicht erreichbar“.
 								result.unshift({
-									label: t('guests', 'Add Guest User: {email}', {email: searchTerm}),
+									label: t('guests', 'Add guest: {email}', {email: searchTerm}),
 									value: {
 										shareType: OC.Share.SHARE_TYPE_USER,
 										shareWith: searchTerm,
@@ -316,7 +316,7 @@
 									error: (function (adresse) {
 										return function () {
 											// Im Feld steht während des Anlegens der Vorschlagstext
-											// („Add Guest User: …“). Blieb er nach einem Fehler
+											// („Add guest: …“). Blieb er nach einem Fehler
 											// stehen, suchte der Dialog damit weiter und legte beim
 											// nächsten Enter eine Verbund-Freigabe an genau diesen
 											// Text an (Protokoll 21.09.: „Failed to notify remote

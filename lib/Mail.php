@@ -308,6 +308,11 @@ class Mail {
 
 	/**
 	 * get default_language if defined in config.php
+	 *
+	 * Katalog dieser App, nicht 'lib': Betreff („%s invited you“) und
+	 * Mailtext stehen nur hier. Mit 'lib' kam der Betreff der Einladung ohne
+	 * Freigabe englisch an, sobald default_language gesetzt war.
+	 *
 	 * @return IL10N|null
 	 */
 	private function getDefaultLanguage(): ?IL10N {
@@ -317,7 +322,7 @@ class Mail {
 
 		$defaultLang = $this->config->getSystemValue('default_language', false);
 		if ($defaultLang !== false) {
-			return \OC::$server->getL10N('lib', $defaultLang);
+			return \OC::$server->getL10N('guests', $defaultLang);
 		}
 		return null;
 	}

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "guests",
     {
-    "Loading…" : "Lade…",
+    "Loading…" : "Wird geladen …",
     "Loaded" : "Geladen",
     "Reset" : "Zurücksetzen",
     "Error while sharing" : "Fehler beim Teilen",
@@ -50,6 +50,9 @@ OC.L10N.register(
     "Expires on" : "Läuft ab am",
     "Expires on: %s" : "Läuft ab am: %s",
     "After that you can <a href=\"%s\">open the share</a> directly." : "Danach können Sie <a href=\"%s\">die Freigabe direkt öffnen</a>.",
-    "After that you can open the share directly:" : "Danach können Sie die Freigabe direkt öffnen:"
+    "After that you can open the share directly:" : "Danach können Sie die Freigabe direkt öffnen:",
+    "No user logged in." : "Kein Benutzer angemeldet.",
+    "App whitelist for guest access" : "Erlaubte Apps für Gäste",
+    "Guests" : "Gäste"
 },
 "nplurals=2; plural=(n != 1);");

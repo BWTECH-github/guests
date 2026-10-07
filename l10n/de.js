@@ -1,7 +1,7 @@
 OC.L10N.register(
     "guests",
     {
-    "Loading…" : "Lade…",
+    "Loading…" : "Wird geladen …",
     "Loaded" : "Geladen",
     "Reset" : "Zurücksetzen",
     "Error while sharing" : "Fehler beim Teilen",
@@ -23,10 +23,10 @@ OC.L10N.register(
     "A username with that email already exists." : "Ein Benutzername mit dieser E-Mail existiert bereits.",
     "A guest user can not create other guest users." : "Ein Gast-Benutzer kann keinen anderen Gast-Benutzer erstellen.",
     "User successfully created" : "Benutzer erfolgreich erstellt",
-    "%s shared »%s« with you" : "%s hat „%s“ mit Dir geteilt",
+    "%s shared »%s« with you" : "%s hat „%s“ mit dir geteilt",
     "%s via %s" : "%s durch %s",
-    "Couldn't send reset email. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht versendet werden. Bitte kontaktiere Deinen Administrator.",
-    "%s invited you" : "%s hat Dich eingeladen",
+    "Couldn't send reset email. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht versendet werden. Bitte wende dich an deine Administration.",
+    "%s invited you" : "%s hat dich eingeladen",
     "Email" : "E-Mail",
     "Password" : "Kennwort",
     "Set password" : "Passwort setzen",
@@ -42,7 +42,7 @@ OC.L10N.register(
     "%s has shared <strong>%s</strong> with you." : "%s hat <strong>%s</strong> mit dir geteilt.",
     "%s has shared \"%s\" with you." : "%s hat „%s“ mit dir geteilt.",
     "%s has shared files with you." : "%s hat Dateien mit dir geteilt.",
-    "To see them, activate your guest account at %s by setting a password." : "Aktivieren Sie dafür Ihr Gastkonto bei %s, indem Sie ein Passwort setzen.",
+    "To see them, activate your guest account at %s by setting a password." : "Aktiviere dafür dein Gastkonto bei %s, indem du ein Passwort festlegst.",
     "Set password:" : "Passwort setzen:",
     "If the button does not work, open this address:" : "Falls die Schaltfläche nicht funktioniert, öffne diese Adresse:",
     "Your login" : "Deine Anmeldung",
@@ -50,6 +50,9 @@ OC.L10N.register(
     "Expires on" : "Läuft ab am",
     "Expires on: %s" : "Läuft ab am: %s",
     "After that you can <a href=\"%s\">open the share</a> directly." : "Danach kannst du <a href=\"%s\">die Freigabe direkt öffnen</a>.",
-    "After that you can open the share directly:" : "Danach kannst du die Freigabe direkt öffnen:"
+    "After that you can open the share directly:" : "Danach kannst du die Freigabe direkt öffnen:",
+    "No user logged in." : "Kein Benutzer angemeldet.",
+    "App whitelist for guest access" : "Erlaubte Apps für Gäste",
+    "Guests" : "Gäste"
 },
 "nplurals=2; plural=(n != 1);");

@@ -7,6 +7,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2026-10-07
+
+### Security
+
+- Aus main 0.13.8 übernommen: PUT /apps/guests/users verlangt wieder das Anfrage-Token (CSRF), Punktsegmente („.“, „..“) im DAV-Pfad werden für Gäste abgewiesen.
+
+### Fixed
+
+- Sprache: Der Vorschlag im Teilen-Dialog fragte die Schlüssel „Add Guest User: {email}“ und „Add multiple users and guest users“ ab, die kein Katalog kennt – der Eintrag stand in jeder Sprache englisch ganz oben. Der Code nutzt wieder die übersetzten Schlüssel „Add guest: {email}“ (42 Sprachen) und „Add multiple users and guests“.
+- Sprache: Der Betreff der Einladung ohne Freigabe („%s invited you“) kam englisch an, sobald `default_language` gesetzt war: Die Mail las den Katalog `lib` statt `guests`.
+- Sprache: Überschrift „Guests“ in Administration → Teilen war fest eingetragen; dazu fehlten „App whitelist for guest access“ (Sprachausgabe) und „No user logged in.“ in allen deutschen Katalogen.
+- Anrede: de (Du) enthielt in der Einladungsmail die Sie-Form („Aktivieren Sie dafür Ihr Gastkonto …“), de_AT und de_CH führten die neuen Mailtexte ganz in Sie-Form. de, de_AT und de_CH duzen jetzt durchgehend, de_DE siezt. „Lade…“ heißt „Wird geladen …“, „Dir/Dich/Deinen“ klein.
+- Testberichte `index.html` und `test-results.html` aus dem Paket entfernt; sie waren öffentlich abrufbar.
+- Mail.php übergibt Instanzname, Passwort-Adresse und Login-Adresse weiter unmaskiert an die HTML-Vorlage, weil diese sie selbst mit p() ausgibt (anders als in main, wo die Vorlage sie roh ausgibt).
+
 ## [1.0.3] - 2026-09-23
 
 ### Security
