@@ -71,6 +71,88 @@ bleibt 0.13.x (Zweig `main`).
 - Fehlender Anzeigename oder fehlende Adresse beim Anlegen eines Gasts
   beantwortet 422 statt 500 (0.13.7, 0.13.8).
 
+## [0.13.8] - 2026-09-24
+
+### Security
+
+- **Kommentare über DAV für Gäste wieder gesperrt.** Seit 0.13.7 fiel jeder
+  Pfad unter `/dav/` pauschal unter `dav`, und `dav` steht in
+  `CORE_WHITELIST`. `remote.php/dav/comments/…` war damit für Gäste offen,
+  sie konnten Kommentare lesen und schreiben. Der Kommentarbaum gehört
+  wieder der App `comments`, die auf keiner Liste steht (403).
+- **Punktsegmente im DAV-Pfad werden abgewiesen.** Die Liste prüft den Pfad
+  unaufgelöst, Sabre löst `.` und `..` vor der Knotensuche selbst auf.
+  `/remote.php/dav/./comments/…` oder `/remote.php/dav/files/../comments/…`
+  kamen so an der Kommentarsperre vorbei (schon vor 0.13.7). Legitime
+  Anfragen enthalten solche Segmente nie; Punkte im Dateinamen bleiben
+  erlaubt.
+- **Einladungsmail maskiert.** Anzeigename, Dateiname, Instanzname,
+  Anmeldeadresse und Verweise standen unmaskiert im HTML der Einladung. Wer
+  eine Datei mit Markup im Namen an einen Gast freigab oder seinen
+  Anzeigenamen entsprechend setzte, bestimmte HTML in einer Mail, die der
+  Server unter der Marke der Instanz verschickt. Die Textfassung bleibt
+  unverändert.
+- **`PUT /apps/guests/users` verlangt wieder das Anfrage-Token.** Der
+  Endpunkt legt Gastkonten an, war aber mit `NoCSRFRequired` von der
+  CSRF-Prüfung ausgenommen. Der Freigabedialog schickt das Token ohnehin
+  mit (`oc-requesttoken.js` des Kerns), und Aufrufe mit `Authorization`-Kopf
+  (Basic, Bearer, App-Passwort) nimmt der Kern selbst von der Prüfung aus;
+  für Skripte und Clients ändert sich also nichts.
+
+### Fixed
+
+- `GET /apps/guests/whitelist` antwortete jedem Gast mit 403 (fehlende
+  Annotation NoAdminRequired). Die Navigation für Gäste wurde deshalb nie
+  gefiltert; Gäste sahen Einträge, die ihnen 403 lieferten.
+- Gast anlegen ohne oder mit leerer Adresse beziehungsweise ohne
+  Anzeigenamen beantwortet 422 statt HTTP 500 (TypeError in der Signatur,
+  InvalidArgumentException aus `getByEmail('')`).
+- Registrierung mit ungültigem Token schrieb „Undefined array key
+  postAction“ ins Protokoll.
+- Freigabedialog: „Add Guest User“ steht vor dem Verbund-Eintrag des Kerns.
+  Schlägt die Einladung fehl, fällt das Feld auf die Adresse zurück; vorher
+  legte das nächste Enter eine Verbund-Freigabe an den Vorschlagstext an.
+
+### Changed
+
+- Die Meldung bei gescheitertem Einladungsversand wird ausdrücklich als
+  Zeichenkette an `new \Exception()` übergeben. Der Schnittstellenvertrag
+  `OCP\IL10N::t()` nennt `\OC_L10N_String` als Rückgabe, die einzige
+  Kernimplementierung liefert aber seit jeher eine Zeichenkette. Reine
+  Härtung gegen den Vertrag der Schnittstelle; auf dem 11.0-Kern ändert sich
+  nichts, der Rückbau der Freigabe griff schon vorher.
+
+## [0.13.7] - 2026-09-22
+
+### Fixed
+
+- **Sicherheit:** Die Gast-Erlaubnisliste liess sich umgehen. `getRequestedApp()`
+  ordnete ganze Pfadfamilien pauschal dem Kern zu, statt die angesprochene
+  Anwendung zu bestimmen:
+  - `/ocs/...` lieferte immer `core`. Damit war die OCS-Schnittstelle **jeder**
+    installierten Anwendung fuer Gaeste erreichbar, auch derer, die
+    ausdruecklich nicht auf der Liste stehen.
+  - `/index.php/...` (ausser `/index.php/apps/...`) lieferte ebenfalls `core`.
+  - Ein abschliessender Sammelzweig ordnete **jeden** uebrigen Pfad `files` zu,
+    wodurch die Pruefung nie mehr fehlschlug.
+  - `CORE_WHITELIST` begann mit einem Komma, weshalb der leere Anwendungsname
+    auf der Liste stand - und `/apps/..` ergab nach dem Saeubern genau den.
+
+  Die Zuordnung bestimmt jetzt die Anwendung aus dem Pfad, ueber alle
+  Einstiegspunkte hinweg (`/apps/<app>`, `/index.php/apps/<app>`,
+  `/ocs/v1.php/apps/<app>`, `/ocs/v2.php/apps/<app>`). Pfade, die gar keine
+  Anwendung benennen - die Wurzel, `/login`, `/logout`, statische Dateien, die
+  OCS-Kernrouten - gelten weiterhin als `core` und bleiben erreichbar; dort
+  greift die Rechtepruefung des Kerns. Ein Anwendungsname, von dem nach dem
+  Saeubern nichts uebrig bleibt, wird abgewiesen statt als Kernpfad behandelt.
+
+  Damit bleibt jeder Pfad erreichbar, der es heute ist, ausser er benennt eine
+  Anwendung, die nicht auf der Liste steht - genau das ist der Zweck der Liste.
+  77 Tests decken die Zuordnung ab.
+
+- Leere Felder werden beim Speichern der Erlaubnisliste verworfen, damit der
+  leere Anwendungsname nicht wieder auf die Liste geraet.
+
 ## [0.13.6] - 2026-08-13
 
 ### Changed

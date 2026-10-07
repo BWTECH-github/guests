@@ -92,19 +92,25 @@ class UsersController extends Controller {
 	}
 
 	// Beide Parameter der Methode unten tragen einen Vorgabewert. Fehlt einer in
-	// der Anfrage, uebergibt der Dispatcher sonst null - und die strikte
-	// Signatur wirft einen TypeError, bevor der Rumpf ueberhaupt laeuft. Beim
+	// der Anfrage, übergibt der Dispatcher sonst null - und die strikte
+	// Signatur wirft einen TypeError, bevor der Rumpf überhaupt läuft. Beim
 	// Aufrufer kam dann ein HTTP 500 an. Gemessen: PUT /apps/guests/users ohne
 	// displayName lieferte 500 ("Argument #2 ($displayName) must be of type
 	// string, null given"). Leere Werte sind im Rumpf bereits vorgesehen: eine
-	// leere Adresse beantwortet die Pruefung mit 422, ein leerer Anzeigename
-	// wird uebergangen.
-	// Dieser Text steht bewusst VOR dem DocComment: das AppFramework liest
-	// @NoAdminRequired und @NoCSRFRequired per Reflection aus dem DocComment der
-	// Methode, und dazwischen gehoert nichts.
+	// leere Adresse beantwortet die Prüfung mit 422, ein leerer Anzeigename
+	// wird übergangen.
+	// Die Methode legt Konten an und unterliegt deshalb der CSRF-Prüfung des
+	// Kerns; die frühere Ausnahme NoCSRFRequired ist entfallen. Der
+	// Freigabedialog (guestshare.js) schickt das Anfrage-Token ohnehin mit,
+	// weil oc-requesttoken.js des Kerns es an jede gleichursprüngliche
+	// jQuery-Anfrage hängt. Anfragen mit Authorization-Kopf (Basic, Bearer,
+	// App-Passwort) nimmt die SecurityMiddleware des Kerns selbst von der
+	// Prüfung aus; Skripte und Clients sind also nicht betroffen.
+	// Dieser Text steht bewusst VOR dem DocComment: das AppFramework liest die
+	// Annotation NoAdminRequired per Reflection aus dem DocComment der
+	// Methode, und dazwischen gehört nichts.
 	/**
 	 *
-	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 *
 	 * @param string $email
