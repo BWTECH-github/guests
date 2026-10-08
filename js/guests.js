@@ -38,6 +38,16 @@
 
 		// functions
 
+		// Sperrliste und Erlaubnisliste sind seit 1.0.5 mehrzeilige Textfelder
+		// (eine lange Liste lief im einzeiligen Feld aus der Karte). Einträge
+		// trennt ein Komma, ein Leerzeichen oder ein Zeilenumbruch; gespeichert
+		// wird wie bisher kommagetrennt ohne Leerzeichen.
+		var listeAusText = function (text) {
+			return $.grep(String(text).split(/[\s,]+/), function (eintrag) {
+				return eintrag !== '';
+			});
+		};
+
 		var loadConfig = function () {
 			OC.msg.startAction($msg, t('guests', 'Loading…'));
 			$.get(
@@ -61,8 +71,10 @@
 					} else {
 						$guestGroup.val('');
 					}
+					// Mit Leerzeichen nach dem Komma, damit die Liste im
+					// Textfeld zwischen den Apps umbricht.
 					if ($.isArray(config.whitelist)) {
-						$guestWhitelist.val(config.whitelist.join());
+						$guestWhitelist.val(config.whitelist.join(', '));
 					} else {
 						$guestWhitelist.val('');
 					}
@@ -113,19 +125,20 @@
 		}
 		
 		var saveWhitelist = function () {
-			var apps = $guestWhitelist.val().split(',');
-			config.whitelist = [];
-			$.each(apps, function( index, value ) {
-				config.whitelist.push(value.trim());
-			});
-			saveConfig();			
+			config.whitelist = listeAusText($guestWhitelist.val());
+			// Eine leere Liste schickt jQuery gar nicht mit; der Controller
+			// verlangt den Parameter. Wie bisher ein leerer Eintrag.
+			if (config.whitelist.length === 0) {
+				config.whitelist = [''];
+			}
+			saveConfig();
 		}
-		
+
 		var saveShareBlockDomains = function () {
 			// FIXME: do validations here to make sure valid input is passed
 			//        and valid domains
-			config.shareBlockDomains = $guestSharingBlockDomains.val().trim();
-			saveConfig();			
+			config.shareBlockDomains = listeAusText($guestSharingBlockDomains.val()).join(',');
+			saveConfig();
 		}
 
 		// listen to ui changes
@@ -166,11 +179,13 @@
 			saveShareBlockDomains();
 		});
 		
+		// Eingabetaste speichert wie im früheren einzeiligen Feld und fügt
+		// keinen Zeilenumbruch ein.
 		$guestWhitelist.keypress(function (e) {
 			var key = e.which;
 			if (key == 13) {
+				e.preventDefault();
 				saveWhitelist();
-				return true;
 			}
 		});
 		
@@ -183,7 +198,7 @@
 				config.whitelist = response.whitelist;
 				//update ui
 				if ($.isArray(config.whitelist)) {
-					$guestWhitelist.val(config.whitelist.join());
+					$guestWhitelist.val(config.whitelist.join(', '));
 				} else {
 					$guestWhitelist.val('');
 				}

@@ -21,6 +21,7 @@
  *
  */
 script('guests', 'guests');
+style('guests', 'admin');
 /** @var $l OC_L10N */
 /** @var $_ array */
 ?>
@@ -32,11 +33,11 @@ script('guests', 'guests');
 		</label><input type="text" id="guestGroup" value="" /><br/>
 		<br/>
 		<label for="guestSharingBlockDomains"><?php p($l->t('Domain blocklist for guest user invitation'));?></label>
-		<input type="text" id="guestSharingBlockDomains" value="" aria-describedby="guestSharingBlockDomains-hint" placeholder="example1.com,example2.com,example3.com" style="width:99%;"/><br/>
+		<textarea id="guestSharingBlockDomains" rows="2" spellcheck="false" aria-describedby="guestSharingBlockDomains-hint" placeholder="example1.com,example2.com,example3.com"></textarea>
 		<em id="guestSharingBlockDomains-hint"><?php p($l->t('The following domains will not be accepted when users try to invite guests.')); ?></em><br/>
 		<br/>
 		<input type="checkbox" id="guestUseWhitelist" value="useWhitelist"/><label for="guestUseWhitelist"><?php p($l->t('Limit guest access to an app whitelist'));?></label><br/>
-		<input type="text" id="guestWhitelist" value="" aria-label="<?php p($l->t('App whitelist for guest access'));?>" style="display:none; width:99%;"/><br/>
+		<textarea id="guestWhitelist" rows="3" spellcheck="false" aria-label="<?php p($l->t('App whitelist for guest access'));?>" style="display:none;"></textarea>
 		<button type="button" id="guestResetWhitelist"><?php p($l->t('Reset whitelist'));?></button><span class="msg" role="status" aria-live="polite"></span>
 	</div>
 </div>
