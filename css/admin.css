@@ -1,0 +1,21 @@
+/**
+ * Gäste – Verwaltung › Teilen (1.0.5)
+ *
+ * Domain-Sperrliste und App-Erlaubnisliste sind mehrzeilige Textfelder: im
+ * einzeiligen Feld (Inline-Stil width: 99 %) lief die Erlaubnisliste bis zu
+ * 1310 px aus der Karte, und der Platzhalter der Sperrliste war bei 320 px
+ * 62 px breiter als das Feld. Jetzt bricht der Text um, das Feld wird höher.
+ */
+
+#guests textarea {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 4.5em;
+	margin: 4px 0 8px;
+	resize: vertical;
+	/* wächst mit der Liste (Chromium); ohne Unterstützung gilt rows */
+	field-sizing: content;
+	/* Domains und App-Kennungen haben keine Leerzeichen */
+	overflow-wrap: anywhere;
+}

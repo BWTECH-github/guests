@@ -7,6 +7,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2026-10-08
+
+1.0.4 ist für die Sprachrunde (Zweig fix-sprache-2) vergeben.
+
+### Fixed
+
+- Verwaltung › Teilen: Domain-Sperrliste und App-Erlaubnisliste sind
+  mehrzeilige Textfelder. Im einzeiligen Feld lief die Erlaubnisliste bis zu
+  1310 px aus der Karte, der Platzhalter der Sperrliste war bei 320 px 62 px
+  breiter als das Feld. Jetzt bricht der Text um und das Feld wird höher;
+  die Erlaubnisliste steht mit Leerzeichen nach jedem Komma.
+- Einträge dürfen durch Komma, Leerzeichen oder Zeilenumbruch getrennt sein;
+  gespeichert wird wie bisher kommagetrennt ohne Leerzeichen. Die
+  Eingabetaste speichert die Erlaubnisliste weiterhin, ohne Zeilenumbruch.
+
 ## [1.0.3] - 2026-09-23
 
 ### Security
