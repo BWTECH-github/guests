@@ -163,7 +163,7 @@ class Mail {
 			$this->mailer->send($message);
 		} catch (\Exception $e) {
 			$this->logger->error("Failed to send reset email: " . $e->getMessage(), ['app' => 'guests']);
-			throw new \Exception($this->l10n->t(
+			throw new \Exception((string)$this->l10n->t(
 				'Couldn\'t send reset email. Please contact your administrator.'
 			));
 		}
@@ -231,7 +231,7 @@ class Mail {
 			$this->mailer->send($message);
 		} catch (\Exception $e) {
 			$this->logger->error("Failed to send reset email: " . $e->getMessage(), ['app' => 'guests']);
-			throw new \Exception($this->l10n->t(
+			throw new \Exception((string)$this->l10n->t(
 				'Couldn\'t send reset email. Please contact your administrator.'
 			));
 		}
@@ -276,6 +276,12 @@ class Mail {
 		 *
 		 * Die Textfassung unten bekommt weiter die Rohwerte, sonst staenden
 		 * Entitaeten in der reinen Textmail.
+		 *
+		 * Instanzname, Passwort-Adresse und Login-Adresse bleiben roh: Die
+		 * Redesign-Vorlage gibt sie selbst mit p() aus (die Schaltfläche
+		 * html.mail.button des Kerns ebenso). Vorab maskiert stünden sie
+		 * doppelt maskiert in der Mail. Die main-Vorlage gibt sie unmaskiert
+		 * aus und bekommt sie deshalb in main maskiert übergeben.
 		 */
 		$html = new Template('guests', 'mail/invite', '', false, $l10n->getLanguageCode());
 		$html->assign('link', $link);
@@ -302,6 +308,11 @@ class Mail {
 
 	/**
 	 * get default_language if defined in config.php
+	 *
+	 * Katalog dieser App, nicht 'lib': Betreff („%s invited you“) und
+	 * Mailtext stehen nur hier. Mit 'lib' kam der Betreff der Einladung ohne
+	 * Freigabe englisch an, sobald default_language gesetzt war.
+	 *
 	 * @return IL10N|null
 	 */
 	private function getDefaultLanguage(): ?IL10N {
@@ -311,7 +322,7 @@ class Mail {
 
 		$defaultLang = $this->config->getSystemValue('default_language', false);
 		if ($defaultLang !== false) {
-			return \OC::$server->getL10N('lib', $defaultLang);
+			return \OC::$server->getL10N('guests', $defaultLang);
 		}
 		return null;
 	}

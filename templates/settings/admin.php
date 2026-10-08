@@ -25,7 +25,7 @@ script('guests', 'guests');
 /** @var $_ array */
 ?>
 <div class="section" id="guests">
-	<h2>Guests</h2>
+	<h2><?php p($l->t('Guests'));?></h2>
 	<div>
 		<span class="inlineblock user-info-label"><?php p($l->t('Guest users are grouped under a virtual group in the user manager'));?></span><br/><br/>
 		<label for="guestGroup"><?php p($l->t('Group name'));?>

@@ -132,9 +132,9 @@ class SettingsController extends Controller {
 	 * AJAX handler for getting whitelisted apps
 	 *
 	 * Fragt navigation.js auf jeder Seite eines GASTES ab (Application.php
-	 * lädt das Skript nur für Gäste). Ohne @NoAdminRequired antwortete der
-	 * Kern jedem Nicht-Admin – also jedem Gast – mit 403, und die
-	 * Navigation blieb ungefiltert (Befund Server-Abnahme 23.09.2026).
+	 * lädt das Skript nur für Gäste). Ohne die Annotation NoAdminRequired
+	 * antwortete der Kern jedem Nicht-Admin – also jedem Gast – mit 403,
+	 * und die Navigation blieb ungefiltert (Befund Server-Abnahme 23.09.2026).
 	 *
 	 * @NoAdminRequired
 	 *
