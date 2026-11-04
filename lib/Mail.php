@@ -282,9 +282,13 @@ class Mail {
 		 * html.mail.button des Kerns ebenso). Vorab maskiert stünden sie
 		 * doppelt maskiert in der Mail. Die main-Vorlage gibt sie unmaskiert
 		 * aus und bekommt sie deshalb in main maskiert übergeben.
+		 *
+		 * Die Freigabe-Adresse dagegen steht in der Redesign-Vorlage in einem
+		 * übersetzten Satz mit HTML (print_unescaped) und wird deshalb wie in
+		 * main hier maskiert.
 		 */
 		$html = new Template('guests', 'mail/invite', '', false, $l10n->getLanguageCode());
-		$html->assign('link', $link);
+		$html->assign('link', $link === null ? null : Util::sanitizeHTML($link));
 		$html->assign('password_link', $passwordLink);
 		$html->assign('cloud_name', $cloudName);
 		$html->assign('user_displayname', Util::sanitizeHTML($displayName));

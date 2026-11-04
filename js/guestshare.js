@@ -165,7 +165,7 @@
 						for (var i = 0; i < users.length; i++) {
 							var user = users[i].trim();
 							var newGuest = true;
-							if (OC.validateEmail(user)) {
+							if (OC.validateEmail(user) && self._isPlainEmail(user)) {
 								// don't add new users that have been added by core already
 								for (var j = 0; j < res.found.length; j++) {
 									if (res.found[j].shareWith === user) {
@@ -225,7 +225,7 @@
 						var searchTerm = search.term.trim();
 
 						// Add potential guests to the suggestions
-						if (OC.validateEmail(searchTerm)) {
+						if (OC.validateEmail(searchTerm) && self._isPlainEmail(searchTerm)) {
 							// FIXME: will need some new hooks in core to be able to do this in a clean way
 							if (!result || !result.length) {
 								// no results, need to hack the message and still display something
@@ -356,9 +356,19 @@
 				};
 			},
 
+			/**
+			 * Port oder Pfad im Domainteil (lena@host:8080, max@host/cloud) ist
+			 * eine Cloud-ID, keine Mailadresse: Der Server lehnt sie als Gast ab
+			 * (422), der Kern prüft mit OC.validateEmail nur grob.
+			 */
+			_isPlainEmail: function(email) {
+				var at = email.lastIndexOf('@');
+				return at > 0 && !/[:\/]/.test(email.slice(at + 1));
+			},
+
 			_domainIsBlacklisted: function(email) {
 				if (oc_appconfig.guests && oc_appconfig.guests.blockdomains) {
-					for (i = 0 ; i < oc_appconfig.guests.blockdomains.length; i++) {
+					for (var i = 0 ; i < oc_appconfig.guests.blockdomains.length; i++) {
 						if (email.endsWith('@' + oc_appconfig.guests.blockdomains[i])) {
 							return true;
 						}
