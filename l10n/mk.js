@@ -29,6 +29,7 @@ OC.L10N.register(
     "Group name" : "Име на група",
     "Limit guest access to an app whitelist" : "Ограничете го пристапот на гостите за дозволената листа на апликациии",
     "Reset whitelist" : "Ресетирај дозволена листа",
-    "Add guest: {email}" : "Додај гостин: {email}"
+    "Add guest: {email}" : "Додај гостин: {email}",
+    "Add Guest User: {email}" : "Додај гостин: {email}"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

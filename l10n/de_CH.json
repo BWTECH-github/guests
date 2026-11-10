@@ -36,6 +36,7 @@
     "Limit guest access to an app whitelist" : "Gastzugriff auf eine App-Whitelist beschränken",
     "Reset whitelist" : "Whitelist zurücksetzen",
     "Add guest: {email}" : "Gast hinzufügen: {email}",
+    "Add Guest User: {email}" : "Gast hinzufügen: {email}",
     "Hello," : "Hallo,",
     "%s has shared <strong>%s</strong> with you." : "%s hat <strong>%s</strong> mit dir geteilt.",
     "%s has shared \"%s\" with you." : "%s hat „%s“ mit dir geteilt.",

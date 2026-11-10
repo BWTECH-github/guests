@@ -32,6 +32,7 @@
     "The following domains will not be accepted when users try to invite guests." : "사용자가 손님을 초대할 때 다음 도메인은 차단됩니다.",
     "Limit guest access to an app whitelist" : "손님 접근을 허용한 앱으로만 제한",
     "Reset whitelist" : "허용 목록 초기화",
-    "Add guest: {email}" : "게스트 추가: {email}"
+    "Add guest: {email}" : "게스트 추가: {email}",
+    "Add Guest User: {email}" : "게스트 추가: {email}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -34,6 +34,7 @@ OC.L10N.register(
     "The following domains will not be accepted when users try to invite guests." : "ئىشلەتكۈچىلەر مېھمان تەكلىپ قىلماقچى بولغاندا تۆۋەندىكى دائىرە قوبۇل قىلىنمايدۇ.",
     "Limit guest access to an app whitelist" : "مېھمانلارنىڭ ئەپ تىزىملىكىنى زىيارەت قىلىشىنى چەكلەڭ",
     "Reset whitelist" : "ئاق تىزىملىكنى ئەسلىگە كەلتۈرۈڭ",
-    "Add guest: {email}" : "مېهمان قوشۇش: {email}"
+    "Add guest: {email}" : "مېهمان قوشۇش: {email}",
+    "Add Guest User: {email}" : "مېهمان قوشۇش: {email}"
 },
 "nplurals=2; plural=(n != 1);");

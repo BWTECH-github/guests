@@ -34,6 +34,7 @@ OC.L10N.register(
     "The following domains will not be accepted when users try to invite guests." : "S’do të pranohen përkatësitë vijuese, kur përdoruesit provojnë të ftojnë mysafirë.",
     "Limit guest access to an app whitelist" : "Kufizoni hyrje përdoruesish vizitorë sipas një liste aplikacionesh të lejuar",
     "Reset whitelist" : "Zeroni listë të lejuarish",
-    "Add guest: {email}" : "Shto mysafir: {email}"
+    "Add guest: {email}" : "Shto mysafir: {email}",
+    "Add Guest User: {email}" : "Shto mysafir: {email}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -29,6 +29,7 @@ OC.L10N.register(
     "Group name" : "Taldearen izena",
     "Limit guest access to an app whitelist" : "Mugatu gonbidatuaren atzipena aplikazio zerrenda zurira",
     "Reset whitelist" : "Berrezarri zerrenda zuria",
-    "Add guest: {email}" : "Gonbidatua gehitu: {email}"
+    "Add guest: {email}" : "Gonbidatua gehitu: {email}",
+    "Add Guest User: {email}" : "Gonbidatua gehitu: {email}"
 },
 "nplurals=2; plural=(n != 1);");

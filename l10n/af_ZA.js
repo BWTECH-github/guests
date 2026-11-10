@@ -27,6 +27,7 @@ OC.L10N.register(
     "Group name" : "Groepnaam",
     "Limit guest access to an app whitelist" : "Beperk gastetoegang tot ’n toepwitlys",
     "Reset whitelist" : "Herstel witlys",
-    "Add guest: {email}" : "Voeg gas by: {email}"
+    "Add guest: {email}" : "Voeg gas by: {email}",
+    "Add Guest User: {email}" : "Voeg gas by: {email}"
 },
 "nplurals=2; plural=(n != 1);");

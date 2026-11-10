@@ -21,6 +21,7 @@ OC.L10N.register(
     "Cheers!" : "Pekný deň!",
     "Guest users are grouped under a virtual group in the user manager" : "Hostia sú zoskupení vo virtuálnej skupine v manažéri používateľov",
     "Group name" : "Názov skupiny",
-    "Add guest: {email}" : "Pridať hosťa: {email}"
+    "Add guest: {email}" : "Pridať hosťa: {email}",
+    "Add Guest User: {email}" : "Pridať hosťa: {email}"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

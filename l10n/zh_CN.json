@@ -27,6 +27,7 @@
     "Group name" : "群组名称",
     "Limit guest access to an app whitelist" : "限制访客只能访问白名单中的应用",
     "Reset whitelist" : "重置白名单",
-    "Add guest: {email}" : "添加访客: {email}"
+    "Add guest: {email}" : "添加访客: {email}",
+    "Add Guest User: {email}" : "添加访客: {email}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

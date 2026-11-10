@@ -24,6 +24,7 @@ OC.L10N.register(
     "Set password" : "Nastavi geslo",
     "Cheers!" : "Lep pozdrav!",
     "Group name" : "Ime skupine",
-    "Add guest: {email}" : "Dodaj gosta: {email}"
+    "Add guest: {email}" : "Dodaj gosta: {email}",
+    "Add Guest User: {email}" : "Dodaj gosta: {email}"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

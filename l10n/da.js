@@ -22,6 +22,7 @@ OC.L10N.register(
     "Group name" : "Gruppenavn",
     "Limit guest access to an app whitelist" : "Begræns gæsteadgangen til en godkendt app-liste",
     "Reset whitelist" : "Nulstil godkendt liste",
-    "Add guest: {email}" : "Tilføj gæst: {email}"
+    "Add guest: {email}" : "Tilføj gæst: {email}",
+    "Add Guest User: {email}" : "Tilføj gæst: {email}"
 },
 "nplurals=2; plural=(n != 1);");
