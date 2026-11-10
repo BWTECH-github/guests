@@ -32,6 +32,7 @@ OC.L10N.register(
     "Group name" : "ชื่อกลุ่ม",
     "Limit guest access to an app whitelist" : "จำกัดการใช้งานรายการที่อนุญาตในแอปฯ",
     "Reset whitelist" : "รีเซ็ตรายการที่อนุญาต",
-    "Add guest: {email}" : "เพิ่มผู้เยี่ยมชม: {email}"
+    "Add guest: {email}" : "เพิ่มผู้เยี่ยมชม: {email}",
+    "Add Guest User: {email}" : "เพิ่มผู้เยี่ยมชม: {email}"
 },
 "nplurals=1; plural=0;");

@@ -32,6 +32,7 @@ OC.L10N.register(
     "Group name" : "群组名称",
     "Limit guest access to an app whitelist" : "限制訪客訪問軟體白名單",
     "Reset whitelist" : "重設白名單",
-    "Add guest: {email}" : "添加访客: {email}"
+    "Add guest: {email}" : "添加访客: {email}",
+    "Add Guest User: {email}" : "添加访客: {email}"
 },
 "nplurals=1; plural=0;");

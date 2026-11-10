@@ -32,6 +32,7 @@ OC.L10N.register(
     "Group name" : "Όνομα ομάδας",
     "Limit guest access to an app whitelist" : "Περιορίστε την πρόσβαση των επισκεπτών σε μια λίστα επιτρεπόμενων εφαρμογών",
     "Reset whitelist" : "Επαναφορά λίστας επιτρεπόμενων εφαρμογών",
-    "Add guest: {email}" : "Προσθήκη επισκέπτη: {email}"
+    "Add guest: {email}" : "Προσθήκη επισκέπτη: {email}",
+    "Add Guest User: {email}" : "Προσθήκη επισκέπτη: {email}"
 },
 "nplurals=2; plural=(n != 1);");

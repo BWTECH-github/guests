@@ -38,6 +38,7 @@ OC.L10N.register(
     "The following domains will not be accepted when users try to invite guests." : "Los siguientes dominios no se aceptarán cuando los usuarios intenten invitar a otros.",
     "Limit guest access to an app whitelist" : "Limitar acceso de invitados a una lista blanca de aplicaciones",
     "Reset whitelist" : "Restablecer lista blanca",
-    "Add guest: {email}" : "Añadir invitado: {email}"
+    "Add guest: {email}" : "Añadir invitado: {email}",
+    "Add Guest User: {email}" : "Añadir invitado: {email}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

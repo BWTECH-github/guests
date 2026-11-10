@@ -33,6 +33,7 @@ OC.L10N.register(
     "Group name" : "Nome do grupo",
     "Limit guest access to an app whitelist" : "Limitar o acceso dos convidados a unha lista de autorización de aplicacións",
     "Reset whitelist" : "Restabelecer a lista de autorización",
-    "Add guest: {email}" : "Engadir convidado: {email}"
+    "Add guest: {email}" : "Engadir convidado: {email}",
+    "Add Guest User: {email}" : "Engadir convidado: {email}"
 },
 "nplurals=2; plural=(n != 1);");

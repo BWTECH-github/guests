@@ -11,9 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fehler behoben: Im deutschen Freigabedialog stand der Vorschlag „Add Guest
-  User: …“ unübersetzt. Die Kataloge `de` und `de_DE` (js und json) führen
-  ihn jetzt als „Gast hinzufügen: …“.
+- Fehler behoben: Im Freigabedialog stand der Vorschlag „Add Guest User: …“
+  in allen Sprachen unübersetzt. Alle Kataloge (js und json) führen ihn jetzt
+  mit ihrer vorhandenen Übersetzung, im Deutschen als „Gast hinzufügen: …“.
 
 ## [0.13.8] - 2026-09-24
 

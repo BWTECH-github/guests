@@ -38,6 +38,7 @@ OC.L10N.register(
     "The following domains will not be accepted when users try to invite guests." : "Следующие домены не будут приняты при попытке пригласить гостей.",
     "Limit guest access to an app whitelist" : "Ограничить доступ гостям к белому списку приложений",
     "Reset whitelist" : "Обнулить белый список",
-    "Add guest: {email}" : "Добавить гостя: {email}"
+    "Add guest: {email}" : "Добавить гостя: {email}",
+    "Add Guest User: {email}" : "Добавить гостя: {email}"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

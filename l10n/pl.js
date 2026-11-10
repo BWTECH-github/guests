@@ -32,6 +32,7 @@ OC.L10N.register(
     "Group name" : "Nazwa grupy",
     "Limit guest access to an app whitelist" : "Ograniczyć dostęp gości do białej listy aplikacji.",
     "Reset whitelist" : "Zresetuj białą listę",
-    "Add guest: {email}" : "Dodaj gościa: {email}"
+    "Add guest: {email}" : "Dodaj gościa: {email}",
+    "Add Guest User: {email}" : "Dodaj gościa: {email}"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

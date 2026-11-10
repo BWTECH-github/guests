@@ -31,6 +31,7 @@ OC.L10N.register(
     "Group name" : "グループ名",
     "Limit guest access to an app whitelist" : "ゲストとしてのアクセスをホワイトリストに含まれるアプリのみに制限する",
     "Reset whitelist" : "ホワイトリストをリセット",
-    "Add guest: {email}" : "ゲストを追加: {email}"
+    "Add guest: {email}" : "ゲストを追加: {email}",
+    "Add Guest User: {email}" : "ゲストを追加: {email}"
 },
 "nplurals=1; plural=0;");

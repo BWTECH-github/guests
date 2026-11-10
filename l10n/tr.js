@@ -38,6 +38,7 @@ OC.L10N.register(
     "The following domains will not be accepted when users try to invite guests." : "Kullanıcılar misafir davet etmeye çalıştığında aşağıdaki alan adları kabul edilmeyecektir.",
     "Limit guest access to an app whitelist" : "Misafir erişimini bir uygulama beyaz listesine kısıtla",
     "Reset whitelist" : "Beyaz listeyi sıfırla",
-    "Add guest: {email}" : "Misafir ekle: {email}"
+    "Add guest: {email}" : "Misafir ekle: {email}",
+    "Add Guest User: {email}" : "Misafir ekle: {email}"
 },
 "nplurals=2; plural=(n > 1);");
