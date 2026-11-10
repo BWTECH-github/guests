@@ -299,7 +299,7 @@ class AppWhitelistTest extends TestCase {
 				return $default;
 			});
 
-		return new class ($config) {
+		return new class($config) {
 			/** @var IConfig */
 			private $config;
 			public function __construct(IConfig $config) {
