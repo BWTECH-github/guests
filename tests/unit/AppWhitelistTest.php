@@ -231,6 +231,17 @@ class AppWhitelistTest extends TestCase {
 	}
 
 	/**
+	 * Logo und Anmeldehintergrund kommen über die Route des Themes. Auch eine
+	 * vom Administrator gespeicherte Liste ohne das Theme darf sie nicht sperren.
+	 */
+	public function testThemeAssetsStayReachable(): void {
+		\OC::$server = $this->serverWithWhitelist('activity');
+
+		$this->assertContains('theme-owncloudonline', AppWhitelist::getWhitelist());
+		$this->assertSame('theme-owncloudonline', AppWhitelist::getRequestedApp('/apps/theme-owncloudonline/theme/asset/logo_url-1.svg'));
+	}
+
+	/**
 	 * Eine vom Administrator gespeicherte Liste mit leeren Feldern darf den
 	 * leeren Eintrag nicht zurueckbringen.
 	 */

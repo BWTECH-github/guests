@@ -44,7 +44,10 @@ class AppWhitelist {
 	// dashboard: Startseite des Redesign-Kerns und Ziel nach der Anmeldung
 	// (OC_Util::getDefaultPageUrl). Fehlt sie, landet ein Gast nach dem Login
 	// auf der Sperrseite statt bei seinen Dateien.
-	public const CORE_WHITELIST = 'core,files,dashboard,dav,federatedfilesharing,guests,encryption,files_primary_s3,files_antivirus,files_external,files_external_dropbox,files_external_ftp,files_ldap_home,files_onedrive,sharepoint,files_external_s3,windows_network_drive,admin_audit,firewall,ransomware_protection';
+	// theme-owncloudonline: liefert Logo und Anmeldehintergrund der Instanz über
+	// eine eigene Route. Ohne sie bekam ein Gast auf jeder Seite 403 und sah statt
+	// des Kundenlogos eine leere Fläche. Ihre übrigen Routen prüfen selbst auf Admin.
+	public const CORE_WHITELIST = 'core,files,dashboard,dav,federatedfilesharing,guests,encryption,files_primary_s3,files_antivirus,files_external,files_external_dropbox,files_external_ftp,files_ldap_home,files_onedrive,sharepoint,files_external_s3,windows_network_drive,admin_audit,firewall,ransomware_protection,theme-owncloudonline';
 	public const DEFAULT_WHITELIST = 'settings,avatar,files_trashbin,files_versions,files_sharing,files_texteditor,activity,firstrunwizard,gallery,notifications,password_policy,oauth2,files_pdfviewer,files_mediaviewer,richdocuments,onlyoffice,wopi,oco_selfservice,twofactor_totp,impersonate';
 
 	/**
