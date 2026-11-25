@@ -1,0 +1,5 @@
+# Entwicklungsdateien gehören nicht ins Marktplatz-Paket (git archive)
+/package.json export-ignore
+/test-results.xml export-ignore
+/write_composer.py export-ignore
+/RELEASE_CHECKLIST.md export-ignore

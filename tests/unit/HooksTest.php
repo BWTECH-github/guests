@@ -197,6 +197,16 @@ class HooksTest extends TestCase {
 			->method('sendGuestInviteMail')
 			->with($shareMock, self::GUEST_UID, 'token');
 
+		// Der neue Versand startet die Gültigkeit des Einladungslinks neu
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with(
+				self::GUEST_UID,
+				'guests',
+				'registerTokenTime',
+				$this->callback(static fn (string $time): bool => \abs((int)$time - \time()) <= 5)
+			);
+
 		$this->hooks->handlePostShare($shareMock);
 	}
 

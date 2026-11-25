@@ -129,6 +129,13 @@ class Hooks {
 					$uid,
 					$registerToken
 				);
+				// Jede verschickte Einladung startet die Gültigkeit des Links neu
+				$this->config->setUserValue(
+					$shareWith,
+					'guests',
+					'registerTokenTime',
+					(string)\time()
+				);
 			}
 		} catch (\Exception $ex) {
 			$this->logger->error(

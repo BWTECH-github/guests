@@ -39,6 +39,13 @@ use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 
 class RegisterController extends Controller {
+	/**
+	 * Gültigkeit des Einladungslinks in Sekunden (14 Tage). Jede neue
+	 * Freigabe an den Gast verschickt den Link erneut und startet die Frist
+	 * neu (Hooks::postShareHook).
+	 */
+	public const REGISTER_TOKEN_TTL = 14 * 24 * 60 * 60;
+
 	// Note: $request is inherited from parent Controller without type declaration
 	// due to PHP 8.4 stricter inheritance rules
 
@@ -114,31 +121,9 @@ class RegisterController extends Controller {
 			);
 		}
 
-		$isGuest = (bool)$this->config->getUserValue(
-			$userId,
-			'owncloud',
-			'isGuest'
-		);
-
-		if (!$isGuest) {
-			$errorMessages['username'] = (string)$this->l10n->t(
-				'No such guest user'
-			);
-		}
-
-		$checkToken = $this->config->getUserValue(
-			$userId,
-			'guests',
-			'registerToken'
-		);
-
-		if (empty($checkToken)) {
-			$errorMessages['token'] = (string)$this->l10n->t(
-				'The token is invalid'
-			);
-		}
-
-		if (!empty($checkToken) && $checkToken !== $token) {
+		// Eine Meldung für alle Fälle: Ob es das Gastkonto gibt, bleibt für
+		// Aufrufer ohne gültigen Link unsichtbar.
+		if (!$this->isRegisterTokenValid($userId, $token)) {
 			$errorMessages['token'] = (string)$this->l10n->t(
 				'The token is invalid'
 			);
@@ -187,16 +172,10 @@ class RegisterController extends Controller {
 			);
 		}
 
-		$registerToken = $this->config->getUserValue(
-			$userId,
-			'guests',
-			'registerToken',
-			false
-		);
 		// only show token error when there are no others
 		if (
 			empty($parameters['messages']) &&
-			(empty($token) || empty($registerToken) || $registerToken !== $token)
+			!$this->isRegisterTokenValid($userId, $token)
 		) {
 			$parameters['token'] = $token;
 			$parameters['email'] = $email;
@@ -239,8 +218,37 @@ class RegisterController extends Controller {
 		}
 
 		$this->config->deleteUserValue($userId, 'guests', 'registerToken');
+		$this->config->deleteUserValue($userId, 'guests', 'registerTokenTime');
 
 		// redirect to login
 		return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
+	}
+
+	/**
+	 * Prüft das Einladungs-Token zeitkonstant und mit Ablauf. Ausgangspunkt der
+	 * Frist ist der letzte Versand (registerTokenTime); ältere Einladungen ohne
+	 * diesen Wert zählen ab dem Anlegen des Gastkontos (created). Nur
+	 * Gastkonten haben einen Einladungslink.
+	 */
+	private function isRegisterTokenValid(string $userId, string $token): bool {
+		if (!(bool)$this->config->getUserValue($userId, 'owncloud', 'isGuest', '')) {
+			return false;
+		}
+		$storedToken = (string)$this->config->getUserValue(
+			$userId,
+			'guests',
+			'registerToken',
+			''
+		);
+		if ($storedToken === '' || $token === '' || !\hash_equals($storedToken, $token)) {
+			return false;
+		}
+
+		$issuedAt = (int)$this->config->getUserValue($userId, 'guests', 'registerTokenTime', '');
+		if ($issuedAt <= 0) {
+			$issuedAt = (int)$this->config->getUserValue($userId, 'guests', 'created', '');
+		}
+
+		return $issuedAt > 0 && \time() - $issuedAt <= self::REGISTER_TOKEN_TTL;
 	}
 }

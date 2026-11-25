@@ -42,6 +42,7 @@ require_once __DIR__ . '/stubs/OCP/AppFramework/Http/Response.php';
 require_once __DIR__ . '/stubs/OCP/AppFramework/Http/JSONResponse.php';
 require_once __DIR__ . '/stubs/OCP/AppFramework/Http/DataResponse.php';
 require_once __DIR__ . '/stubs/OCP/AppFramework/Http/TemplateResponse.php';
+require_once __DIR__ . '/stubs/OCP/AppFramework/Http/RedirectResponse.php';
 require_once __DIR__ . '/stubs/OCP/AppFramework/Db/DoesNotExistException.php';
 
 // Load OCP Group stubs

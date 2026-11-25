@@ -49,4 +49,8 @@ class User implements IUser {
 	public function delete(): bool {
 		return true;
 	}
+
+	public function setPassword(string $password, ?string $recoveryPassword = null): bool {
+		return true;
+	}
 }

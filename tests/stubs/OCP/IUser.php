@@ -13,4 +13,5 @@ interface IUser {
 	public function isEnabled(): bool;
 	public function setEnabled(bool $enabled = true): void;
 	public function delete(): bool;
+	public function setPassword(string $password, ?string $recoveryPassword = null): bool;
 }
