@@ -33,6 +33,8 @@
 		var $guestSharingBlockDomains = $section.find('#guestSharingBlockDomains');
 		var $guestUseWhitelist = $section.find('#guestUseWhitelist');
 		var $guestWhitelist = $section.find('#guestWhitelist');
+		// Feld samt sichtbarer Beschriftung, nur bei eingeschalteter Erlaubnisliste
+		var $guestWhitelistField = $section.find('#guestWhitelistField');
 		var $resetWhitelist = $section.find('#guestResetWhitelist');
 		var $msg = $section.find('.msg');
 
@@ -59,11 +61,11 @@
 					// update ui
 					if (config.useWhitelist) {
 						$guestUseWhitelist.prop('checked', true);
-						$guestWhitelist.show();
+						$guestWhitelistField.show();
 						$resetWhitelist.show();
 					} else {
 						$guestUseWhitelist.prop('checked', false);
-						$guestWhitelist.hide();
+						$guestWhitelistField.hide();
 						$resetWhitelist.hide();
 					}
 					if (config.group) {
@@ -162,10 +164,10 @@
 		$guestUseWhitelist.on('change', function () {
 			config.useWhitelist = $guestUseWhitelist.prop('checked');
 			if(config.useWhitelist) {
-				$guestWhitelist.show();
+				$guestWhitelistField.show();
 				$resetWhitelist.show()
 			} else {
-				$guestWhitelist.hide();
+				$guestWhitelistField.hide();
 				$resetWhitelist.hide();
 			}
 			saveConfig();

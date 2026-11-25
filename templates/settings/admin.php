@@ -37,7 +37,10 @@ style('guests', 'admin');
 		<em id="guestSharingBlockDomains-hint"><?php p($l->t('The following domains will not be accepted when users try to invite guests.')); ?></em><br/>
 		<br/>
 		<input type="checkbox" id="guestUseWhitelist" value="useWhitelist"/><label for="guestUseWhitelist"><?php p($l->t('Limit guest access to an app whitelist'));?></label><br/>
-		<textarea id="guestWhitelist" rows="3" spellcheck="false" aria-label="<?php p($l->t('App whitelist for guest access'));?>" style="display:none;"></textarea>
+		<div id="guestWhitelistField" style="display:none;">
+			<label for="guestWhitelist"><?php p($l->t('App whitelist for guest access'));?></label>
+			<textarea id="guestWhitelist" rows="3" spellcheck="false"></textarea>
+		</div>
 		<button type="button" id="guestResetWhitelist"><?php p($l->t('Reset whitelist'));?></button><span class="msg" role="status" aria-live="polite"></span>
 	</div>
 </div>
